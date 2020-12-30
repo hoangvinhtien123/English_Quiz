@@ -1,0 +1,543 @@
+﻿@model IEnumerable<English_Quiz.Models.PermissionViewModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<style>
+    .checkboxsize {
+        padding-left: 5px;
+        width: 15%;
+    }
+
+    label.checkbox-inline {
+        padding-left: 25px;
+    }
+
+    .sizebtn {
+        width: 100%;
+        margin: 5px 5px 5px 5px;
+    }
+
+    .checkbox {
+        text-align: left;
+    }
+
+    .card-title {
+        color: #4286f4;
+    }
+</style>
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Quản lý phân quyền</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Phân quyền </li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+<section class="content">
+    <div class="row">
+        <div class="col-12">
+            <div class="col-12">
+                <div class="card">
+
+                    <div class="tile">
+                        <div class="card-header">
+                            <div class="tile-title">
+                                <div class="row" style="padding-bottom:10px;">
+                                    <strong class="col-9 ">Phân quyền sử dụng cho vai trò</strong>
+                                </div>
+                                @using (Html.BeginForm("Index", "Permission", FormMethod.Post, new { @id = "vaitrosubmit" }))
+                                {
+                                    <div class="form-group row">
+                                        <label class="control-label col-md-2" style="font-size:16px;">Tên vai trò  <span style="color:red">(*)</span></label>
+                                        <div class="col-md-10">
+                                            @Html.DropDownList("ddlVaiTro", (SelectList)ViewBag.ddlVaiTro, "--- Chọn vai trò ---", new { @class = "form-control", @name = "ddlVaiTro", @onchange = "submitvaitro()" })
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="tile-body">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <table class="table table-hover table-bordered">
+                                            <thead class="text-md-center">
+                                                <tr>
+                                                    <th style="width:20px"><input type="checkbox" id="checkAllChuaCap" /></th>
+                                                    <th>Chức năng chưa được cấp</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if (Model != null)
+                                                {
+                                                    foreach (var item in Model)
+                                                    {
+                                                        if (item.CapChucNang == false)
+                                                        {
+                                                            <tr>
+                                                                <td class="text-md-center"><input type="checkbox" name="chuacapquyen" class="myCheckboxchuacap" value="@item.Id" /></td>
+                                                                <td>@item.TenChucNang</td>
+                                                            </tr>
+                                                        }
+
+                                                    }
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-2">
+
+                                        <div class="form-group row" style="text-align:center">
+
+                                            <div class="col-md-12">
+                                                <div class="checkbox">
+                                                    <button title="Cấp quyền được chọn" class="btn btn-default sizebtn" onclick="Add()"><i class="fa fa-step-forward" aria-hidden="true"></i></button>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <button title="Cấp tất cả các quyền" class="btn btn-default sizebtn" onclick="AddAll()"><i class="fa fa-forward" aria-hidden="true"></i></button>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <button title="Xóa các quyền chọn được cấp" class="btn btn-default sizebtn" onclick="Delete()"><i class="fa fa-step-backward" aria-hidden="true"></i></button>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <button title="Xóa tất cả các quyền được cấp" class="btn btn-default sizebtn" onclick="DeleteAll()"><i class="fa fa-backward" aria-hidden="true"></i></button>
+                                                </div>
+
+                                                <div class="card text-black-50 bg-light" style="transform: translateX(6px);">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">Chức năng</h5>
+                                                        <br />
+                                                        <div class="checkbox">
+                                                            <input type="checkbox" id="xem" value="false" checked>
+                                                            <label for="xem">
+                                                                Xem
+                                                            </label>
+                                                        </div>
+                                                        <div class="checkbox">
+                                                            <input type="checkbox" id="xoa" value="false">
+                                                            <label for="xoa">
+                                                                xóa
+                                                            </label>
+                                                        </div>
+                                                        <div class="checkbox">
+                                                            <input type="checkbox" id="sua" value="false">
+                                                            <label for="sua">
+                                                                Sửa
+                                                            </label>
+                                                        </div>
+                                                        <div class="checkbox">
+                                                            <input type="checkbox" id="them" value="false">
+                                                            <label for="them">
+                                                                Thêm
+                                                            </label>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <table class="table table-hover table-bordered">
+                                            <thead class="text-md-center">
+                                                <tr>
+                                                    <th style="width:20px"><input type="checkbox" id="checkAllDaCap" /></th>
+                                                    <th>Chức năng được cấp</th>
+                                                    <th class="text-md-center" style="width:30px"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if (Model != null)
+                                                {
+                                                    foreach (var item in Model)
+                                                    {
+                                                        if (item.CapChucNang)
+                                                        {
+                                                            <tr>
+                                                                <td class="text-md-center"><input type="checkbox" name="dacapquyen" class="myCheckboxdacap" value="@item.Id" /></td>
+                                                                <td>@item.TenChucNang</td>
+                                                                <td class="text-md-center"><a href="#" onclick="Edit(@item.Id,'@item.TenChucNang')"><i class="fa fa-pencil-square-o"></i></a></td>
+                                                            </tr>
+                                                        }
+
+                                                    }
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+
+@*Modals thêm mới*@
+<div class="modal fade" id="ModalPhanQuyen" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mediumModalLabel">Cập nhật quyền</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="tile-body" id="tile-body">
+                    <div class="form-group row">
+                        <input type="hidden" id="isInsert" />
+                        <label class="control-label col-md-3">Tên vai trò <span style="color:red">(*)</span></label>
+                        <div class="col-md-9">
+                            <input class="form-control" type="text" id="txtTenVaiTro" disabled>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="control-label col-md-3">Chức năng <span style="color:red">(*)</span></label>
+                        <div class="col-md-9">
+                            <input class="form-control" type="text" id="txtTenChucNang" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-md-3">Quyền </label>
+                        <div class="col-md-9">
+                            <label class="checkbox-inline">
+                                <input type="checkbox" id="chucnangxem" value="">Xem
+                            </label>
+                            <label class="checkbox-inline">
+                                <input type="checkbox" id="chucnangthem" value="">Thêm
+                            </label>
+                            <label class="checkbox-inline">
+                                <input type="checkbox" id="chucnangsua" value="">Sửa
+                            </label>
+                            <label class="checkbox-inline">
+                                <input type="checkbox" id="chucnangxoa" value="">Xóa
+                            </label>
+
+                            
+                        </div>
+                    </div>
+
+                    <input type="text" name="name" value="-1" hidden id="_cnid" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btnSave" onclick="savequyen()">Cập nhật</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+    function Edit(id,tenchucnang) {
+        let vaitroId = $('#ddlVaiTro').val()
+        $('#_cnid').val(id)
+        let formData = new FormData();
+        formData.append('id', id);
+        formData.append('vaitroid', vaitroId);
+        $.ajax({
+            url: '@Url.Action("GetObjToEdit","PhanQuyen")',
+            data: formData,
+            type: 'POST',
+            success: function (data) {
+                if (data != null) {
+                    $('#txtTenVaiTro').val(data.tenvaitro)
+                    $('#txtTenChucNang').val(tenchucnang)
+                    if (data.chucnangthem ===true) {
+                        $("#chucnangthem").prop('checked', true);
+                    } else {
+                        $("#chucnangthem").prop('checked', false);
+                    }
+                    if (data.chucnangxoa === true) {
+                        $("#chucnangxoa").prop('checked', true);
+                    } else {
+                        $("#chucnangxoa").prop('checked', false);
+                    }
+                    if (data.chucnangsua === true) {
+                        $("#chucnangsua").prop('checked', true);
+                    } else {
+                        $("#chucnangsua").prop('checked', false);
+                    }
+                    if (data.chucnangxem === true) {
+                        $("#chucnangxem").prop('checked', true);
+                    } else {
+                        $("#chucnangxem").prop('checked', false);
+                    }
+                   
+                    //hiện modal
+                    $("#ModalPhanQuyen").modal({ backdrop: "static" })
+                }
+                else {
+                    debugger
+                    swal("Có lỗi", data.Message, "error");
+                }
+            },
+            error: function (result, textStatus, errorThrown) {
+                debugger
+                swal("Có lỗi", "Error:" + errorThrown + " - " + textStatus + " - " + result, "error");
+            },
+            cache: false,
+            processData: false,
+            contentType: false
+        });
+
+    }
+    function submitvaitro() {
+        $("#vaitrosubmit").submit();
+    }
+    $(document).ready(function () {
+
+        $('#checkAllDaCap').change(function () {
+            if ($('#checkAllDaCap').is(':checked')) {
+                $(".myCheckboxdacap").prop('checked', true);
+            }
+            else {
+                $(".myCheckboxdacap").prop('checked', false);
+            }
+        });
+        $('#checkAllChuaCap').change(function () {
+            if ($('#checkAllChuaCap').is(':checked')) {
+                $(".myCheckboxchuacap").prop('checked', true);
+            }
+            else {
+                $(".myCheckboxchuacap").prop('checked', false);
+            }
+        });
+    });
+    function savequyen() {
+        let formData = new FormData()
+        formData.append('idcn', $('#_cnid').val())
+        formData.append('idvt', $('#ddlVaiTro').val())
+        if ($('#chucnangxem').prop('checked') == true) {
+            formData.append('xem', 'true')
+        } else {
+            formData.append('xem', 'false')
+        }
+        if ($('#chucnangxoa').prop('checked') == true) {
+            formData.append('xoa', 'true')
+        } else {
+            formData.append('xoa', 'false')
+        }
+
+        if ($('#chucnangsua').prop('checked') == true) {
+            formData.append('sua', 'true')
+        } else {
+            formData.append('sua', 'false')
+        }
+
+        if ($('#chucnangthem').prop('checked') == true) {
+            formData.append('them', 'true')
+        } else {
+            formData.append('them', 'false')
+        }
+
+        
+        $.ajax({
+            url: '@Url.Action("SaveQuyen","Permission")',
+            data: formData,
+            type: 'POST',
+            success: function (data) {
+                if (data.isSuccess) {
+                    window.location.reload();
+                }
+                else {
+                    alert('Có lỗi xảy ra trong quá trình thực hiện')
+                }
+            },
+            error: function (error) {
+                alert('Có lỗi xảy ra trong quá trình thực hiện')
+            },
+            cache: false,
+            processData: false,
+            contentType: false
+        });
+    }
+    function Delete() {
+        let formData = new FormData()
+        formData.append('id', $('#ddlVaiTro').val())
+        var itemId = '';
+        var arr = []
+        $.each($("input[name='dacapquyen']:checked"), function () {
+            arr.push($(this).val());
+        });
+        itemId = arr.join('-');
+        if (itemId == '') {
+            return
+        }
+        formData.append('itemId', itemId)
+
+        $.ajax({
+            url: '@Url.Action("Delete","Permission")',
+            data: formData,
+            type: 'POST',
+            success: function (data) {
+                if (data.isSuccess) {
+                    window.location.reload();
+                }
+                else {
+                    alert('Có lỗi xảy ra trong quá trình thực hiện')
+                }
+            },
+            error: function (error) {
+                alert('Có lỗi xảy ra trong quá trình thực hiện')
+            },
+            cache: false,
+            processData: false,
+            contentType: false
+        });
+    }
+    function AddAll() {
+        let formData = new FormData()
+        formData.append('id', $('#ddlVaiTro').val())
+        if ($('#xem').prop('checked') == true) {
+            formData.append('xem', 'true')
+        } else {
+            formData.append('xem', 'false')
+        }
+        if ($('#xoa').prop('checked') == true) {
+            formData.append('xoa', 'true')
+        } else {
+            formData.append('xoa', 'false')
+        }
+
+        if ($('#sua').prop('checked') == true) {
+            formData.append('sua', 'true')
+        } else {
+            formData.append('sua', 'false')
+        }
+
+        if ($('#them').prop('checked') == true) {
+            formData.append('them', 'true')
+        } else {
+            formData.append('them', 'false')
+        }
+
+        
+        $.ajax({
+            url: '@Url.Action("AddAll","Permission")',
+            data: formData,
+            type: 'POST',
+            success: function (data) {
+                if (data.isSuccess) {
+                    window.location.reload();
+                }
+                else {
+                    alert('Có lỗi xảy ra trong quá trình thực hiện')
+                }
+            },
+            error: function (error) {
+                alert('Có lỗi xảy ra trong quá trình thực hiện')
+            },
+            cache: false,
+            processData: false,
+            contentType: false
+        });
+    }
+
+    function Add() {
+        let formData = new FormData()
+        formData.append('id', $('#ddlVaiTro').val())
+        var itemId = '';
+        var arr = []
+        $.each($("input[name='chuacapquyen']:checked"), function () {
+            arr.push($(this).val());
+        });
+        itemId = arr.join('-');
+        if (itemId == '') {
+            return
+        }
+        formData.append('itemId', itemId)
+        //Xử lý hành động
+        if ($('#xem').prop('checked') == true) {
+            formData.append('xem', 'true')
+        } else {
+            formData.append('xem', 'false')
+        }
+
+        if ($('#xoa').prop('checked') == true) {
+            formData.append('xoa', 'true')
+        } else {
+            formData.append('xoa', 'false')
+        }
+
+        if ($('#sua').prop('checked') == true) {
+            formData.append('sua', 'true')
+        } else {
+            formData.append('sua', 'false')
+        }
+
+        if ($('#them').prop('checked') == true) {
+            formData.append('them', 'true')
+        } else {
+            formData.append('them', 'false')
+        }
+
+        
+
+        $.ajax({
+            url: '@Url.Action("Add","Permission")',
+            data: formData,
+            type: 'POST',
+            success: function (data) {
+                if (data.isSuccess) {
+                    window.location.reload();
+                }
+                else {
+                    alert('Có lỗi xảy ra trong quá trình thực hiện')
+                }
+            },
+            error: function (error) {
+                alert('Có lỗi xảy ra trong quá trình thực hiện')
+            },
+            cache: false,
+            processData: false,
+            contentType: false
+        });
+    }
+    function DeleteAll() {
+        let formData = new FormData()
+        formData.append('id', $('#ddlVaiTro').val())
+
+        $.ajax({
+            url: '@Url.Action("DeleteAll","Permission")',
+            data: formData,
+            type: 'POST',
+            success: function (data) {
+                if (data.isSuccess) {
+                    window.location.reload();
+                }
+                else {
+                    alert('Có lỗi xảy ra trong quá trình thực hiện')
+                }
+            },
+            error: function (error) {
+                alert('Có lỗi xảy ra trong quá trình thực hiện')
+            },
+            cache: false,
+            processData: false,
+            contentType: false
+        });
+    }
+    </script>
+}
+

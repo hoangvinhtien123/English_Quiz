@@ -1,0 +1,21 @@
+﻿@model English_Quiz.Models.User
+@{
+    ViewBag.Title = "UserLogin";
+}
+
+<div class="panel panel-default" style="width: 37%; margin: 20% 32%;">
+    <div class="panel-heading">Let's Begin  ^_^</div>
+    <div class="panel-body">
+        @using (Html.BeginForm("UserLogin", "Take_Quiz", FormMethod.Post))
+        {
+            @Html.EditorFor(c => c.FullName, new { htmlAttributes = new { @class = "form-control", @placeholder = "FullName", @style = "width:100%; margin-left: 56px;" } })<br />
+            @Html.EditorFor(c => c.Password, new { htmlAttributes = new { @class = "form-control", @placeholder = "Password", @style = "width:100%; margin-left: 56px;",@type="password" } })<br />
+            
+            <button type="submit" id="Enter" class="btn btn-info btn-lg" style="width:100%;"><span class="glyphicon glyphicon-user"></span>   Enter</button>
+        }
+    </div>
+    @if (ViewBag.Msg != null)
+    {
+        <div class="well well-sm well-danger"> @ViewBag.Msg </div>
+    }
+</div>

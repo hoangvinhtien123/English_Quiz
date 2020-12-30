@@ -1,0 +1,161 @@
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\English_Quiz.dll.config
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\English_Quiz.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\English_Quiz.pdb
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\csc.exe
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\csc.exe.config
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\csc.rsp
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\csi.exe
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\csi.exe.config
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\csi.rsp
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\Microsoft.Managed.Core.targets
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\System.AppContext.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\System.Console.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\System.Diagnostics.StackTrace.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\System.IO.Compression.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\System.IO.FileSystem.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\System.IO.FileSystem.Primitives.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\System.IO.Pipes.AccessControl.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\System.IO.Pipes.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\System.Security.AccessControl.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\System.Security.Claims.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\System.Security.Cryptography.Encoding.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\System.Security.Cryptography.Primitives.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\System.Security.Principal.Windows.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\System.Text.Encoding.CodePages.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\System.ValueTuple.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\System.Xml.ReaderWriter.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\System.Xml.XmlDocument.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\System.Xml.XPath.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\System.Xml.XPath.XDocument.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\vbc.exe
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\vbc.exe.config
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\vbc.rsp
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\VBCSCompiler.exe
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\Antlr3.Runtime.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\EntityFramework.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\EntityFramework.SqlServer.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\Newtonsoft.Json.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\System.Web.Helpers.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\System.Web.Mvc.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\System.Web.Optimization.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\System.Web.Razor.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\System.Web.WebPages.Deployment.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\System.Web.WebPages.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\System.Web.WebPages.Razor.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\WebGrease.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\EntityFramework.xml
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\EntityFramework.SqlServer.xml
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\System.Web.Helpers.xml
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\System.Web.Mvc.xml
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\System.Web.Optimization.xml
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\System.Web.Razor.xml
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\System.Web.WebPages.xml
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\System.Web.WebPages.Deployment.xml
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\System.Web.WebPages.Razor.xml
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\Newtonsoft.Json.xml
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\Antlr3.Runtime.pdb
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\obj\Debug\English_Quiz.csprojAssemblyReference.cache
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\obj\Debug\English_Quiz.csproj.CoreCompileInputs.cache
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\obj\Debug\English_Quiz.csproj.CopyComplete
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\obj\Debug\English_Quiz.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\obj\Debug\English_Quiz.pdb
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\BCrypt.Net.dll
+C:\Users\ASUS\source\repos\English_Quiz\English_Quiz\bin\HashPassword.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\obj\Debug\English_Quiz.csprojAssemblyReference.cache
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\obj\Debug\English_Quiz.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\obj\Debug\English_Quiz.pdb
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\English_Quiz.dll.config
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\English_Quiz.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\English_Quiz.pdb
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\csc.exe
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\csc.exe.config
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\csc.rsp
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\csi.exe
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\csi.exe.config
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\csi.rsp
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\Microsoft.CodeAnalysis.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\Microsoft.CSharp.Core.targets
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\Microsoft.Managed.Core.targets
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\Microsoft.VisualBasic.Core.targets
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\System.AppContext.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\System.Collections.Immutable.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\System.Console.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\System.Diagnostics.FileVersionInfo.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\System.Diagnostics.StackTrace.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\System.IO.Compression.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\System.IO.FileSystem.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\System.IO.FileSystem.Primitives.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\System.IO.Pipes.AccessControl.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\System.IO.Pipes.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\System.Reflection.Metadata.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\System.Security.AccessControl.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\System.Security.Claims.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\System.Security.Cryptography.Encoding.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\System.Security.Cryptography.Primitives.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\System.Security.Principal.Windows.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\System.Text.Encoding.CodePages.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\System.ValueTuple.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\System.Xml.ReaderWriter.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\System.Xml.XmlDocument.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\System.Xml.XPath.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\System.Xml.XPath.XDocument.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\vbc.exe
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\vbc.exe.config
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\vbc.rsp
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\VBCSCompiler.exe
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\roslyn\VBCSCompiler.exe.config
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\Antlr3.Runtime.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\EntityFramework.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\EntityFramework.SqlServer.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\Microsoft.Web.Infrastructure.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\Newtonsoft.Json.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\System.Web.Helpers.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\System.Web.Mvc.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\System.Web.Optimization.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\System.Web.Razor.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\System.Web.WebPages.Deployment.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\System.Web.WebPages.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\System.Web.WebPages.Razor.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\WebGrease.dll
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\EntityFramework.xml
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\EntityFramework.SqlServer.xml
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\System.Web.Helpers.xml
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\System.Web.Mvc.xml
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\System.Web.Optimization.xml
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\System.Web.Razor.xml
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\System.Web.WebPages.xml
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\System.Web.WebPages.Deployment.xml
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\System.Web.WebPages.Razor.xml
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\Newtonsoft.Json.xml
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\Antlr3.Runtime.pdb
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+E:\Ki1-Nam4\Đặc tả\English_Quiz\English_Quiz\obj\Debug\English_Quiz.csproj.CopyComplete

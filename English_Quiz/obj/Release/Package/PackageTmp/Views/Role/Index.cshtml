@@ -1,0 +1,88 @@
+﻿@model IEnumerable<English_Quiz.Models.Role>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p style="margin-left:10px;">
+    <a class="btn btn-primary" href='@Url.Action("CreateRole","Role")'> Thêm mới</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Tên vai trò
+        </th>
+        <th>
+            Mô tả
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Role_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                <a href='@Url.Action("EditRole","Role", new{ id = item.Id})' class="btn btn-info"><i class="fas fa-edit"></i></a>
+                |
+                <a href="javascript:void(0)" onclick="deleteRole(@item.Id)" class="btn btn-danger"><i class="far fa-trash-alt"></i></a>
+                |
+            </td>
+        </tr>
+    }
+
+</table>
+@section scripts {
+    <script type="text/javascript">
+        const deleteRole = (id) => {
+            Swal.fire({
+                title: 'Bạn chắc chắn sẽ xóa?',
+                text: "Bạn sẽ không thể khôi phục bản ghi này!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Xóa!'
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        url: '@Url.Action("DeleteVaiTro", "Role")' + `?id=${id}`,
+                        type: 'POST',
+                        success: function (data) {
+                            if (data.Success) {
+                               Swal.fire(
+                                    'Deleted!',
+                                    'Xóa người dùng thành công',
+                                    'success'
+                                )
+                                setTimeout(function () { location.reload(); }, 1500);
+
+                            }
+                            else {
+                              Swal.fire(
+                                    'Deleted!',
+                                    'Xóa người dùng thành công',
+                                    'danger'
+                                )
+                            }
+                        },
+                         error: function (error) {
+                             alert('Lỗi ajax' + error)
+                        },
+                        cache: false,
+                        processData: false,
+                        contentType: false
+                    });
+                }
+            })
+        }
+    </script>
+}
