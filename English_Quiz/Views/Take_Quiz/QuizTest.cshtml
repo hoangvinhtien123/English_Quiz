@@ -98,7 +98,7 @@
                             var point = 0;
                             for (var i = 0; i < response.length; i++) {
                                 if (resultQuiz[i].Answer == null) {
-                                $('#AnsQ' + j).html('<div class="alert alert-danger" role="alert"> <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> Incorrect answer - The Good Answer is <b>' + response[i].ANSWER + '</b></div>');
+                                $('#AnsQ' + j).html('<div class="alert alert-danger" role="alert"> <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> Incorrect answer' /*- The Good Answer is <b>' + response[i].ANSWER + '</b></div>*/);
                             }
                             else {
                                 if (response[i].ANSWER == resultQuiz[i].Answer) {
@@ -107,7 +107,7 @@
                                     point += response[i].POINT;
                                 }
                                 else {
-                                    $('#AnsQ' + j).html('<div class="alert alert-danger" role="alert"> <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> Incorrect answer - right answer is <b>' + response[i].ANSWER_DESCRIPTION + '</b></div>');
+                                    $('#AnsQ' + j).html('<div class="alert alert-danger" role="alert"> <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> Incorrect answer - '/*right answer is <b>' + response[i].ANSWER_DESCRIPTION + '</b></div>*/);
                                 }
                             }
                             j++;

@@ -207,6 +207,9 @@
     <Compile Include="Models\Question.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Questions_Auto_Generate.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Quiz.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

@@ -36,6 +36,7 @@ namespace English_Quiz.Models
         public virtual DbSet<Level> Levels { get; set; }
         public virtual DbSet<Permission> Permissions { get; set; }
         public virtual DbSet<Question> Questions { get; set; }
+        public virtual DbSet<Questions_Auto_Generate> Questions_Auto_Generate { get; set; }
         public virtual DbSet<Quiz> Quizs { get; set; }
         public virtual DbSet<Quiz_Questions> Quiz_Questions { get; set; }
         public virtual DbSet<Role> Roles { get; set; }

@@ -21,27 +21,17 @@ namespace English_Quiz.Models
             this.User_Quiz_Question = new HashSet<User_Quiz_Question>();
         }
     
-        public int QUESTION_ID { get; set; }
+        public string QUESTION_ID { get; set; }
         public string QUESTION_TEXT { get; set; }
-        public Nullable<int> OPTION_1 { get; set; }
-        public Nullable<int> OPTION_2 { get; set; }
-        public Nullable<int> OPTION_3 { get; set; }
-        public Nullable<int> OPTION_4 { get; set; }
         public Nullable<double> POINT { get; set; }
         public Nullable<int> LEVEL_ID { get; set; }
         public Nullable<int> TYPE_ID { get; set; }
-        public Nullable<int> ANSWER { get; set; }
     
-        public virtual Answer Answer1 { get; set; }
-        public virtual Answer Answer2 { get; set; }
-        public virtual Answer Answer3 { get; set; }
-        public virtual Answer Answer4 { get; set; }
         public virtual Level Level { get; set; }
         public virtual Type Type { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Quiz_Questions> Quiz_Questions { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<User_Quiz_Question> User_Quiz_Question { get; set; }
-        public virtual Answer Answer11 { get; set; }
     }
 }

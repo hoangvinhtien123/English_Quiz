@@ -14,28 +14,10 @@ namespace English_Quiz.Models
     
     public partial class Answer
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Answer()
-        {
-            this.Questions = new HashSet<Question>();
-            this.Questions1 = new HashSet<Question>();
-            this.Questions2 = new HashSet<Question>();
-            this.Questions3 = new HashSet<Question>();
-            this.Questions4 = new HashSet<Question>();
-        }
-    
         public int ANSWER_ID { get; set; }
         public string DESCRIPTION { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Question> Questions { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Question> Questions1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Question> Questions2 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Question> Questions3 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Question> Questions4 { get; set; }
+        public string QUESTION_ID { get; set; }
+        public Nullable<bool> IS_CORRECT { get; set; }
+        public Nullable<int> LIST_ORDER { get; set; }
     }
 }
