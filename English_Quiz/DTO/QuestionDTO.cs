@@ -7,7 +7,7 @@ namespace English_Quiz.DTO
 {
     public class QuestionDTO
     {
-        public int QUESTION_ID { get; set; }
+        public string QUESTION_ID { get; set; }
         public string QUESTION_TEXT { get; set; }
         public Nullable<int> OPTION_1 { get; set; }
         public Nullable<int> OPTION_2 { get; set; }

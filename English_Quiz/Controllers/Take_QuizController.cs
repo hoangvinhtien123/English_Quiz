@@ -114,8 +114,9 @@ namespace English_Quiz.Controllers
                     }
                 );
             }
-            
-            return View(question);
+            ViewData["Answer"] = db.Answers.SqlQuery(@"select * from Answer").ToList();
+            ViewData["Question"] = question;
+            return View(); 
         }
         public string GetAllAnswer()
         {
@@ -136,9 +137,9 @@ namespace English_Quiz.Controllers
             {
                 QuestionDTO dto = new QuestionDTO();
                 dto.QUESTION_ID = item.QUESTION_ID;
-                dto.ANSWER_DESCRIPTION = item.Answer11.DESCRIPTION;
-                dto.ANSWER = item.ANSWER;
-                dto.POINT = item.POINT;
+                //dto.ANSWER_DESCRIPTION = item.DESCRIPTION;
+                //dto.ANSWER = item.;
+                //dto.POINT = item.POINT;
                 list_question.Add(dto);
             }
             return JsonConvert.SerializeObject(list_question);

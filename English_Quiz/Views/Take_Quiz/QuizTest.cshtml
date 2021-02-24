@@ -2,6 +2,7 @@
 @{
     Random r = new Random();
     int count = 1, countR = r.Next(0, 500);
+     IEnumerable<English_Quiz.Models.Answer> lstanswer = ViewData["Answer"] as IEnumerable<English_Quiz.Models.Answer>;  
 }
 <div class="container">
     <!-- User Info -->
@@ -22,23 +23,12 @@
                         <p style="display: inline; padding: 2%;" id="@string.Format("{0}{1}", "Q", count)">@question.QUESTION_TEXT</p>
                     </div>
                     <div class="Choices" style="margin-left: 8%;">
-
-                        <label class="radio-inline">
-                            <input type="radio" name="@string.Format("{0}{1}", "inlineRadioOptions",count)" id="@string.Format("{0}{1}", "inlineRadio", countR)" value="@question.OPTION_1" style="margin-left: -16px;"> @question.Answer1.DESCRIPTION
-                        </label><br />
-
-                        <label class="radio-inline">
-                            <input type="radio" name="@string.Format("{0}{1}", "inlineRadioOptions",count)" id="@string.Format("{0}{1}", "inlineRadio", countR)" value="@question.OPTION_2" style="margin-left: -16px;"> @question.Answer2.DESCRIPTION
-                        </label><br />
-
-                        <label class="radio-inline">
-                            <input type="radio" name="@string.Format("{0}{1}", "inlineRadioOptions",count)" id="@string.Format("{0}{1}", "inlineRadio", countR)" value="@question.OPTION_3" style="margin-left: -16px;"> @question.Answer3.DESCRIPTION
-                        </label><br />
-
-                        <label class="radio-inline">
-                            <input type="radio" name="@string.Format("{0}{1}", "inlineRadioOptions",count)" id="@string.Format("{0}{1}", "inlineRadio", countR)" value="@question.OPTION_4" style="margin-left: -16px;"> @question.Answer4.DESCRIPTION
-                        </label><br />
-
+                        @foreach (var answer in lstanswer)
+                        {
+                            <label class="radio-inline">
+                                <input type="radio" name="@string.Format("{0}{1}", "inlineRadioOptions",count)" id="@string.Format("{0}{1}", "inlineRadio", countR)" value="@answer.QUESTION_ID" style="margin-left: -16px;"> @answer.DESCRIPTION
+                            </label><br />
+                        }
                     </div> <!--END Choices-->
 
                     <div id="@string.Format("{0}{1}{2}", "Ans","Q", count)">

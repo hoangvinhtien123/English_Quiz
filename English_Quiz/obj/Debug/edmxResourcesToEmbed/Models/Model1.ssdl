@@ -6,6 +6,9 @@
     </Key>
     <Property Name="ANSWER_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="DESCRIPTION" Type="nvarchar(max)" />
+    <Property Name="QUESTION_ID" Type="nvarchar" MaxLength="30" />
+    <Property Name="IS_CORRECT" Type="bit" />
+    <Property Name="LIST_ORDER" Type="int" />
   </EntityType>
   <EntityType Name="Class">
     <Key>
@@ -107,16 +110,22 @@
     <Key>
       <PropertyRef Name="QUESTION_ID" />
     </Key>
-    <Property Name="QUESTION_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="QUESTION_TEXT" Type="varchar(max)" />
-    <Property Name="OPTION_1" Type="int" />
-    <Property Name="OPTION_2" Type="int" />
-    <Property Name="OPTION_3" Type="int" />
-    <Property Name="OPTION_4" Type="int" />
+    <Property Name="QUESTION_ID" Type="nvarchar" MaxLength="30" Nullable="false" />
+    <Property Name="QUESTION_TEXT" Type="nvarchar(max)" />
     <Property Name="POINT" Type="float" />
     <Property Name="LEVEL_ID" Type="int" />
     <Property Name="TYPE_ID" Type="int" />
-    <Property Name="ANSWER" Type="int" />
+  </EntityType>
+  <EntityType Name="Questions_Auto_Generate">
+    <Key>
+      <PropertyRef Name="PR_KEY" />
+    </Key>
+    <Property Name="PR_KEY" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="QUIZ_ID" Type="int" Nullable="false" />
+    <Property Name="TYPE_ID" Type="int" Nullable="false" />
+    <Property Name="TOTAL_QUESTION" Type="int" Nullable="false" />
+    <Property Name="POINT_EACH_QS" Type="float" Nullable="false" />
+    <Property Name="LIST_ORDER" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Quiz">
     <Key>
@@ -131,8 +140,9 @@
       <PropertyRef Name="QUESTION_ID" />
     </Key>
     <Property Name="QUIZ_ID" Type="int" Nullable="false" />
-    <Property Name="QUESTION_ID" Type="int" Nullable="false" />
+    <Property Name="QUESTION_ID" Type="nvarchar" MaxLength="30" Nullable="false" />
     <Property Name="ACTIVE" Type="bit" Nullable="false" />
+    <Property Name="POINT" Type="float" />
   </EntityType>
   <EntityType Name="Role">
     <Key>
@@ -177,7 +187,7 @@
     </Key>
     <Property Name="USER_ID" Type="int" Nullable="false" />
     <Property Name="QUIZ_ID" Type="int" Nullable="false" />
-    <Property Name="QUESTION_ID" Type="int" Nullable="false" />
+    <Property Name="QUESTION_ID" Type="nvarchar" MaxLength="30" Nullable="false" />
     <Property Name="USER_ANSWER" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="Users">
@@ -193,6 +203,18 @@
     <Property Name="ROLE_ID" Type="int" />
     <Property Name="USER_NAME" Type="varchar" MaxLength="50" />
   </EntityType>
+  <Association Name="FK_Answer_Answer">
+    <End Role="Answer" Type="Self.Answer" Multiplicity="1" />
+    <End Role="Answer1" Type="Self.Answer" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Answer">
+        <PropertyRef Name="ANSWER_ID" />
+      </Principal>
+      <Dependent Role="Answer1">
+        <PropertyRef Name="ANSWER_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Exam_Class_Class">
     <End Role="Class" Type="Self.Class" Multiplicity="1" />
     <End Role="Exam_Class" Type="Self.Exam_Class" Multiplicity="*" />
@@ -286,66 +308,6 @@
       </Principal>
       <Dependent Role="Permission">
         <PropertyRef Name="Role_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Questions_Answer">
-    <End Role="Answer" Type="Self.Answer" Multiplicity="0..1" />
-    <End Role="Questions" Type="Self.Questions" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Answer">
-        <PropertyRef Name="ANSWER_ID" />
-      </Principal>
-      <Dependent Role="Questions">
-        <PropertyRef Name="ANSWER" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Questions_Answer_Op1">
-    <End Role="Answer" Type="Self.Answer" Multiplicity="0..1" />
-    <End Role="Questions" Type="Self.Questions" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Answer">
-        <PropertyRef Name="ANSWER_ID" />
-      </Principal>
-      <Dependent Role="Questions">
-        <PropertyRef Name="OPTION_1" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Questions_Answer_Op2">
-    <End Role="Answer" Type="Self.Answer" Multiplicity="0..1" />
-    <End Role="Questions" Type="Self.Questions" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Answer">
-        <PropertyRef Name="ANSWER_ID" />
-      </Principal>
-      <Dependent Role="Questions">
-        <PropertyRef Name="OPTION_2" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Questions_Answer_Op3">
-    <End Role="Answer" Type="Self.Answer" Multiplicity="0..1" />
-    <End Role="Questions" Type="Self.Questions" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Answer">
-        <PropertyRef Name="ANSWER_ID" />
-      </Principal>
-      <Dependent Role="Questions">
-        <PropertyRef Name="OPTION_3" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Questions_Answer_Op4">
-    <End Role="Answer" Type="Self.Answer" Multiplicity="0..1" />
-    <End Role="Questions" Type="Self.Questions" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Answer">
-        <PropertyRef Name="ANSWER_ID" />
-      </Principal>
-      <Dependent Role="Questions">
-        <PropertyRef Name="OPTION_4" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -494,6 +456,7 @@
     <EntitySet Name="Level" EntityType="Self.Level" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Permission" EntityType="Self.Permission" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Questions" EntityType="Self.Questions" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Questions_Auto_Generate" EntityType="Self.Questions_Auto_Generate" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Quiz" EntityType="Self.Quiz" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Quiz_Questions" EntityType="Self.Quiz_Questions" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
@@ -502,6 +465,10 @@
     <EntitySet Name="User_Quiz" EntityType="Self.User_Quiz" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="User_Quiz_Question" EntityType="Self.User_Quiz_Question" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Answer_Answer" Association="Self.FK_Answer_Answer">
+      <End Role="Answer" EntitySet="Answer" />
+      <End Role="Answer1" EntitySet="Answer" />
+    </AssociationSet>
     <AssociationSet Name="FK_Exam_Class_Class" Association="Self.FK_Exam_Class_Class">
       <End Role="Class" EntitySet="Class" />
       <End Role="Exam_Class" EntitySet="Exam_Class" />
@@ -533,26 +500,6 @@
     <AssociationSet Name="FK_Permission_Role_Id" Association="Self.FK_Permission_Role_Id">
       <End Role="Role" EntitySet="Role" />
       <End Role="Permission" EntitySet="Permission" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Questions_Answer" Association="Self.FK_Questions_Answer">
-      <End Role="Answer" EntitySet="Answer" />
-      <End Role="Questions" EntitySet="Questions" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Questions_Answer_Op1" Association="Self.FK_Questions_Answer_Op1">
-      <End Role="Answer" EntitySet="Answer" />
-      <End Role="Questions" EntitySet="Questions" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Questions_Answer_Op2" Association="Self.FK_Questions_Answer_Op2">
-      <End Role="Answer" EntitySet="Answer" />
-      <End Role="Questions" EntitySet="Questions" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Questions_Answer_Op3" Association="Self.FK_Questions_Answer_Op3">
-      <End Role="Answer" EntitySet="Answer" />
-      <End Role="Questions" EntitySet="Questions" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Questions_Answer_Op4" Association="Self.FK_Questions_Answer_Op4">
-      <End Role="Answer" EntitySet="Answer" />
-      <End Role="Questions" EntitySet="Questions" />
     </AssociationSet>
     <AssociationSet Name="FK_Questions_Level" Association="Self.FK_Questions_Level">
       <End Role="Level" EntitySet="Level" />

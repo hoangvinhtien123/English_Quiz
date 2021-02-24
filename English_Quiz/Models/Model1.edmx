@@ -11,7 +11,7 @@
           </Key>
           <Property Name="ANSWER_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="DESCRIPTION" Type="nvarchar(max)" />
-          <Property Name="QUESTION_ID" Type="nchar" MaxLength="10" />
+          <Property Name="QUESTION_ID" Type="nvarchar" MaxLength="30" />
           <Property Name="IS_CORRECT" Type="bit" />
           <Property Name="LIST_ORDER" Type="int" />
         </EntityType>
@@ -208,6 +208,18 @@
           <Property Name="ROLE_ID" Type="int" />
           <Property Name="USER_NAME" Type="varchar" MaxLength="50" />
         </EntityType>
+        <Association Name="FK_Answer_Answer">
+          <End Role="Answer" Type="Self.Answer" Multiplicity="1" />
+          <End Role="Answer1" Type="Self.Answer" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Answer">
+              <PropertyRef Name="ANSWER_ID" />
+            </Principal>
+            <Dependent Role="Answer1">
+              <PropertyRef Name="ANSWER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Exam_Class_Class">
           <End Role="Class" Type="Self.Class" Multiplicity="1" />
           <End Role="Exam_Class" Type="Self.Exam_Class" Multiplicity="*" />
@@ -458,6 +470,10 @@
           <EntitySet Name="User_Quiz" EntityType="Self.User_Quiz" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User_Quiz_Question" EntityType="Self.User_Quiz_Question" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Answer_Answer" Association="Self.FK_Answer_Answer">
+            <End Role="Answer" EntitySet="Answer" />
+            <End Role="Answer1" EntitySet="Answer" />
+          </AssociationSet>
           <AssociationSet Name="FK_Exam_Class_Class" Association="Self.FK_Exam_Class_Class">
             <End Role="Class" EntitySet="Class" />
             <End Role="Exam_Class" EntitySet="Exam_Class" />
@@ -546,9 +562,11 @@
           </Key>
           <Property Name="ANSWER_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="DESCRIPTION" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="QUESTION_ID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="QUESTION_ID" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="IS_CORRECT" Type="Boolean" />
           <Property Name="LIST_ORDER" Type="Int32" />
+          <NavigationProperty Name="Answer1" Relationship="Self.FK_Answer_Answer" FromRole="Answer" ToRole="Answer1" />
+          <NavigationProperty Name="Answer2" Relationship="Self.FK_Answer_Answer" FromRole="Answer1" ToRole="Answer" />
         </EntityType>
         <EntityType Name="Class">
           <Key>
@@ -761,6 +779,18 @@
           <NavigationProperty Name="User_Quiz_Question" Relationship="Self.FK_User_Quiz_Question_Users" FromRole="Users" ToRole="User_Quiz_Question" />
           <NavigationProperty Name="Quizs" Relationship="Self.User_Quiz" FromRole="Users" ToRole="Quiz" />
         </EntityType>
+        <Association Name="FK_Answer_Answer">
+          <End Role="Answer" Type="Self.Answer" Multiplicity="1" />
+          <End Role="Answer1" Type="Self.Answer" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Answer">
+              <PropertyRef Name="ANSWER_ID" />
+            </Principal>
+            <Dependent Role="Answer1">
+              <PropertyRef Name="ANSWER_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Exam_Class_Class">
           <End Role="Class" Type="Self.Class" Multiplicity="1" />
           <End Role="Exam_Class" Type="Self.Exam_Class" Multiplicity="*" />
@@ -969,6 +999,10 @@
           <EntitySet Name="Types" EntityType="Self.Type" />
           <EntitySet Name="User_Quiz_Question" EntityType="Self.User_Quiz_Question" />
           <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK_Answer_Answer" Association="Self.FK_Answer_Answer">
+            <End Role="Answer" EntitySet="Answers" />
+            <End Role="Answer1" EntitySet="Answers" />
+          </AssociationSet>
           <AssociationSet Name="FK_Exam_Class_Class" Association="Self.FK_Exam_Class_Class">
             <End Role="Class" EntitySet="Classes" />
             <End Role="Exam_Class" EntitySet="Exam_Class" />

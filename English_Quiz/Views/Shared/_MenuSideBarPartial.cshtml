@@ -3,7 +3,7 @@
     <a href="/" class="brand-link">
         <img src="~/Content/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
              style="opacity: .8">
-        <span class="brand-text font-weight-light">AdminLTE 3</span>
+        <span class="brand-text font-weight-light">Quản lý </span>
     </a>
 
     <!-- Sidebar -->
@@ -24,22 +24,31 @@
                 <!-- Add icons to the links using the .nav-icon class
                 with font-awesome or any other icon font library -->
                 <li class="nav-item has-treeview menu-open">
-                    <a href="#" class="nav-link active">
+                    <a href="@Url.Action("Index","Dashboard")#" class="nav-link active">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
-                            Dashboard
-                            <i class="right fas fa-angle-left"></i>
+                            Trang chủ
                         </p>
                     </a>
                 </li>
                 <li class="nav-item has-treeview">
-                    <a href='@Url.Action("Quizz","Quizz")' class="nav-link">
-                        <i class="nav-icon fas fa-copy"></i>
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-chart-pie"></i>
                         <p>
-                            Nhóm câu hỏi
+                            Thông tin đề thi
+                            <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
-                    
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href='@Url.Action("Quizz","Quizz")' class="nav-link">
+                                <i class="nav-icon fas fa-copy"></i>
+                                <p>
+                                    Đề thi
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
@@ -57,11 +66,11 @@
                             </a>
                         </li>
                         @*<li class="nav-item">
-                            <a href='@Url.Action("Create","Employees")' class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Thêm mới User</p>
-                            </a>
-                        </li>*@
+                                <a href='@Url.Action("Create","Employees")' class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Thêm mới User</p>
+                                </a>
+                            </li>*@
                     </ul>
                 </li>
                 <li class="nav-item has-treeview">

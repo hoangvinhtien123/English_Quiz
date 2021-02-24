@@ -6,6 +6,9 @@
         <MappingFragment StoreEntitySet="Answer">
           <ScalarProperty Name="ANSWER_ID" ColumnName="ANSWER_ID" />
           <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+          <ScalarProperty Name="QUESTION_ID" ColumnName="QUESTION_ID" />
+          <ScalarProperty Name="IS_CORRECT" ColumnName="IS_CORRECT" />
+          <ScalarProperty Name="LIST_ORDER" ColumnName="LIST_ORDER" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -106,14 +109,21 @@
         <MappingFragment StoreEntitySet="Questions">
           <ScalarProperty Name="QUESTION_ID" ColumnName="QUESTION_ID" />
           <ScalarProperty Name="QUESTION_TEXT" ColumnName="QUESTION_TEXT" />
-          <ScalarProperty Name="OPTION_1" ColumnName="OPTION_1" />
-          <ScalarProperty Name="OPTION_2" ColumnName="OPTION_2" />
-          <ScalarProperty Name="OPTION_3" ColumnName="OPTION_3" />
-          <ScalarProperty Name="OPTION_4" ColumnName="OPTION_4" />
           <ScalarProperty Name="POINT" ColumnName="POINT" />
           <ScalarProperty Name="LEVEL_ID" ColumnName="LEVEL_ID" />
           <ScalarProperty Name="TYPE_ID" ColumnName="TYPE_ID" />
-          <ScalarProperty Name="ANSWER" ColumnName="ANSWER" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Questions_Auto_Generate">
+      <EntityTypeMapping TypeName="English_QuizModel.Questions_Auto_Generate">
+        <MappingFragment StoreEntitySet="Questions_Auto_Generate">
+          <ScalarProperty Name="PR_KEY" ColumnName="PR_KEY" />
+          <ScalarProperty Name="QUIZ_ID" ColumnName="QUIZ_ID" />
+          <ScalarProperty Name="TYPE_ID" ColumnName="TYPE_ID" />
+          <ScalarProperty Name="TOTAL_QUESTION" ColumnName="TOTAL_QUESTION" />
+          <ScalarProperty Name="POINT_EACH_QS" ColumnName="POINT_EACH_QS" />
+          <ScalarProperty Name="LIST_ORDER" ColumnName="LIST_ORDER" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -131,6 +141,7 @@
           <ScalarProperty Name="QUIZ_ID" ColumnName="QUIZ_ID" />
           <ScalarProperty Name="QUESTION_ID" ColumnName="QUESTION_ID" />
           <ScalarProperty Name="ACTIVE" ColumnName="ACTIVE" />
+          <ScalarProperty Name="POINT" ColumnName="POINT" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
