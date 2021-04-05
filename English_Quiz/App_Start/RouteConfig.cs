@@ -16,7 +16,7 @@ namespace English_Quiz
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Take_Quiz", action = "UserLogin", id = UrlParameter.Optional }
+                defaults: new { controller = "Take_Quiz", action = "Index", id = UrlParameter.Optional }
             );
             routes.MapRoute(
                 name: "Login",

@@ -10,6 +10,7 @@ namespace English_Quiz.Models
     {
         public string PermissionName { get; set; }
         public ConstantCommon.Action Action;
+        public bool isLogin = false;
 
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
@@ -18,7 +19,12 @@ namespace English_Quiz.Models
             objUser = HttpContext.Current.Session[ConstantData.USER_SESSION] as User;
             if (objUser == null)
             {
+                isLogin = false;
                 return false;
+            }
+            else
+            {
+                isLogin = true;
             }
             //Vai trò
 
@@ -51,10 +57,22 @@ namespace English_Quiz.Models
 
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
         {
-            filterContext.Result = new ViewResult()
+            if (isLogin)
             {
-                ViewName = "~/Views/Login/NoPermission.cshtml"
-            };
+                filterContext.Result = new ViewResult()
+                {
+                    ViewName = "~/Views/Login/NoPermission.cshtml"
+                };
+            }
+            else
+            {
+                
+                filterContext.Result = new ViewResult()
+                {
+                    ViewName = "~/Views/Login/Index.cshtml",
+
+                };
+            }
         }
 
         public bool CheckAction(Permission obj)

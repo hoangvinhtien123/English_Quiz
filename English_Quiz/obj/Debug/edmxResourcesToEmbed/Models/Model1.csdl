@@ -148,6 +148,11 @@
     <NavigationProperty Name="User_Quiz_Question" Relationship="Self.FK_User_Quiz_Question_Quiz" FromRole="Quiz" ToRole="User_Quiz_Question" />
     <NavigationProperty Name="Exams" Relationship="Self.Exam_Quiz" FromRole="Quiz" ToRole="Exam" />
     <NavigationProperty Name="Users" Relationship="Self.User_Quiz" FromRole="Quiz" ToRole="Users" />
+    <Property Name="DESCRIPTION" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="QUIZ_TYPE_ID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="QUIZ_LEVEL_ID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Quiz_Level" Relationship="English_QuizModel.FK_Quiz_Quiz_Level" FromRole="Quiz" ToRole="Quiz_Level" />
+    <NavigationProperty Name="Quiz_Type" Relationship="English_QuizModel.FK_Quiz_Quiz_Type" FromRole="Quiz" ToRole="Quiz_Type" />
   </EntityType>
   <EntityType Name="Quiz_Questions">
     <Key>
@@ -515,5 +520,97 @@
       <End Role="Quiz" EntitySet="Quizs" />
       <End Role="Users" EntitySet="Users" />
     </AssociationSet>
+    <EntitySet Name="Quiz_Level" EntityType="English_QuizModel.Quiz_Level" />
+    <EntitySet Name="Quiz_Type" EntityType="English_QuizModel.Quiz_Type" />
+    <AssociationSet Name="FK_Quiz_Quiz_Level" Association="English_QuizModel.FK_Quiz_Quiz_Level">
+      <End Role="Quiz_Level" EntitySet="Quiz_Level" />
+      <End Role="Quiz" EntitySet="Quizs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Quiz_Quiz_Type" Association="English_QuizModel.FK_Quiz_Quiz_Type">
+      <End Role="Quiz_Type" EntitySet="Quiz_Type" />
+      <End Role="Quiz" EntitySet="Quizs" />
+    </AssociationSet>
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(English_QuizModel.sp_helpdiagramdefinition_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(English_QuizModel.sp_helpdiagrams_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
   </EntityContainer>
+  <EntityType Name="Quiz_Level">
+    <Key>
+      <PropertyRef Name="QUIZ_LEVEL_ID" />
+    </Key>
+    <Property Name="QUIZ_LEVEL_ID" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="QUIZ_LEVEL_NAME" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Quizs" Relationship="English_QuizModel.FK_Quiz_Quiz_Level" FromRole="Quiz_Level" ToRole="Quiz" />
+  </EntityType>
+  <EntityType Name="Quiz_Type">
+    <Key>
+      <PropertyRef Name="QUIZ_TYPE_ID" />
+    </Key>
+    <Property Name="QUIZ_TYPE_ID" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="QUIZ_TYPE_NAME" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Quizs" Relationship="English_QuizModel.FK_Quiz_Quiz_Type" FromRole="Quiz_Type" ToRole="Quiz" />
+    <Property Name="QUIZ_TYPE_DESCRIPTION" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <Association Name="FK_Quiz_Quiz_Level">
+    <End Type="English_QuizModel.Quiz_Level" Role="Quiz_Level" Multiplicity="0..1" />
+    <End Type="English_QuizModel.Quiz" Role="Quiz" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Quiz_Level">
+        <PropertyRef Name="QUIZ_LEVEL_ID" />
+      </Principal>
+      <Dependent Role="Quiz">
+        <PropertyRef Name="QUIZ_LEVEL_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Quiz_Quiz_Type">
+    <End Type="English_QuizModel.Quiz_Type" Role="Quiz_Type" Multiplicity="0..1" />
+    <End Type="English_QuizModel.Quiz" Role="Quiz" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Quiz_Type">
+        <PropertyRef Name="QUIZ_TYPE_ID" />
+      </Principal>
+      <Dependent Role="Quiz">
+        <PropertyRef Name="QUIZ_TYPE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <ComplexType Name="sp_helpdiagramdefinition_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
 </Schema>

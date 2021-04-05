@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewBag.Title = "Trang chủ";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+    <header class="masthead">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center justify-content-center text-center">
+                <div class="col-lg-10 align-self-end">
+                    <h1 class="text-uppercase text-white font-weight-bold">Chào mừng bạn đến với trang học tiếng anh của chúng tôi</h1>
+                    <hr class="divider my-4" />
+                </div>
+                <div class="col-lg-8 align-self-baseline">
+                    <p class="text-white-75 font-weight-light mb-5">Nơi mà bạn có thể học và thử thách bản thân với những bài học, bài kiểm tra theo từng cấp độ </p>
+                    <a class="btn btn-primary btn-xl js-scroll-trigger" href="@Url.Action("AboutUs","Take_Quiz")">Thông tin về chúng tôi</a>
+                </div>
+            </div>
+        </div>
+    </header>

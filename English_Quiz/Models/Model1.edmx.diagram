@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="20b5118418c949f39ae8c6f4e3ac368c" Name="Diagram1" ZoomLevel="86">
+      <Diagram DiagramId="20b5118418c949f39ae8c6f4e3ac368c" Name="Diagram1" ZoomLevel="74">
         <EntityTypeShape EntityType="English_QuizModel.Answer" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="English_QuizModel.Class" Width="1.5" PointX="0.75" PointY="5" IsExpanded="true" />
         <EntityTypeShape EntityType="English_QuizModel.EmployeeMaster" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
@@ -42,6 +42,10 @@
         <AssociationConnector Association="English_QuizModel.FK_User_Quiz_Question_Users" ManuallyRouted="false" />
         <AssociationConnector Association="English_QuizModel.Exam_Quiz" ManuallyRouted="false" />
         <AssociationConnector Association="English_QuizModel.User_Quiz" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="English_QuizModel.Quiz_Level" Width="1.5" PointX="5.375" PointY="6.75" />
+        <EntityTypeShape EntityType="English_QuizModel.Quiz_Type" Width="2.25" PointX="8.5" PointY="6.75" />
+        <AssociationConnector Association="English_QuizModel.FK_Quiz_Quiz_Level" />
+        <AssociationConnector Association="English_QuizModel.FK_Quiz_Quiz_Type" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

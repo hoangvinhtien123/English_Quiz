@@ -316,7 +316,7 @@ namespace English_Quiz.Controllers
         public void LoadViewBag()
         {
             var lstVaiTro = _context.Roles.ToList();
-            ViewBag.ddlVaiTro = new SelectList(lstVaiTro, "Id", "Role_Name");
+            ViewBag.ddlVaiTro = new SelectList(lstVaiTro, "Role_Id", "Role_Name");
 
             List<Function> lstchucnang = _context.Functions.ToList();
             //Láy chức năng

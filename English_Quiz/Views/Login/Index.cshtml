@@ -1,5 +1,13 @@
 ﻿@{
     Layout = null;
+    var user = ViewBag.UserLogin;
+    var username = string.Empty;
+    var pass = string.Empty;
+    if (user != null)
+    {
+        username = user.username;
+        pass = user.password;
+    }
 }
 <!DOCTYPE html>
 <html>
@@ -100,9 +108,9 @@
             }
         })
         $(function () {
-            $('#txtUserName').val('@ViewBag.UserLogin.username')
-            $('#txtPwd').val('@ViewBag.UserLogin.password')
-            if ('@ViewBag.UserLogin.username' !== '' && '@ViewBag.UserLogin.password' !== '') {
+            $('#txtUserName').val('@username')
+            $('#txtPwd').val('@pass')
+            if ('@username' !== '' && '@pass' !== '') {
                 $( "#remember" ).prop( "checked", true );
             }
         })
@@ -117,7 +125,7 @@
             formData.append('username', $('#txtUserName').val());
             formData.append('pwd', $('#txtPwd').val());
             //Kiểm tra nhớ mật khẩu
-            if ($('#rememberme').is(':checked')) {
+            if ($('#remember').is(':checked')) {
                 formData.append('remember', 'true')
             } else {
                 formData.append('remember','false')

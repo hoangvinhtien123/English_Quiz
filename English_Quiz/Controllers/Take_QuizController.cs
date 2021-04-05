@@ -13,6 +13,22 @@ namespace English_Quiz.Controllers
     {
         English_QuizEntities db = new English_QuizEntities();
         // GET: Take_Quiz
+        public ActionResult Index()
+        {
+            return View();
+        }
+        public ActionResult AboutUs()
+        {
+            return View();
+        }
+        public ActionResult QuizType()
+        {
+            return View(db.Quiz_Type.ToList());
+        }
+        public ActionResult LessonType()
+        {
+            return View();
+        }
         public ActionResult test()
         {
             return View();
@@ -34,7 +50,7 @@ namespace English_Quiz.Controllers
                 if (user != null)
                 {
                     Session[ConstantData.USER_QUIZZ_SESSION] = user;
-                    return RedirectToAction("SelectQuizz");
+                    return RedirectToAction("Index");
                 }
             }
             catch (Exception e)
@@ -114,9 +130,9 @@ namespace English_Quiz.Controllers
                     }
                 );
             }
-            ViewData["Answer"] = db.Answers.SqlQuery(@"select * from Answer").ToList();
+            ViewData["Answer"] = db.Answers.SqlQuery(@"select * from Answer ORDER BY LIST_ORDER ASC").ToList();
             ViewData["Question"] = question;
-            return View(); 
+            return View(question); 
         }
         public string GetAllAnswer()
         {

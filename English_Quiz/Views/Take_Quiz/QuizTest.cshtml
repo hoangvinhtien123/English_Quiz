@@ -1,8 +1,8 @@
-﻿@model IEnumerable<English_Quiz.Models.Question>
+﻿@model IList<English_Quiz.Models.Question>
 @{
     Random r = new Random();
     int count = 1, countR = r.Next(0, 500);
-     IEnumerable<English_Quiz.Models.Answer> lstanswer = ViewData["Answer"] as IEnumerable<English_Quiz.Models.Answer>;  
+     IList<English_Quiz.Models.Answer> lstanswer = ViewData["Answer"] as IList<English_Quiz.Models.Answer>;  
 }
 <div class="container">
     <!-- User Info -->

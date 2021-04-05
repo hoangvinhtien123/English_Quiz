@@ -213,10 +213,22 @@
     <Compile Include="Models\Quiz.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Quiz_Level.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Quiz_Questions.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Quiz_Type.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Role.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagrams_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagram.cs">
@@ -241,6 +253,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css\clean-blog.css" />
     <Content Include="Content\css\clean-blog.min.css" />
+    <Content Include="Content\css\Main_styles.css" />
     <Content Include="Content\dist\css\adminlte.css" />
     <Content Include="Content\dist\css\adminlte.min.css" />
     <Content Include="Content\dist\css\alt\adminlte.components.css" />
@@ -294,6 +307,20 @@
     <Content Include="Content\dist\js\pages\dashboard.js" />
     <Content Include="Content\dist\js\pages\dashboard2.js" />
     <Content Include="Content\dist\js\pages\dashboard3.js" />
+    <Content Include="Content\img\MainLayoutImg\img\bg-masthead.jpg" />
+    <Content Include="Content\img\MainLayoutImg\img\favicon.ico" />
+    <Content Include="Content\img\MainLayoutImg\img\portfolio\fullsize\1.jpg" />
+    <Content Include="Content\img\MainLayoutImg\img\portfolio\fullsize\2.jpg" />
+    <Content Include="Content\img\MainLayoutImg\img\portfolio\fullsize\3.jpg" />
+    <Content Include="Content\img\MainLayoutImg\img\portfolio\fullsize\4.jpg" />
+    <Content Include="Content\img\MainLayoutImg\img\portfolio\fullsize\5.jpg" />
+    <Content Include="Content\img\MainLayoutImg\img\portfolio\fullsize\6.jpg" />
+    <Content Include="Content\img\MainLayoutImg\img\portfolio\thumbnails\1.jpg" />
+    <Content Include="Content\img\MainLayoutImg\img\portfolio\thumbnails\2.jpg" />
+    <Content Include="Content\img\MainLayoutImg\img\portfolio\thumbnails\3.jpg" />
+    <Content Include="Content\img\MainLayoutImg\img\portfolio\thumbnails\4.jpg" />
+    <Content Include="Content\img\MainLayoutImg\img\portfolio\thumbnails\5.jpg" />
+    <Content Include="Content\img\MainLayoutImg\img\portfolio\thumbnails\6.jpg" />
     <Content Include="Content\img\User\1MAU.PNG" />
     <Content Include="Content\img\User\31363261_2037624456512750_409576404993179648_n.jpg" />
     <Content Include="Content\img\User\48363042_1006510356216413_386487339414716416_n.png" />
@@ -310,6 +337,7 @@
     <Content Include="Content\js\contact_me.js" />
     <Content Include="Content\js\hethong.js" />
     <Content Include="Content\js\jqBootstrapValidation.js" />
+    <Content Include="Content\js\Main_scripts.js" />
     <Content Include="Content\mail\contact_me.php" />
     <Content Include="Content\plugins\bootstrap-colorpicker\css\bootstrap-colorpicker.css" />
     <Content Include="Content\plugins\bootstrap-colorpicker\css\bootstrap-colorpicker.min.css" />
@@ -2074,6 +2102,11 @@
     <Content Include="Views\Quizz\EditQuizz.cshtml" />
     <Content Include="Views\Take_Quiz\History.cshtml" />
     <Content Include="Views\Take_Quiz\test.cshtml" />
+    <Content Include="Views\Shared\_MainLayout.cshtml" />
+    <Content Include="Views\Take_Quiz\AboutUs.cshtml" />
+    <Content Include="Views\Take_Quiz\QuizType.cshtml" />
+    <Content Include="Views\Take_Quiz\LessonType.cshtml" />
+    <Content Include="Views\Take_Quiz\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
