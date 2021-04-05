@@ -1,0 +1,32 @@
+﻿@model IList<English_Quiz.Models.Quiz>
+@{
+    ViewBag.Title = "Bài kiểm tra";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+    <section class="page-section bg-primary" id="services">
+        <div class="container">
+            <h2 class="text-center text-white mt-0">Các bài kiểm tra</h2>
+            <hr class="divider light my-4" />
+            <div class="row">
+                @if (Model != null)
+                {
+                    int count = 0;
+                    foreach (var quiz in Model)
+                    {
+
+                        <div class="col-lg-3 col-md-6 text-center">
+                            <div class="mt-5">
+                                <i class="fas fa-book" style="font-size:48px"></i>
+                                <h3 class="h4 mb-2"> <a style="color:black" href=''>@quiz.QUIZ_NAME</a></h3>
+                                <p class="text-white mb-0">@quiz.DESCRIPTION</p>
+                            </div>
+                        </div>
+                        count++;
+                    }
+                }
+
+            </div>
+        </div>
+    </section>
+

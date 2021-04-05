@@ -12,7 +12,7 @@ namespace English_Quiz.Controllers
         protected override void OnActionExecuted(ActionExecutedContext filterContext)
         {
             var session = Session[ConstantData.USER_SESSION];
-
+            var controller = filterContext.Controller.ControllerContext;
             if (session == null)
             {
                 filterContext.Result = new RedirectToRouteResult(new System.Web.Routing.RouteValueDictionary(new { Controller = "login", Action = "Index" }));

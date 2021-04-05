@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace English_Quiz.Controllers
 {
-    public class Take_QuizController : Controller
+    public class Take_QuizController : BaseUserController
     {
         English_QuizEntities db = new English_QuizEntities();
         // GET: Take_Quiz
@@ -29,6 +29,9 @@ namespace English_Quiz.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        
         public ActionResult test()
         {
             return View();
@@ -50,7 +53,8 @@ namespace English_Quiz.Controllers
                 if (user != null)
                 {
                     Session[ConstantData.USER_QUIZZ_SESSION] = user;
-                    return RedirectToAction("Index");
+                    string action = Session["ActionName"].ToString();
+                    return RedirectToAction(action);
                 }
             }
             catch (Exception e)
@@ -61,43 +65,51 @@ namespace English_Quiz.Controllers
             return View();
         }
         [HttpGet]
-        public ActionResult SelectQuizz()
+        public ActionResult SelectQuiz(string QuizTypeId)
         {
-            if (Session[ConstantData.USER_QUIZZ_SESSION] == null)
+            if(QuizTypeId != null && QuizTypeId != string.Empty)
             {
-                return RedirectToAction("UserLogin");
-            }
-            User user = (User)Session[ConstantData.USER_QUIZZ_SESSION];
-            List<History_Quiz> lstHistory = db.History_Quiz.Where(x => x.User_Name == user.FULL_NAME).ToList();
-            string quiz_id_history = "(";
-            int count = 0;
-            if (lstHistory.Count > 0)
-            {
-                foreach(History_Quiz item in lstHistory)
-                {
-                    count++;
-                    if(count == lstHistory.Count)
-                    {
-                        quiz_id_history += "'" + item.Quiz_ID + "')";
-                    }
-                    else
-                    {
-                        quiz_id_history += "'" + item.Quiz_ID + "',";
-                    }
-                }
-                List<Quiz> lstQuiz = db.Quizs.SqlQuery("SELECT * FROM QUIZ WHERE QUIZ_ID not in" + quiz_id_history).ToList<Quiz>();
-                ViewBag.ListQuizz = new SelectList(lstQuiz, "QUIZ_ID", "QUIZ_NAME");
+                return View(db.Quizs.Where(x => x.QUIZ_TYPE_ID == QuizTypeId).ToList());
             }
             else
             {
-                ViewBag.ListQuizz = new SelectList(db.Quizs.ToList(), "QUIZ_ID", "QUIZ_NAME");
+                return View(db.Quizs.ToList());
             }
-            return View();
+            //if (Session[ConstantData.USER_QUIZZ_SESSION] == null)
+            //{
+            //    return RedirectToAction("UserLogin");
+            //}
+            //User user = (User)Session[ConstantData.USER_QUIZZ_SESSION];
+            //List<History_Quiz> lstHistory = db.History_Quiz.Where(x => x.User_Name == user.FULL_NAME).ToList();
+            //string quiz_id_history = "(";
+            //int count = 0;
+            //if (lstHistory.Count > 0)
+            //{
+            //    foreach(History_Quiz item in lstHistory)
+            //    {
+            //        count++;
+            //        if(count == lstHistory.Count)
+            //        {
+            //            quiz_id_history += "'" + item.Quiz_ID + "')";
+            //        }
+            //        else
+            //        {
+            //            quiz_id_history += "'" + item.Quiz_ID + "',";
+            //        }
+            //    }
+            //    List<Quiz> lstQuiz = db.Quizs.SqlQuery("SELECT * FROM QUIZ WHERE QUIZ_ID not in" + quiz_id_history).ToList<Quiz>();
+            //    ViewBag.ListQuizz = new SelectList(lstQuiz, "QUIZ_ID", "QUIZ_NAME");
+            //}
+            //else
+            //{
+            //    ViewBag.ListQuizz = new SelectList(db.Quizs.ToList(), "QUIZ_ID", "QUIZ_NAME");
+            //}
+            
         }
         [HttpPost]
-        public ActionResult SelectQuizz(Quiz quizz)
+        public ActionResult SelectQuiz(Quiz quiz)
         {
-            List<Quiz> data = db.Quizs.Where(p => p.QUIZ_ID == quizz.QUIZ_ID).ToList();
+            List<Quiz> data = db.Quizs.Where(p => p.QUIZ_ID == quiz.QUIZ_ID).ToList();
             if (data != null && data.Count>0)
             {
                 Session["QuizzSelected"] = data;

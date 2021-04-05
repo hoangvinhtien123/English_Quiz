@@ -139,6 +139,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\BaseUserController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\FunctionController.cs" />
     <Compile Include="Controllers\PermissionController.cs" />
@@ -2090,7 +2091,7 @@
     <Content Include="Views\Quizz\CreateQuizz.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Take_Quiz\UserLogin.cshtml" />
-    <Content Include="Views\Take_Quiz\SelectQuizz.cshtml" />
+    <Content Include="Views\Take_Quiz\SelectQuiz.cshtml" />
     <Content Include="Views\Take_Quiz\QuizTest.cshtml" />
     <Content Include="Views\Role\Index.cshtml" />
     <Content Include="Views\Dashboard\Index.cshtml" />
@@ -2105,11 +2106,12 @@
     <Content Include="Views\Shared\_MainLayout.cshtml" />
     <Content Include="Views\Take_Quiz\AboutUs.cshtml" />
     <Content Include="Views\Take_Quiz\QuizType.cshtml" />
-    <Content Include="Views\Take_Quiz\LessonType.cshtml" />
     <Content Include="Views\Take_Quiz\Index.cshtml" />
+    <Content Include="Views\Take_Quiz\LessonType.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\BaseUser\" />
     <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
