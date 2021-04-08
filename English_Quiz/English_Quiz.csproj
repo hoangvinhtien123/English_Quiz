@@ -143,12 +143,14 @@
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\FunctionController.cs" />
     <Compile Include="Controllers\PermissionController.cs" />
+    <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\Take_QuizController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\QuizzController.cs" />
+    <Compile Include="DTO\AnswerDTO.cs" />
     <Compile Include="DTO\QuestionDTO.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -2108,11 +2110,12 @@
     <Content Include="Views\Take_Quiz\QuizType.cshtml" />
     <Content Include="Views\Take_Quiz\Index.cshtml" />
     <Content Include="Views\Take_Quiz\LessonType.cshtml" />
+    <Content Include="Views\Question\Index.cshtml" />
+    <Content Include="Views\Question\CreateQuestion.cshtml" />
+    <Content Include="Views\Question\EditQuestion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\BaseUser\" />
-    <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

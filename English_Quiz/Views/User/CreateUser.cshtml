@@ -43,7 +43,7 @@
         <div class="form-group">
             Vai trò
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.ROLE_ID, (SelectList)ViewBag.ListRole, "--Select--", new { @class = "form-control" })
+                @Html.DropDownListFor(model => model.ROLE_ID, (SelectList)ViewBag.ListRole, "--Chọn--", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.ROLE_ID, "", new { @class = "text-danger" })
             </div>
         </div>

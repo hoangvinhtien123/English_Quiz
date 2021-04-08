@@ -1,69 +1,92 @@
 ﻿@model IList<English_Quiz.Models.Question>
 @{
+    ViewBag.Title = "Bài kiểm tra";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
     Random r = new Random();
     int count = 1, countR = r.Next(0, 500);
-     IList<English_Quiz.Models.Answer> lstanswer = ViewData["Answer"] as IList<English_Quiz.Models.Answer>;  
+    IList<English_Quiz.Models.Answer> lstanswer = ViewData["Answer"] as IList<English_Quiz.Models.Answer>;
 }
-<div class="container">
-    <!-- User Info -->
-    <div class="userConnected" style="border:2px dashed #cecaca; border-radius: 10px; margin-top: 3%;">
-        @{ Html.RenderPartial("_UserLayout");}
-    </div>
-    <div class="Quiz">
-        <h4 style="margin-top: 4%;"> <span class="label label-info">Questions :</span> </h4>
-        @if (Model != null)
-        {
-            <div id="point"></div>
-            foreach (var question in Model)
+<section  class="page-section bg-primary">
+    <div id="test" class="container ">
+        <div class="Quiz ">
+            <h4> <span class="label label-info">Câu hỏi :</span> </h4>
+            <div style="right:0px;position:fixed;margin-right:200px;" id="countdown"></div>
+            @if (Model != null)
             {
-                <div class="BlockQ" style="border: 1px solid #bdbdbd; width: 75%; border-radius: 4px; margin-top: 40px; background-color: #f0ffff; padding: 8px;">
-                    <div class="Question" style="padding: 2%;">
-                        <span class="label label-warning"> @string.Format("{0}{1}.", "Q", count)</span>
-                        <span id="@string.Format("{0}{1}", "ID_Q", count)" style="display:none;">@question.QUESTION_ID</span>
-                        <p style="display: inline; padding: 2%;" id="@string.Format("{0}{1}", "Q", count)">@question.QUESTION_TEXT</p>
-                    </div>
-                    <div class="Choices" style="margin-left: 8%;">
-                        @foreach (var answer in lstanswer)
-                        {
-                            <label class="radio-inline">
-                                <input type="radio" name="@string.Format("{0}{1}", "inlineRadioOptions",count)" id="@string.Format("{0}{1}", "inlineRadio", countR)" value="@answer.QUESTION_ID" style="margin-left: -16px;"> @answer.DESCRIPTION
-                            </label><br />
-                        }
-                    </div> <!--END Choices-->
+                <div id="point"></div>
+                foreach (var question in Model)
+                {
+                    <div class="BlockQ" style="border: 1px solid #bdbdbd; width: 75%; border-radius: 4px; margin-top: 40px; background-color: #f0ffff; padding: 8px;">
+                        <div class="Question" style="padding: 2%;">
+                            <span class="label label-warning"> @string.Format("{0}{1}.", "Q", count)</span>
+                            <span id="@string.Format("{0}{1}", "ID_Q", count)" style="display:none;">@question.QUESTION_ID</span>
+                            <p style="display: inline; padding: 2%;" id="@string.Format("{0}{1}", "Q", count)">@question.QUESTION_TEXT</p>
+                        </div>
+                        <div class="Choices" style="margin-left: 8%;">
+                            @foreach (var answer in lstanswer)
+                            {
+                                if (answer.QUESTION_ID == question.QUESTION_ID)
+                                {
+                                    <label class="radio-inline">
+                                        <input type="radio" name="@string.Format("{0}{1}", "inlineRadioOptions",count)" id="@string.Format("{0}{1}", "inlineRadio", countR)" value="@answer.QUESTION_ID" style="margin-left: -16px;"> @answer.DESCRIPTION
+                                    </label><br />
+                                }
+                            }
+                        </div> <!--END Choices-->
 
-                    <div id="@string.Format("{0}{1}{2}", "Ans","Q", count)">
+                        <div id="@string.Format("{0}{1}{2}", "Ans","Q", count)">
 
-                    </div>
-                </div> <!-- END BlockQ -->
-                count++;
+                        </div>
+                    </div> <!-- END BlockQ -->
+                    count++;
 
+                }
+                <span id="countQuestions" style="display:none;">@count</span>
+                <button type="button" id="SubmitQuiz" class="btn btn-light btn-xl js-scroll-trigger" style="margin-top: 10px;"><span class="glyphicon glyphicon-ok"></span>   Nộp bài </button>
             }
-            <span id="countQuestions" style="display:none;">@count</span>
-            <button type="button" id="SubmitQuiz" class="btn btn-default" style="margin-top: 10px;"><span class="glyphicon glyphicon-ok"></span>   Submit Quiz </button>
-        }
-    </div> <!-- END QUIZ -->
-</div> <!-- END CONTAINER -->
+        </div> <!-- END QUIZ -->
+    </div> <!-- END CONTAINER -->
+</section>
+
 @section Scripts {
 
     <script type="text/javascript">
-        function startTimer(duration, display) {
-            var timer = duration, minutes, seconds;
-            setInterval(function () {
-                minutes = parseInt(timer / 60, 10);
-                seconds = parseInt(timer % 60, 10);
+        function CountDown(p) {
+        // p: là số phút
+        window.SI = null;
+        //if ($("#test").length == 0) {
+        //    $("#test").append(`<div id="countdown"></div>`);
+        //    }
+            var now = new Date (),
+            time = new Date ( now );
+            time.setMinutes ( now.getMinutes() + 30 );
+        
+        SI = setInterval(function () {
+            GetMinutes(time);
+        }, 1000);
+    }
+    /* Lấy phút */
+        function GetMinutes(time) {
 
-                minutes = minutes < 10 ? "0" + minutes : minutes;
-                seconds = seconds < 10 ? "0" + seconds : seconds;
-
-                display.text(minutes + ":" + seconds);
-
-                if (--timer < 0) {
-                    timer = duration;
-                }
-            }, 1000);
+        let now = new Date().getTime();
+        // Find the distance between now and the count down date
+        let distance = time - now;
+        // If the count down is finished, write some text
+        if (distance < 0) {
+            clearInterval(SI);
+            document.getElementById("countdown").style.display = "none";
+            $("#SubmitQuiz").click();
         }
+        else {
+            let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            minutes = (minutes < 10) ? ("0" + minutes) : minutes;
+            seconds = (seconds < 10) ? ("0" + seconds) : seconds;
+            document.getElementById("countdown").innerHTML = minutes + " : " + seconds;
+        }
+    }
         $(document).ready(function () {
-
+            CountDown(30);
             $('#SubmitQuiz').on('click', function () {
 
                 //count Questions

@@ -1,0 +1,50 @@
+﻿@model IEnumerable<English_Quiz.Models.Question>
+
+@{
+    ViewBag.Title = "Câu hỏi";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+    <h2>Danh sách câu hỏi</h2>
+<p>
+    <a class="btn btn-primary" href='@Url.Action("CreateQuestion","Question")'> Thêm mới</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+           Câu hỏi
+        </th>
+        <th>
+           Điểm
+        </th>
+        <th>
+            Cấp độ
+        </th>
+        <th>
+           Loại
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.QUESTION_TEXT)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.POINT)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Level.LEVEL_NAME)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Type.TYPE_NAME)
+        </td>
+        <td>
+            <a href='@Url.Action("EditQuestion","Question", new { id = item.QUESTION_ID })' class="btn btn-info"><i class="fa fa-edit"></i></a>|
+            <a style="width:44px;" href="javascript:void(0)" class="btn btn-secondary"><i  class="fa fa-info"></i></a>|
+            <a href="javascript:void(0)" class="btn btn-danger"><i class="fa fa-trash-alt"></i></a>
+        </td>
+    </tr>
+}
+
+</table>

@@ -30,7 +30,6 @@ namespace English_Quiz.Controllers
             return View();
         }
 
-        [HttpPost]
         
         public ActionResult test()
         {
@@ -124,19 +123,21 @@ namespace English_Quiz.Controllers
            
         }
         [HttpGet]
-        public ActionResult QuizTest()
+        public ActionResult QuizTest(int quizId)
         {
-            if (Session[ConstantData.USER_QUIZZ_SESSION] == null)
+            List<Quiz> data = db.Quizs.Where(p => p.QUIZ_ID == quizId).ToList();
+            if (data != null && data.Count > 0)
             {
-                return RedirectToAction("UserLogin");
+                Session["QuizzSelected"] = data;
+                
             }
-            List<Quiz> quizzSelected = (List<Quiz>)Session["QuizzSelected"];
+           
 
             List<Question> question = db.Questions.SqlQuery(@"select * from Questions").ToList();
-            if (quizzSelected != null && quizzSelected.Count>0)
+            if (quizId != 0)
             {
                 
-                var list = db.Quiz_Questions.Where(x => x.QUIZ_ID == quizzSelected[0].QUIZ_ID);
+                var list = db.Quiz_Questions.Where(x => x.QUIZ_ID == quizId);
                 question.Where(p => {
                     foreach (var f in list) if (p.QUESTION_ID == f.QUESTION_ID) return (true); return (false);
                     }
@@ -175,21 +176,25 @@ namespace English_Quiz.Controllers
         public void Quiz_History()
         {
             User user = (User)Session[ConstantData.USER_QUIZZ_SESSION];
-            List<Quiz> quizzSelected = (List<Quiz>)Session["QuizzSelected"];
-            int quiz_id = quizzSelected[0].QUIZ_ID;
-            float point = (Request["point"] == null) ? 0 : float.Parse(Request["point"].ToString());
-            History_Quiz quiz_history = db.History_Quiz.Where(x => x.Quiz_ID == quiz_id && x.User_Name == user.FULL_NAME).FirstOrDefault();
-            if(quiz_history == null)
+            if (user != null)
             {
-                quiz_history = new History_Quiz();
-                quiz_history.Quiz_ID = quizzSelected[0].QUIZ_ID;
-                quiz_history.Quiz_Name = quizzSelected[0].QUIZ_NAME;
-                quiz_history.User_Name = user.FULL_NAME;
-                quiz_history.Point = point;
-                quiz_history.Date_Take_Quiz = DateTime.Now;
-                db.History_Quiz.Add(quiz_history);
-                db.SaveChanges();
+                List<Quiz> quizzSelected = (List<Quiz>)Session["QuizzSelected"];
+                int quiz_id = quizzSelected[0].QUIZ_ID;
+                float point = (Request["point"] == null) ? 0 : float.Parse(Request["point"].ToString());
+                History_Quiz quiz_history = db.History_Quiz.Where(x => x.Quiz_ID == quiz_id && x.User_Name == user.FULL_NAME).FirstOrDefault();
+                if (quiz_history == null)
+                {
+                    quiz_history = new History_Quiz();
+                    quiz_history.Quiz_ID = quizzSelected[0].QUIZ_ID;
+                    quiz_history.Quiz_Name = quizzSelected[0].QUIZ_NAME;
+                    quiz_history.User_Name = user.FULL_NAME;
+                    quiz_history.Point = point;
+                    quiz_history.Date_Take_Quiz = DateTime.Now;
+                    db.History_Quiz.Add(quiz_history);
+                    db.SaveChanges();
+                }
             }
+            
         }
 
         public ActionResult History()
