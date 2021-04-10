@@ -6,6 +6,8 @@ using System.Web;
 using System.Web.Mvc;
 using HashPassword;
 using Newtonsoft.Json;
+using English_Quiz.DTO;
+using System.Data;
 
 namespace English_Quiz.Controllers
 {
@@ -28,6 +30,7 @@ namespace English_Quiz.Controllers
         [HttpGet]
         public ActionResult CreateQuizz()
         {
+            ViewBag.listType = new SelectList(db.Quiz_Type.ToList(), "QUIZ_TYPE_ID", "QUIZ_TYPE_NAME");
             return View();
         }
         [HttpPost]
@@ -43,12 +46,13 @@ namespace English_Quiz.Controllers
         }
         [CheckPermission(PermissionName = "QuanLyCauHoi", Action = ConstantCommon.Action.Edit)]
         [HttpGet]
-        public ActionResult EditQuizz(int QuizId)
+        public ActionResult EditQuizz(string QuizId)
         {
+            ViewBag.listType = new SelectList(db.Quiz_Type.ToList(), "QUIZ_TYPE_ID", "QUIZ_TYPE_NAME");
             Quiz quiz = db.Quizs.FirstOrDefault(x => x.QUIZ_ID == QuizId);
             return View(quiz);
         }
-        public ActionResult EditQuizz(Quiz quiz , int QuizId)
+        public ActionResult EditQuizz(Quiz quiz , string QuizId)
         {
             Quiz oldQuiz = db.Quizs.FirstOrDefault(x => x.QUIZ_ID == QuizId);
             if (ModelState.IsValid)
@@ -60,7 +64,7 @@ namespace English_Quiz.Controllers
             return null;
         }
         [CheckPermission(PermissionName = "QuanLyCauHoi", Action = ConstantCommon.Action.Delete)]
-        public JsonResult delete(int id)
+        public JsonResult delete(string id)
         {
             try
             {
@@ -90,112 +94,80 @@ namespace English_Quiz.Controllers
                 }, JsonRequestBehavior.AllowGet);
             }
         }
-        public JsonResult CreateQuestion(Question question)
+        public string getQuestionTypeByQuizId()
         {
-            try
+            string quizId = (Request["id"] == null) ? string.Empty : Request["id"].ToString();
+            List<Questions_Auto_Generate> auto_Generate = db.Questions_Auto_Generate.Where(x => x.QUIZ_ID == quizId).ToList();
+            List<Models.Type> questionsType = db.Types.ToList();
+            DataSet ds = new DataSet();
+            DataTable questions = new DataTable();
+            questions.Columns.Add("PR_KEY", typeof(Guid));
+            questions.Columns.Add("QUIZ_ID", typeof(string));
+            questions.Columns.Add("TYPE_ID", typeof(int));
+            questions.Columns.Add("LIST_ORDER", typeof(int));
+            questions.Columns.Add("POINT_EACH_QS", typeof(int));
+            questions.Columns.Add("TOTAL_QUESTION", typeof(int));
+            questions.TableName = "Questions";
+            for (int i = 0; i < auto_Generate.Count; i++)
             {
-                string question_name = (Request["question"] == null) ? string.Empty : Request["question"].ToString();
-                string option_a = (Request["option_a"] == null) ? string.Empty : Request["option_a"].ToString();
-                string option_b = (Request["option_b"] == null) ? string.Empty : Request["option_b"].ToString();
-                string option_c = (Request["option_c"] == null) ? string.Empty : Request["option_c"].ToString();
-                string option_d = (Request["option_d"] == null) ? string.Empty : Request["option_d"].ToString();
-                string answer = (Request["answer"] == null) ? string.Empty : Request["answer"].ToString();
-                string quiz_id = (Request["quiz_id"] == null) ? string.Empty : Request["quiz_id"].ToString();
-                string point = (Request["point"] == null) ? string.Empty : Request["point"].ToString();
-                string level = (Request["level"] == null) ? "1" : Request["level"].ToString();
-                string type = (Request["type"] == null) ? "1" : Request["type"].ToString();
-                string insert = @"INSERT INTO [dbo].[Questions]
-           ([QUESTION_TEXT]
-           ,[OPTION_1]
-           ,[OPTION_2]
-           ,[OPTION_3]
-           ,[OPTION_4]
-           ,[POINT]
-           ,[LEVEL_ID]
-           ,[TYPE_ID]
-           ,[ANSWER])
-     VALUES
-           ('" + question_name + "','" + option_a + "','" + option_b + "','" + option_c + "','" + option_d + "','" + point + "','" + level + "','"+type+"','"+answer+"')";
-                dbConnect.ExecuteNonQuery(insert);
-                return Json(new
-                {
-                    Success = true,
-                    Message = "Thêm mới thành công"
-                }, JsonRequestBehavior.AllowGet);
+                questions.Rows.Add(auto_Generate[i].PR_KEY, auto_Generate[i].QUIZ_ID, auto_Generate[i].TYPE_ID, auto_Generate[i].LIST_ORDER, auto_Generate[i].POINT_EACH_QS, auto_Generate[i].TOTAL_QUESTION);
             }
-            catch (Exception e)
-            {
-                return Json(new
-                {
-                    Success = false,
-                    Message = e.Message
-                }, JsonRequestBehavior.AllowGet);
-            }
-        }
-        public string ListQuestion()
-        {
-            List<Question> question = db.Questions.SqlQuery("select * from Questions").ToList();
-            int quiz_id = (Request["quiz_id"] == null) ? 0 : int.Parse(Request["quiz_id"].ToString());
-            var list = db.Quiz_Questions.Where(x => x.QUIZ_ID == quiz_id);
-            question.Where(p => {
-                foreach (var f in list) if (p.QUESTION_ID == f.QUESTION_ID) return (true); return (false);
-            }
-            );
-            ViewBag.listQuestion = question;
-            return JsonConvert.SerializeObject(question);
-        }
-        public string GetQuestionById(Question question)
-        {
-            int quiz_id = (Request["quiz_id"] == null) ? 0 : int.Parse(Request["quiz_id"].ToString());
+            ds.Tables.Add(questions);
 
-            question = db.Questions.FirstOrDefault(x => int.Parse(x.User_Quiz_Question.ToString()) == quiz_id);
-            return JsonConvert.SerializeObject(question);
-        }
-        public string UpdateQuestion(Question question)
-        {
-           string question_name = (Request["question"] == null) ? string.Empty : Request["question"].ToString();
-            string option_a = (Request["option_a"] == null) ? string.Empty : Request["option_a"].ToString();
-            string option_b = (Request["option_b"] == null) ? string.Empty : Request["option_b"].ToString();
-            string option_c = (Request["option_c"] == null) ? string.Empty : Request["option_c"].ToString();
-            string option_d = (Request["option_d"] == null) ? string.Empty : Request["option_d"].ToString();
-            string answer = (Request["answer"] == null) ? string.Empty : Request["answer"].ToString();
-            int quiz_id = (Request["quiz_id"] == null) ? 0: int.Parse(Request["quiz_id"].ToString());
-            float point = (Request["point"] == null) ? 0 : float.Parse(Request["point"].ToString());
-            string level = (Request["level"] == null) ? "1" : Request["level"].ToString();
-            string type = (Request["type"] == null) ? "1" : Request["type"].ToString();
-            string update = @"UPDATE QUESTIONS SET QUESTION_NAME='" + question_name + "' , OPTION_1='" + option_a + "', OPTION_2='" + option_b + "', OPTION_3='"+option_c+"', OPTION_4='"+option_d+"', POINT='"+point+"', LEVEL_ID='"+level+"', TYPE_ID='"+type+"', ANSWER='"+answer+"'";
-            dbConnect.ExecuteNonQuery(update);
-            return ListQuestion();
-        }
-        public JsonResult deleteQuestion(int id)
-        {
-            try
+            DataTable types = new DataTable();
+            types.Columns.Add("TYPE_ID", typeof(int));
+            types.Columns.Add("TYPE_NAME", typeof(string));
+            types.Columns.Add("DESCRIPTION", typeof(string));
+            types.TableName = "QuestionTypes";
+            for (int i = 0; i < questionsType.Count; i++)
             {
-                var data = "";
-                if (data == null)
-                {
-                    return Json(new
-                    {
-                        Success = false,
-                        Message = "Không tìm thấy đối tượng cần xóa."
-                    }, JsonRequestBehavior.AllowGet);
-                }
-                
-                db.SaveChanges();
-                return Json(new
-                {
-                    Success = true,
-                    Message = "Xóa thành công"
-                }, JsonRequestBehavior.AllowGet);
+                types.Rows.Add(questionsType[i].TYPE_ID, questionsType[i].TYPE_NAME, questionsType[i].DESCRIPTION);
             }
-            catch (Exception e)
-            {
-                return Json(new
-                {
-                    Success = false,
-                    Message = "Không thể xóa đối tượng này. Vì sẽ ảnh hưởng đến dữ liệu khác." + e.Message
-                }, JsonRequestBehavior.AllowGet);
-            }
+            ds.Tables.Add(types);
+            return JsonConvert.SerializeObject(ds);
+        }
+
+        public void AddTypeQuestion()
+        {
+            int type = (Request["type"] == null) ? 0 : int.Parse(Request["type"].ToString());
+            string quiz_id = (Request["quiz_id"] == null) ? string.Empty : Request["quiz_id"].ToString();
+            int list_order = (Request["list_order"] == null) ? 0 : int.Parse(Request["list_order"].ToString());
+            int total_question = (Request["total_question"] == null) ? 0 : int.Parse(Request["total_question"].ToString());
+            Questions_Auto_Generate auto_Generate = new Questions_Auto_Generate();
+            auto_Generate.POINT_EACH_QS = 0;
+            auto_Generate.PR_KEY = Guid.NewGuid();
+            auto_Generate.LIST_ORDER = list_order;
+            auto_Generate.QUIZ_ID = quiz_id;
+            auto_Generate.TOTAL_QUESTION = total_question;
+            auto_Generate.TYPE_ID = type;
+            db.Questions_Auto_Generate.Add(auto_Generate);
+            db.SaveChanges();
+        }
+        public void UpdateTypeQuestion()
+        {
+            Guid pr_key = (Request["pr_key"] == null) ? Guid.NewGuid() : Guid.Parse(Request["pr_key"].ToString());
+            int type = (Request["type"] == null) ? 0 : int.Parse(Request["type"].ToString());
+            string quiz_id = (Request["quiz_id"] == null) ? string.Empty : Request["quiz_id"].ToString();
+            int list_order = (Request["list_order"] == null) ? 0 : int.Parse(Request["list_order"].ToString());
+            int total_question = (Request["total_question"] == null) ? 0 : int.Parse(Request["total_question"].ToString());
+            Questions_Auto_Generate oldGenerate = db.Questions_Auto_Generate.FirstOrDefault(x => x.PR_KEY == pr_key);
+            Questions_Auto_Generate newGenerate = new Questions_Auto_Generate();
+            newGenerate.POINT_EACH_QS = 0;
+            newGenerate.PR_KEY = oldGenerate.PR_KEY;
+            newGenerate.LIST_ORDER = list_order;
+            newGenerate.QUIZ_ID = quiz_id;
+            newGenerate.TOTAL_QUESTION = total_question;
+            newGenerate.TYPE_ID = type;
+            db.Entry(oldGenerate).CurrentValues.SetValues(newGenerate);
+            db.SaveChanges();
+        }
+        public void DeleteTypeQuestion()
+        {
+            int type = (Request["type"] == null) ? 0 : int.Parse(Request["type"].ToString());
+            string quiz_id = (Request["quiz_id"] == null) ? string.Empty : Request["quiz_id"].ToString();
+            Questions_Auto_Generate auto_Generate = db.Questions_Auto_Generate.FirstOrDefault(x => x.QUIZ_ID == quiz_id && x.TYPE_ID == type);
+            db.Questions_Auto_Generate.Remove(auto_Generate);
+            db.SaveChanges();
         }
         #endregion
 

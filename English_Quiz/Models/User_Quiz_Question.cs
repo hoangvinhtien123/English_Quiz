@@ -15,7 +15,7 @@ namespace English_Quiz.Models
     public partial class User_Quiz_Question
     {
         public int USER_ID { get; set; }
-        public int QUIZ_ID { get; set; }
+        public string QUIZ_ID { get; set; }
         public string QUESTION_ID { get; set; }
         public string USER_ANSWER { get; set; }
     

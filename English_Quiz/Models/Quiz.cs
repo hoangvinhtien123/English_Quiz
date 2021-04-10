@@ -23,21 +23,22 @@ namespace English_Quiz.Models
             this.Users = new HashSet<User>();
         }
     
-        public int QUIZ_ID { get; set; }
+        public string QUIZ_ID { get; set; }
         public string QUIZ_NAME { get; set; }
-        public string DESCRIPTION { get; set; }
         public string QUIZ_TYPE_ID { get; set; }
         public string QUIZ_LEVEL_ID { get; set; }
+        public string DESCRIPTION { get; set; }
+        public Nullable<int> TIME { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Quiz_Questions> Quiz_Questions { get; set; }
+        public virtual Quiz_Level Quiz_Level { get; set; }
+        public virtual Quiz_Type Quiz_Type { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<User_Quiz_Question> User_Quiz_Question { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Exam> Exams { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<User> Users { get; set; }
-        public virtual Quiz_Level Quiz_Level { get; set; }
-        public virtual Quiz_Type Quiz_Type { get; set; }
     }
 }

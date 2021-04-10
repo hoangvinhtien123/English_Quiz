@@ -18,15 +18,16 @@ namespace English_Quiz.Models
         public Type()
         {
             this.Questions = new HashSet<Question>();
+            this.Questions_Auto_Generate = new HashSet<Questions_Auto_Generate>();
         }
     
         public int TYPE_ID { get; set; }
         public string TYPE_NAME { get; set; }
         public string DESCRIPTION { get; set; }
-        public Nullable<int> CLASS_ID { get; set; }
     
-        public virtual Class Class { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Question> Questions { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Questions_Auto_Generate> Questions_Auto_Generate { get; set; }
     }
 }

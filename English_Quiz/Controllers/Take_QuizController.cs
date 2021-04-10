@@ -30,7 +30,7 @@ namespace English_Quiz.Controllers
             return View();
         }
 
-        
+
         public ActionResult test()
         {
             return View();
@@ -66,7 +66,7 @@ namespace English_Quiz.Controllers
         [HttpGet]
         public ActionResult SelectQuiz(string QuizTypeId)
         {
-            if(QuizTypeId != null && QuizTypeId != string.Empty)
+            if (QuizTypeId != null && QuizTypeId != string.Empty)
             {
                 return View(db.Quizs.Where(x => x.QUIZ_TYPE_ID == QuizTypeId).ToList());
             }
@@ -103,13 +103,13 @@ namespace English_Quiz.Controllers
             //{
             //    ViewBag.ListQuizz = new SelectList(db.Quizs.ToList(), "QUIZ_ID", "QUIZ_NAME");
             //}
-            
+
         }
         [HttpPost]
         public ActionResult SelectQuiz(Quiz quiz)
         {
             List<Quiz> data = db.Quizs.Where(p => p.QUIZ_ID == quiz.QUIZ_ID).ToList();
-            if (data != null && data.Count>0)
+            if (data != null && data.Count > 0)
             {
                 Session["QuizzSelected"] = data;
                 return RedirectToAction("QuizTest");
@@ -120,32 +120,58 @@ namespace English_Quiz.Controllers
                 ViewBag.error = "Bạn cần chọn đề trước khi vào thi";
                 return View();
             }
-           
+
         }
         [HttpGet]
-        public ActionResult QuizTest(int quizId)
+        public ActionResult QuizTest(string quizId)
         {
             List<Quiz> data = db.Quizs.Where(p => p.QUIZ_ID == quizId).ToList();
+            List<Question> lstQuestion = new List<Question>();
+            List<Question> finalLstQuestion = new List<Question>();
+            Random r = new Random();
             if (data != null && data.Count > 0)
             {
                 Session["QuizzSelected"] = data;
-                
-            }
-           
 
-            List<Question> question = db.Questions.SqlQuery(@"select * from Questions").ToList();
-            if (quizId != 0)
-            {
-                
-                var list = db.Quiz_Questions.Where(x => x.QUIZ_ID == quizId);
-                question.Where(p => {
-                    foreach (var f in list) if (p.QUESTION_ID == f.QUESTION_ID) return (true); return (false);
-                    }
-                );
             }
+            List<Questions_Auto_Generate> lstAutoGenerate = db.Questions_Auto_Generate.SqlQuery($"select * from Questions_Auto_Generate where QUIZ_ID='{quizId}'").ToList();
+            for (int i = 0; i < lstAutoGenerate.Count; i++)
+            {
+                int? type_id = lstAutoGenerate[i].TYPE_ID;
+                int? total_question = lstAutoGenerate[i].TOTAL_QUESTION;
+
+                if (type_id != null && total_question != null)
+                {
+                    List<int> lstNumberRandom = new List<int>();
+                    int total = Convert.ToInt32(total_question);
+                    lstQuestion = db.Questions.Where(x => x.TYPE_ID == type_id).ToList();
+                    int random = r.Next(0, lstQuestion.Count - 1);
+                    
+                    for (int j = 0; j < total; j++)
+                    {
+                        finalLstQuestion.Add(lstQuestion[random]);
+                        lstNumberRandom.Add(random);
+                        while (lstNumberRandom.Contains(random))
+                        {
+                            random = r.Next(0, lstQuestion.Count - 1);
+                        }
+                    }
+                }
+
+            }
+
+            //if (quizId != string.Empty)
+            //{
+
+            //    var list = db.Quiz_Questions.Where(x => x.QUIZ_ID == quizId);
+            //    question.Where(p => {
+            //        foreach (var f in list) if (p.QUESTION_ID == f.QUESTION_ID) return (true); return (false);
+            //        }
+            //    );
+            //}
             ViewData["Answer"] = db.Answers.SqlQuery(@"select * from Answer ORDER BY LIST_ORDER ASC").ToList();
-            ViewData["Question"] = question;
-            return View(question); 
+
+            return View(finalLstQuestion);
         }
         public string GetAllAnswer()
         {
@@ -156,7 +182,8 @@ namespace English_Quiz.Controllers
             {
 
                 var list = db.Quiz_Questions.Where(x => x.QUIZ_ID == quizzSelected[0].QUIZ_ID);
-                question.Where(p => {
+                question.Where(p =>
+                {
                     foreach (var f in list) if (p.QUESTION_ID == f.QUESTION_ID) return (true); return (false);
                 }
                 );
@@ -173,40 +200,40 @@ namespace English_Quiz.Controllers
             }
             return JsonConvert.SerializeObject(list_question);
         }
-        public void Quiz_History()
-        {
-            User user = (User)Session[ConstantData.USER_QUIZZ_SESSION];
-            if (user != null)
-            {
-                List<Quiz> quizzSelected = (List<Quiz>)Session["QuizzSelected"];
-                int quiz_id = quizzSelected[0].QUIZ_ID;
-                float point = (Request["point"] == null) ? 0 : float.Parse(Request["point"].ToString());
-                History_Quiz quiz_history = db.History_Quiz.Where(x => x.Quiz_ID == quiz_id && x.User_Name == user.FULL_NAME).FirstOrDefault();
-                if (quiz_history == null)
-                {
-                    quiz_history = new History_Quiz();
-                    quiz_history.Quiz_ID = quizzSelected[0].QUIZ_ID;
-                    quiz_history.Quiz_Name = quizzSelected[0].QUIZ_NAME;
-                    quiz_history.User_Name = user.FULL_NAME;
-                    quiz_history.Point = point;
-                    quiz_history.Date_Take_Quiz = DateTime.Now;
-                    db.History_Quiz.Add(quiz_history);
-                    db.SaveChanges();
-                }
-            }
-            
-        }
+        //public void Quiz_History()
+        //{
+        //    User user = (User)Session[ConstantData.USER_QUIZZ_SESSION];
+        //    if (user != null)
+        //    {
+        //        List<Quiz> quizzSelected = (List<Quiz>)Session["QuizzSelected"];
+        //        string quiz_id = quizzSelected[0].QUIZ_ID;
+        //        float point = (Request["point"] == null) ? 0 : float.Parse(Request["point"].ToString());
+        //        History_Quiz quiz_history = db.History_Quiz.Where(x => x.Quiz_ID == quiz_id && x.User_Name == user.FULL_NAME).FirstOrDefault();
+        //        if (quiz_history == null)
+        //        {
+        //            quiz_history = new History_Quiz();
+        //            quiz_history.Quiz_ID = quizzSelected[0].QUIZ_ID;
+        //            quiz_history.Quiz_Name = quizzSelected[0].QUIZ_NAME;
+        //            quiz_history.User_Name = user.FULL_NAME;
+        //            quiz_history.Point = point;
+        //            quiz_history.Date_Take_Quiz = DateTime.Now;
+        //            db.History_Quiz.Add(quiz_history);
+        //            db.SaveChanges();
+        //        }
+        //    }
 
-        public ActionResult History()
-        {
-            User user = (User)Session[ConstantData.USER_QUIZZ_SESSION];
-            if (user != null)
-            {
-                List<History_Quiz> quiz_history = db.History_Quiz.Where(x => x.User_Name == user.FULL_NAME).ToList();
-                return View(quiz_history);
-            }
-            return View();
-        }
+        //}
+
+        //public ActionResult History()
+        //{
+        //    User user = (User)Session[ConstantData.USER_QUIZZ_SESSION];
+        //    if (user != null)
+        //    {
+        //        List<History_Quiz> quiz_history = db.History_Quiz.Where(x => x.User_Name == user.FULL_NAME).ToList();
+        //        return View(quiz_history);
+        //    }
+        //    return View();
+        //}
         public ActionResult LogOut()
         {
             Session[ConstantData.USER_QUIZZ_SESSION] = null;

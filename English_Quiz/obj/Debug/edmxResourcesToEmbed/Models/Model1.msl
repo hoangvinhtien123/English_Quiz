@@ -130,11 +130,20 @@
     <EntitySetMapping Name="Quizs">
       <EntityTypeMapping TypeName="English_QuizModel.Quiz">
         <MappingFragment StoreEntitySet="Quiz">
-          <ScalarProperty Name="QUIZ_LEVEL_ID" ColumnName="QUIZ_LEVEL_ID" />
-          <ScalarProperty Name="QUIZ_TYPE_ID" ColumnName="QUIZ_TYPE_ID" />
-          <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
           <ScalarProperty Name="QUIZ_ID" ColumnName="QUIZ_ID" />
           <ScalarProperty Name="QUIZ_NAME" ColumnName="QUIZ_NAME" />
+          <ScalarProperty Name="QUIZ_TYPE_ID" ColumnName="QUIZ_TYPE_ID" />
+          <ScalarProperty Name="QUIZ_LEVEL_ID" ColumnName="QUIZ_LEVEL_ID" />
+          <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+          <ScalarProperty Name="TIME" ColumnName="TIME" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Quiz_Level">
+      <EntityTypeMapping TypeName="English_QuizModel.Quiz_Level">
+        <MappingFragment StoreEntitySet="Quiz_Level">
+          <ScalarProperty Name="QUIZ_LEVEL_ID" ColumnName="QUIZ_LEVEL_ID" />
+          <ScalarProperty Name="QUIZ_LEVEL_NAME" ColumnName="QUIZ_LEVEL_NAME" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -145,6 +154,15 @@
           <ScalarProperty Name="QUESTION_ID" ColumnName="QUESTION_ID" />
           <ScalarProperty Name="ACTIVE" ColumnName="ACTIVE" />
           <ScalarProperty Name="POINT" ColumnName="POINT" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Quiz_Type">
+      <EntityTypeMapping TypeName="English_QuizModel.Quiz_Type">
+        <MappingFragment StoreEntitySet="Quiz_Type">
+          <ScalarProperty Name="QUIZ_TYPE_ID" ColumnName="QUIZ_TYPE_ID" />
+          <ScalarProperty Name="QUIZ_TYPE_NAME" ColumnName="QUIZ_TYPE_NAME" />
+          <ScalarProperty Name="QUIZ_TYPE_DESCRIPTION" ColumnName="QUIZ_TYPE_DESCRIPTION" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -174,7 +192,6 @@
           <ScalarProperty Name="TYPE_ID" ColumnName="TYPE_ID" />
           <ScalarProperty Name="TYPE_NAME" ColumnName="TYPE_NAME" />
           <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
-          <ScalarProperty Name="CLASS_ID" ColumnName="CLASS_ID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -218,46 +235,5 @@
         <ScalarProperty Name="USER_ID" ColumnName="USER_ID" />
       </EndProperty>
     </AssociationSetMapping>
-    <EntitySetMapping Name="Quiz_Level">
-      <EntityTypeMapping TypeName="English_QuizModel.Quiz_Level">
-        <MappingFragment StoreEntitySet="Quiz_Level">
-          <ScalarProperty Name="QUIZ_LEVEL_NAME" ColumnName="QUIZ_LEVEL_NAME" />
-          <ScalarProperty Name="QUIZ_LEVEL_ID" ColumnName="QUIZ_LEVEL_ID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Quiz_Type">
-      <EntityTypeMapping TypeName="English_QuizModel.Quiz_Type">
-        <MappingFragment StoreEntitySet="Quiz_Type">
-          <ScalarProperty Name="QUIZ_TYPE_DESCRIPTION" ColumnName="QUIZ_TYPE_DESCRIPTION" />
-          <ScalarProperty Name="QUIZ_TYPE_NAME" ColumnName="QUIZ_TYPE_NAME" />
-          <ScalarProperty Name="QUIZ_TYPE_ID" ColumnName="QUIZ_TYPE_ID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="English_QuizModel.Store.sp_alterdiagram" />
-    <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="English_QuizModel.Store.sp_creatediagram" />
-    <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="English_QuizModel.Store.sp_dropdiagram" />
-    <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="English_QuizModel.Store.sp_helpdiagramdefinition">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="English_QuizModel.sp_helpdiagramdefinition_Result">
-          <ScalarProperty Name="version" ColumnName="version" />
-          <ScalarProperty Name="definition" ColumnName="definition" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="English_QuizModel.Store.sp_helpdiagrams">
-      <ResultMapping>
-        <ComplexTypeMapping TypeName="English_QuizModel.sp_helpdiagrams_Result">
-          <ScalarProperty Name="Database" ColumnName="Database" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="Owner" ColumnName="Owner" />
-          <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
-        </ComplexTypeMapping>
-      </ResultMapping>
-    </FunctionImportMapping>
-    <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="English_QuizModel.Store.sp_renamediagram" />
-    <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="English_QuizModel.Store.sp_upgraddiagrams" />
   </EntityContainerMapping>
 </Mapping>

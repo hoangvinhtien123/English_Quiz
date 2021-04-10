@@ -100,5 +100,40 @@ namespace English_Quiz.Controllers
             db.Answers.Remove(ans);
             db.SaveChanges();
         }
+        public JsonResult DeleteQuestion(string id)
+        {
+            try
+            {
+                var data = db.Questions.FirstOrDefault(x => x.QUESTION_ID == id);
+                var answerByQuestionId = db.Answers.Where(x => x.QUESTION_ID == id).ToList();
+                if (data == null)
+                {
+                    return Json(new
+                    {
+                        Success = false,
+                        Message = "Không tìm thấy đối tượng cần xóa."
+                    }, JsonRequestBehavior.AllowGet);
+                }
+                db.Questions.Remove(data);
+                for (int i = 0; i < answerByQuestionId.Count; i++)
+                {
+                    db.Answers.Remove(answerByQuestionId[i]);
+                }
+                db.SaveChanges();
+                return Json(new
+                {
+                    Success = true,
+                    Message = "Xóa thành công"
+                }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new
+                {
+                    Success = false,
+                    Message = "Không thể xóa đối tượng này. Vì sẽ ảnh hưởng đến dữ liệu khác." + e.Message
+                }, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }

@@ -18,7 +18,6 @@ namespace English_Quiz.Models
         public Class()
         {
             this.Exam_Class = new HashSet<Exam_Class>();
-            this.Types = new HashSet<Type>();
         }
     
         public int CLASS_ID { get; set; }
@@ -27,7 +26,5 @@ namespace English_Quiz.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Exam_Class> Exam_Class { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Type> Types { get; set; }
     }
 }

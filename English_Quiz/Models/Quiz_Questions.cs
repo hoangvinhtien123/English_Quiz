@@ -14,7 +14,7 @@ namespace English_Quiz.Models
     
     public partial class Quiz_Questions
     {
-        public int QUIZ_ID { get; set; }
+        public string QUIZ_ID { get; set; }
         public string QUESTION_ID { get; set; }
         public bool ACTIVE { get; set; }
         public Nullable<double> POINT { get; set; }

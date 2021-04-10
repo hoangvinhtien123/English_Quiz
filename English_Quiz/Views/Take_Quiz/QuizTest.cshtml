@@ -3,7 +3,7 @@
     ViewBag.Title = "Bài kiểm tra";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
     Random r = new Random();
-    int count = 1, countR = r.Next(0, 500);
+    int count = 1, countR = r.Next(0, 1500);
     IList<English_Quiz.Models.Answer> lstanswer = ViewData["Answer"] as IList<English_Quiz.Models.Answer>;
 }
 <section  class="page-section bg-primary">
@@ -125,12 +125,12 @@
                             }
                             j++;
                             }
-                            $("#point").html('<h4> Total point :' + point + '</h4>');
-                            $.post("/Take_Quiz/Quiz_History",{
-                                point: point,
-                            }, function () {
+                            //$("#point").html('<h4> Total point :' + point + '</h4>');
+                            //$.post("/Take_Quiz/Quiz_History",{
+                            //    point: point,
+                            //}, function () {
 
-                            },"json")
+                            //},"json")
                         }
                     else{
                         alert("Something Wrong");

@@ -61,7 +61,7 @@
       <PropertyRef Name="QUIZ_ID" />
     </Key>
     <Property Name="EXAM_ID" Type="nvarchar" MaxLength="50" Nullable="false" />
-    <Property Name="QUIZ_ID" Type="int" Nullable="false" />
+    <Property Name="QUIZ_ID" Type="nvarchar" MaxLength="20" Nullable="false" />
   </EntityType>
   <EntityType Name="Function">
     <Key>
@@ -121,21 +121,22 @@
       <PropertyRef Name="PR_KEY" />
     </Key>
     <Property Name="PR_KEY" Type="uniqueidentifier" Nullable="false" />
-    <Property Name="QUIZ_ID" Type="int" Nullable="false" />
-    <Property Name="TYPE_ID" Type="int" Nullable="false" />
-    <Property Name="TOTAL_QUESTION" Type="int" Nullable="false" />
-    <Property Name="POINT_EACH_QS" Type="float" Nullable="false" />
-    <Property Name="LIST_ORDER" Type="int" Nullable="false" />
+    <Property Name="QUIZ_ID" Type="nvarchar" MaxLength="20" />
+    <Property Name="TYPE_ID" Type="int" />
+    <Property Name="TOTAL_QUESTION" Type="int" />
+    <Property Name="POINT_EACH_QS" Type="float" />
+    <Property Name="LIST_ORDER" Type="int" />
   </EntityType>
   <EntityType Name="Quiz">
     <Key>
       <PropertyRef Name="QUIZ_ID" />
     </Key>
-    <Property Name="QUIZ_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="QUIZ_NAME" Type="varchar" MaxLength="80" />
+    <Property Name="QUIZ_ID" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="QUIZ_NAME" Type="nvarchar" MaxLength="80" />
     <Property Name="QUIZ_TYPE_ID" Type="nvarchar" MaxLength="20" />
     <Property Name="QUIZ_LEVEL_ID" Type="nvarchar" MaxLength="20" />
     <Property Name="DESCRIPTION" Type="nvarchar" MaxLength="150" />
+    <Property Name="TIME" Type="int" />
   </EntityType>
   <EntityType Name="Quiz_Level">
     <Key>
@@ -149,7 +150,7 @@
       <PropertyRef Name="QUIZ_ID" />
       <PropertyRef Name="QUESTION_ID" />
     </Key>
-    <Property Name="QUIZ_ID" Type="int" Nullable="false" />
+    <Property Name="QUIZ_ID" Type="nvarchar" MaxLength="20" Nullable="false" />
     <Property Name="QUESTION_ID" Type="nvarchar" MaxLength="30" Nullable="false" />
     <Property Name="ACTIVE" Type="bit" Nullable="false" />
     <Property Name="POINT" Type="float" />
@@ -187,7 +188,6 @@
     <Property Name="TYPE_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="TYPE_NAME" Type="nvarchar" MaxLength="50" />
     <Property Name="DESCRIPTION" Type="nvarchar" MaxLength="50" />
-    <Property Name="CLASS_ID" Type="int" />
   </EntityType>
   <EntityType Name="User_Quiz">
     <Key>
@@ -195,7 +195,7 @@
       <PropertyRef Name="QUIZ_ID" />
     </Key>
     <Property Name="USER_ID" Type="int" Nullable="false" />
-    <Property Name="QUIZ_ID" Type="int" Nullable="false" />
+    <Property Name="QUIZ_ID" Type="nvarchar" MaxLength="20" Nullable="false" />
   </EntityType>
   <EntityType Name="User_Quiz_Question">
     <Key>
@@ -204,7 +204,7 @@
       <PropertyRef Name="QUESTION_ID" />
     </Key>
     <Property Name="USER_ID" Type="int" Nullable="false" />
-    <Property Name="QUIZ_ID" Type="int" Nullable="false" />
+    <Property Name="QUIZ_ID" Type="nvarchar" MaxLength="20" Nullable="false" />
     <Property Name="QUESTION_ID" Type="nvarchar" MaxLength="30" Nullable="false" />
     <Property Name="USER_ANSWER" Type="nvarchar" MaxLength="50" />
   </EntityType>
@@ -329,6 +329,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Questions_Auto_Generate_Type">
+    <End Role="Type" Type="Self.Type" Multiplicity="0..1" />
+    <End Role="Questions_Auto_Generate" Type="Self.Questions_Auto_Generate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Type">
+        <PropertyRef Name="TYPE_ID" />
+      </Principal>
+      <Dependent Role="Questions_Auto_Generate">
+        <PropertyRef Name="TYPE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Questions_Level">
     <End Role="Level" Type="Self.Level" Multiplicity="0..1" />
     <End Role="Questions" Type="Self.Questions" Multiplicity="*" />
@@ -398,18 +410,6 @@
       </Principal>
       <Dependent Role="Quiz">
         <PropertyRef Name="QUIZ_TYPE_ID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Type_Class">
-    <End Role="Class" Type="Self.Class" Multiplicity="0..1" />
-    <End Role="Type" Type="Self.Type" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Class">
-        <PropertyRef Name="CLASS_ID" />
-      </Principal>
-      <Dependent Role="Type">
-        <PropertyRef Name="CLASS_ID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -485,37 +485,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
-  <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-    <Parameter Name="owner_id" Type="int" Mode="In" />
-    <Parameter Name="version" Type="int" Mode="In" />
-    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
-  </Function>
-  <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-    <Parameter Name="owner_id" Type="int" Mode="In" />
-    <Parameter Name="version" Type="int" Mode="In" />
-    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
-  </Function>
-  <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-    <Parameter Name="owner_id" Type="int" Mode="In" />
-  </Function>
-  <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-    <Parameter Name="owner_id" Type="int" Mode="In" />
-  </Function>
-  <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-    <Parameter Name="owner_id" Type="int" Mode="In" />
-  </Function>
-  <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-    <Parameter Name="owner_id" Type="int" Mode="In" />
-    <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
-  </Function>
-  <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <EntityContainer Name="English_QuizModelStoreContainer">
     <EntitySet Name="Answer" EntityType="Self.Answer" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Class" EntityType="Self.Class" Schema="dbo" store:Type="Tables" />
@@ -576,6 +545,10 @@
       <End Role="Role" EntitySet="Role" />
       <End Role="Permission" EntitySet="Permission" />
     </AssociationSet>
+    <AssociationSet Name="FK_Questions_Auto_Generate_Type" Association="Self.FK_Questions_Auto_Generate_Type">
+      <End Role="Type" EntitySet="Type" />
+      <End Role="Questions_Auto_Generate" EntitySet="Questions_Auto_Generate" />
+    </AssociationSet>
     <AssociationSet Name="FK_Questions_Level" Association="Self.FK_Questions_Level">
       <End Role="Level" EntitySet="Level" />
       <End Role="Questions" EntitySet="Questions" />
@@ -599,10 +572,6 @@
     <AssociationSet Name="FK_Quiz_Quiz_Type" Association="Self.FK_Quiz_Quiz_Type">
       <End Role="Quiz_Type" EntitySet="Quiz_Type" />
       <End Role="Quiz" EntitySet="Quiz" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Type_Class" Association="Self.FK_Type_Class">
-      <End Role="Class" EntitySet="Class" />
-      <End Role="Type" EntitySet="Type" />
     </AssociationSet>
     <AssociationSet Name="FK_User_Quiz_Question_Questions" Association="Self.FK_User_Quiz_Question_Questions">
       <End Role="Questions" EntitySet="Questions" />

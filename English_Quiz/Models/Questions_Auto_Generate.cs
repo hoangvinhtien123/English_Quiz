@@ -15,10 +15,12 @@ namespace English_Quiz.Models
     public partial class Questions_Auto_Generate
     {
         public System.Guid PR_KEY { get; set; }
-        public int QUIZ_ID { get; set; }
-        public int TYPE_ID { get; set; }
-        public int TOTAL_QUESTION { get; set; }
-        public double POINT_EACH_QS { get; set; }
-        public int LIST_ORDER { get; set; }
+        public string QUIZ_ID { get; set; }
+        public Nullable<int> TYPE_ID { get; set; }
+        public Nullable<int> TOTAL_QUESTION { get; set; }
+        public Nullable<double> POINT_EACH_QS { get; set; }
+        public Nullable<int> LIST_ORDER { get; set; }
+    
+        public virtual Type Type { get; set; }
     }
 }
