@@ -186,5 +186,14 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Quiz_Listening">
+      <EntityTypeMapping TypeName="English_QuizModel.Quiz_Listening">
+        <MappingFragment StoreEntitySet="Quiz_Listening">
+          <ScalarProperty Name="ACTIVE" ColumnName="ACTIVE" />
+          <ScalarProperty Name="LISTENING_ID" ColumnName="LISTENING_ID" />
+          <ScalarProperty Name="QUIZ_ID" ColumnName="QUIZ_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

@@ -345,6 +345,7 @@
       <End Role="Listening" EntitySet="Listenings" />
       <End Role="Question" EntitySet="Questions" />
     </AssociationSet>
+    <EntitySet Name="Quiz_Listening" EntityType="English_QuizModel.Quiz_Listening" />
   </EntityContainer>
   <Association Name="FK_Listening_Listening_Type">
     <End Type="English_QuizModel.Listening_Type" Role="Listening_Type" Multiplicity="0..1" />
@@ -370,4 +371,13 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="Quiz_Listening">
+    <Key>
+      <PropertyRef Name="QUIZ_ID" />
+      <PropertyRef Name="LISTENING_ID" />
+    </Key>
+    <Property Name="QUIZ_ID" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="LISTENING_ID" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="ACTIVE" Type="Boolean" />
+  </EntityType>
 </Schema>

@@ -78,17 +78,17 @@
                     autoload: true,
                     controller: {
                         insertItem: function (filter) {
-                            insertGrid(filter)
+                            insertQuestion(filter)
                         },
                         updateItem: function (filter) {
-                            updateGrid(filter)
+                            updateQuestion(filter)
                         },
                         deleteItem: function (filter) {
-                            deleteGrid(filter)
+                            deleteQuestion(filter)
                         }
                     },
                     onItemInserting: function (args) {
-                        checkBeforeInsert(args);
+                        checkBeforeInsertQuestion(args);
                     },
                     deleteConfirm: "Bạn có chắc chắn muốn xóa không?",
                     invalidMessage: "Lỗi",
@@ -116,14 +116,14 @@
             }, "json")
 
         }
-        function checkBeforeInsert(args) {
+        function checkBeforeInsertQuestion(args) {
             let quiz_id = $("#QUIZ_ID").val();
             if (quiz_id == "" || quiz_id == null || quiz_id == undefined) {
                 args.cancel = true;
                 alert("Cần nhập mã đề");
             }
         }
-        function insertGrid(filter) {
+        function insertQuestion(filter) {
             let quiz_id = $("#QUIZ_ID").val();
             return $.post("/Quizz/AddTypeQuestion", {
                 type: filter.TYPE_ID,
@@ -134,8 +134,7 @@
                 loadDataQuestionType(quiz_id)
             },"json")
         }
-        
-        function updateGrid(filter) {
+        function updateQuestion(filter) {
             let quiz_id = $("#QUIZ_ID").val();
             return $.post("/Quizz/UpdateTypeQuestion", {
                 pr_key : filter.PR_KEY,
@@ -147,7 +146,7 @@
 
             }, "json")
         }
-        function deleteGrid(filter) {
+        function deleteQuestion(filter) {
             let quiz_id = $("#QUIZ_ID").val();
             return $.post("/Quizz/DeleteTypeQuestion", {
                 type: filter.TYPE_ID,

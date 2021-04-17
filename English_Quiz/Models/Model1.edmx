@@ -127,6 +127,15 @@
           <Property Name="DESCRIPTION" Type="nvarchar" MaxLength="150" />
           <Property Name="TIME" Type="int" />
         </EntityType>
+        <EntityType Name="Quiz_Listening">
+          <Key>
+            <PropertyRef Name="QUIZ_ID" />
+            <PropertyRef Name="LISTENING_ID" />
+          </Key>
+          <Property Name="QUIZ_ID" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="LISTENING_ID" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="ACTIVE" Type="bit" />
+        </EntityType>
         <EntityType Name="Quiz_Questions">
           <Key>
             <PropertyRef Name="QUIZ_ID" />
@@ -309,6 +318,7 @@
           <EntitySet Name="Questions" EntityType="Self.Questions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Questions_Auto_Generate" EntityType="Self.Questions_Auto_Generate" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Quiz" EntityType="Self.Quiz" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Quiz_Listening" EntityType="Self.Quiz_Listening" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Quiz_Questions" EntityType="Self.Quiz_Questions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Quiz_Type" EntityType="Self.Quiz_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
@@ -704,6 +714,7 @@
             <End Role="Listening" EntitySet="Listenings" />
             <End Role="Question" EntitySet="Questions" />
           </AssociationSet>
+          <EntitySet Name="Quiz_Listening" EntityType="English_QuizModel.Quiz_Listening" />
         </EntityContainer>
         <Association Name="FK_Listening_Listening_Type">
           <End Type="English_QuizModel.Listening_Type" Role="Listening_Type" Multiplicity="0..1" />
@@ -729,6 +740,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Quiz_Listening">
+          <Key>
+            <PropertyRef Name="QUIZ_ID" />
+            <PropertyRef Name="LISTENING_ID" />
+          </Key>
+          <Property Name="QUIZ_ID" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="LISTENING_ID" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ACTIVE" Type="Boolean" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -917,6 +937,15 @@
                 <ScalarProperty Name="PHONE_NUMBER" ColumnName="PHONE_NUMBER" />
                 <ScalarProperty Name="ROLE_ID" ColumnName="ROLE_ID" />
                 <ScalarProperty Name="USER_NAME" ColumnName="USER_NAME" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Quiz_Listening">
+            <EntityTypeMapping TypeName="English_QuizModel.Quiz_Listening">
+              <MappingFragment StoreEntitySet="Quiz_Listening">
+                <ScalarProperty Name="ACTIVE" ColumnName="ACTIVE" />
+                <ScalarProperty Name="LISTENING_ID" ColumnName="LISTENING_ID" />
+                <ScalarProperty Name="QUIZ_ID" ColumnName="QUIZ_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

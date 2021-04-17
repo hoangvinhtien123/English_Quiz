@@ -52,9 +52,12 @@
             }
 
         </ul>
-        <div style="right:0px;position:fixed;margin-right:200px;" id="countdown"></div>
-        <button type="button" id="SubmitQuiz" class="btn btn-light btn-xl js-scroll-trigger" style="margin-top: 40px; position:fixed;right:165px;"><span class="glyphicon glyphicon-ok"></span>   Nộp bài </button>
-        <div style="margin-top:50px;position:fixed;right:200px;" id="point"></div>
+        @if (Model != null && Model.Count > 0)
+        {
+            <div style="right:0px;position:fixed;margin-right:200px;" id="countdown"></div>
+            <button type="button" id="SubmitQuiz" class="btn btn-light btn-xl js-scroll-trigger" style="margin-top: 40px; position:fixed;right:165px;"><span class="glyphicon glyphicon-ok"></span>   Nộp bài </button>
+            <div style="margin-top:50px;position:fixed;right:200px;" id="point"></div>
+        }
         <div class="tab-content">
 
             @if (Model != null)
@@ -160,7 +163,7 @@
                 }
                 foreach (var item in lstListeningType)
                 {
-
+                    int countListening = 1;
                     <div id="Listening_@item.LISTENING_TYPE_ID" class="tab-pane fade ">
                         <div class="Quiz">
                             <h4> <span class="label label-info">Câu hỏi :</span> </h4>
@@ -168,7 +171,7 @@
                             {
                                 if (listening.LISTENING_TYPE_ID == item.LISTENING_TYPE_ID)
                                 {
-                                    <div>
+                                    <div style="margin-top:20px;">
                                         <audio controls preload="metadata" style="width:500px;">
                                             <source src="~/Content/audio/@listening.LISTENING_FILE_NAME" />
                                         </audio>
@@ -183,7 +186,7 @@
                                         {
                                             <div class="BlockQ" style="border: 1px solid #bdbdbd; width: 75%; border-radius: 4px; margin-top: 40px; background-color: #f0ffff; padding: 8px;">
                                                 <div class="Question" style="padding: 2%;">
-                                                    <span class="label label-warning"> @string.Format("{0}{1}.", "Q", count)</span>
+                                                    <span class="label label-warning"> @string.Format("{0}{1}.", "Q", countListening)</span>
                                                     <span id="@string.Format("{0}{1}", "ID_Q", count)" style="display:none;">@question.QUESTION_ID</span>
                                                     <p style="display: inline; padding: 2%;" id="@string.Format("{0}{1}", "Q", count)">@question.QUESTION_TEXT</p>
 
@@ -205,6 +208,7 @@
                                                 </div>
                                             </div> <!-- END BlockQ -->
                                             count++;
+                                            countListening++;
                                             lstQuestions.Add(question);
                                         }
                                     }
@@ -289,7 +293,7 @@
                 var sel = $('#countquestions').text();
                 var resultQuiz = [], countQuestion = parseInt(sel), question = {}, j = 1;
 
-                for (var i = 0; i < countQuestion; i++) {
+                for (var i = 1; i <= countQuestion; i++) {
                     question = {
                         QuestionID: $('#ID_Q' + i).text(),
                         QuestionText: $('#Q' + i).text(),

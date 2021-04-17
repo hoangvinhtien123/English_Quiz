@@ -175,10 +175,23 @@ namespace English_Quiz.Controllers
 
             }
             lstQuestion = db.Questions.Where(x => x.IS_LISTENING == true).ToList();
-            for (int i = 0; i < lstQuestion.Count; i++)
+            List<Quiz_Listening> lstQuestionListening = db.Quiz_Listening.ToList();
+            for (int i = 0; i < lstQuestionListening.Count; i++)
             {
-                finalLstQuestion.Add(lstQuestion[i]);
-                
+                Quiz_Listening quiz_Listening = lstQuestionListening[i];
+                if (quiz_Listening.ACTIVE == true)
+                {
+                    if (quiz_Listening.QUIZ_ID == quizId)
+                    {
+                        for (int j = 0; j < lstQuestion.Count; j++)
+                        {
+                            if (lstQuestion[j].LISTENING_ID == quiz_Listening.LISTENING_ID)
+                            {
+                                finalLstQuestion.Add(lstQuestion[j]);
+                            }
+                        }
+                    }
+                }
             }
             //if (quizId != string.Empty)
             //{

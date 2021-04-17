@@ -122,6 +122,15 @@
     <Property Name="DESCRIPTION" Type="nvarchar" MaxLength="150" />
     <Property Name="TIME" Type="int" />
   </EntityType>
+  <EntityType Name="Quiz_Listening">
+    <Key>
+      <PropertyRef Name="QUIZ_ID" />
+      <PropertyRef Name="LISTENING_ID" />
+    </Key>
+    <Property Name="QUIZ_ID" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="LISTENING_ID" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="ACTIVE" Type="bit" />
+  </EntityType>
   <EntityType Name="Quiz_Questions">
     <Key>
       <PropertyRef Name="QUIZ_ID" />
@@ -304,6 +313,7 @@
     <EntitySet Name="Questions" EntityType="Self.Questions" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Questions_Auto_Generate" EntityType="Self.Questions_Auto_Generate" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Quiz" EntityType="Self.Quiz" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Quiz_Listening" EntityType="Self.Quiz_Listening" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Quiz_Questions" EntityType="Self.Quiz_Questions" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Quiz_Type" EntityType="Self.Quiz_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />

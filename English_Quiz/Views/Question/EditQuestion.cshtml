@@ -39,8 +39,22 @@
                 @Html.ValidationMessageFor(model => model.POINT, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
+            <div class="col-md-12">
+                <label class="control-label" style="margin-right:20px;">Bài nghe</label>
+                @Html.CheckBoxFor(model => model.IS_LISTENING, new { htmlAttributes = new { @class = "form-control" }, id = "cbIsListening" })
+                @Html.ValidationMessageFor(model => model.IS_LISTENING, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+        <div class="form-group" id="ddlListening" style="display:none">
+            <label class="control-label col-md-2">Chọn bài nghe</label>
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.LISTENING_ID, (SelectList)ViewBag.ListListening, "--Chọn--", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TYPE_ID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group" id="ddlType">
             <label class="control-label col-md-2">Loại</label>
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.TYPE_ID, (SelectList)ViewBag.ListType, "--Chọn--", new { @class = "form-control" })
@@ -98,6 +112,14 @@
             $.post("/Question/GetAnswerByQuestionId", {
                 question_id: question_id
             }, function (e) {
+                if ($("#cbIsListening")[0].checked == true) {
+                    $("#ddlType").attr('style', 'display:none !important')
+                    $("#ddlListening").attr('style', 'display:visible !important')
+                }
+                else {
+                    $("#ddlListening").attr('style', 'display:none !important')
+                    $("#ddlType").attr('style', 'display:visible !important')
+                }
                 if (e) {
                     data = e;
                 }
@@ -140,6 +162,17 @@
                     ]
                 });
             }, "json")
+            $("#cbIsListening").change(function (e) {
+                if ($("#cbIsListening")[0].checked == true) {
+                    $("#ddlType").attr('style', 'display:none !important')
+                    $("#ddlListening").attr('style', 'display:visible !important')
+                }
+                else {
+                    $("#ddlListening").attr('style', 'display:none !important')
+                    $("#ddlType").attr('style', 'display:visible !important')
+                }
+            });
+
         })
 
     </script>

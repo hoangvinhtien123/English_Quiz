@@ -42,5 +42,6 @@ namespace English_Quiz.Models
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Quiz_Listening> Quiz_Listening { get; set; }
     }
 }

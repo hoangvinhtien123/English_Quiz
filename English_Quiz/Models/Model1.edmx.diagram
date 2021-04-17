@@ -32,6 +32,7 @@
         <AssociationConnector Association="English_QuizModel.FK_Users_Role" ManuallyRouted="false" />
         <AssociationConnector Association="English_QuizModel.FK_Listening_Listening_Type" />
         <AssociationConnector Association="English_QuizModel.FK_Questions_Listening" />
+        <EntityTypeShape EntityType="English_QuizModel.Quiz_Listening" Width="1.5" PointX="3.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
