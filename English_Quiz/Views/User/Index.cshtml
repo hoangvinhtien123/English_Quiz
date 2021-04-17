@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<English_Quiz.Models.User>
 
 @{
-    ViewBag.Title = "User";
+    ViewBag.Title = "Người dùng";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -19,7 +19,7 @@
             Ảnh
         </th>
         <th>
-            Mã vai trò
+           Vai trò
         </th>
         <th></th>
     </tr>
@@ -34,7 +34,7 @@
                 <img id="img" alt="User Image" src="~/Content/img/User/@item.PROFILE_IMAGE" style="height:100px;width:150px" />
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ROLE_ID)
+                @Html.DisplayFor(modelItem => item.Role.ROLE_NAME)
             </td>
             <td>
                 <a href='@Url.Action("EditUser","User", new{ UserId = item.USER_ID})' class="btn btn-info"><i class="fas fa-edit"></i></a>
@@ -65,17 +65,17 @@
                             if (data.Success) {
                                Swal.fire(
                                     'Deleted!',
-                                    'Xóa người dùng thành công',
+                                    data.Message,
                                     'success'
                                 )
-                                setTimeout(function () { location.reload(); }, 1500);
-                                
+                                setTimeout(function () { location.reload(); }, 700);
+
                             }
                             else {
                               Swal.fire(
-                                    'Deleted!',
-                                    'Xóa người dùng thất bại',
-                                    'danger'
+                                    "Can't Delete",
+                                    data.Message,
+                                    'error'
                                 )
                             }
                         },

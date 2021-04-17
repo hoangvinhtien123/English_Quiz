@@ -19,8 +19,5 @@ namespace English_Quiz.Models
         public string QUESTION_ID { get; set; }
         public Nullable<bool> IS_CORRECT { get; set; }
         public Nullable<int> LIST_ORDER { get; set; }
-    
-        public virtual Answer Answer1 { get; set; }
-        public virtual Answer Answer2 { get; set; }
     }
 }

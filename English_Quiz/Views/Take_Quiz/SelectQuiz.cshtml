@@ -18,9 +18,10 @@
                         <div class="col-lg-3 col-md-6 text-center">
                             <div class="mt-5">
                                 <i class="fas fa-book" style="font-size:48px"></i>
-                                <h3 class="h4 mb-2"> <a style="color:black" href=''>@quiz.QUIZ_NAME</a></h3>
+                                <h3 class="h4 mb-2"> <a style="color:black" href='@Url.Action("QuizTest","Take_Quiz", new{ quizId = quiz.QUIZ_ID})'>@quiz.QUIZ_NAME</a></h3>
                                 <p class="text-white mb-0">@quiz.DESCRIPTION</p>
-                                <a class="btn btn-light btn-xl js-scroll-trigger" href="@Url.Action("QuizTest","Take_Quiz", new{ quizId = quiz.QUIZ_ID})">Tham gia</a>
+                                @*<a class="btn btn-light btn-xl js-scroll-trigger" href="">Tham gia</a>*@
+                                
                             </div>
                         </div>
                         count++;

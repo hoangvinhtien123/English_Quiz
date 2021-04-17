@@ -39,16 +39,22 @@
                 @Html.ValidationMessageFor(model => model.POINT, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
-            <label class="control-label col-md-2">Cấp độ</label>
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.LEVEL_ID, (SelectList)ViewBag.ListLevel, "--Chọn--", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.LEVEL_ID, "", new { @class = "text-danger" })
+            <div class="col-md-12">
+                <label class="control-label" style="margin-right:20px;">Bài nghe</label>
+                @Html.CheckBoxFor(model => model.IS_LISTENING, new { htmlAttributes = new { @class = "form-control" }, id = "cbIsListening" })
+                @Html.ValidationMessageFor(model => model.IS_LISTENING, "", new { @class = "text-danger" })
+
             </div>
         </div>
-
-        <div class="form-group">
+        <div class="form-group" id="ddlListening" style="display:none">
+            <label class="control-label col-md-2">Chọn bài nghe</label>
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.LISTENING_ID, (SelectList)ViewBag.ListListening, "--Chọn--", new { @class = "form-control"})
+                @Html.ValidationMessageFor(model => model.TYPE_ID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group" id="ddlType">
             <label class="control-label col-md-2">Loại</label>
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.TYPE_ID, (SelectList)ViewBag.ListType, "--Chọn--", new { @class = "form-control" })
@@ -70,59 +76,66 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
-        
-        $("#jsGrid").jsGrid({
-            width: "100%",
-            height: "400px",
-            autoload : true,
-            controller: {
-                insertItem: function (filter) {
-                    insertGrid(filter)
-                },
-                updateItem: function (filter) {
-                    updateGrid(filter)
-                },
-                deleteItem: function (filter) {
-                    deleteGrid(filter)
+
+        function loadJsGrid() {
+            let question_id = $("#QUESTION_ID").val();
+            $.post("/Question/GetAnswerByQuestionId", {
+                question_id: question_id
+            }, function (e) {
+                if (e) {
+                    data = e;
                 }
-            },
-            onItemInserting: function (args) {
-                checkBeforeInsert(args);
-            },
-            deleteConfirm: "Bạn có chắc chắn muốn xóa không?",
-            invalidMessage: "Lỗi",
-             noDataContent: "Không có dữ liệu",
-            data: [],
-            inserting: true,
-            editing: true,
-            sorting: true,
-            paging: true,
-            
-            fields: [
-                {
-                    name: "DESCRIPTION", title: "Câu trả lời", type: "text", width: 150, validate: {
-                        validator: "required",
-                        message: function (value, item) {
-                            return "Cần nhập câu trả lời";
+                $("#jsGrid").jsGrid({
+                    width: "100%",
+                    height: "400px",
+                    autoload: true,
+                    controller: {
+                        insertItem: function (filter) {
+                            insertGrid(filter)
                         },
-                    }
-                },
-                { name: "LIST_ORDER", title: "Sắp xếp", type: "number", width: 25 },
-                { name: "IS_CORRECT", type: "checkbox", width: 20, title: "Đáp án", sorting: false },
-                { type: "control" }
-            ]
-        });
-        
+                        updateItem: function (filter) {
+                            updateGrid(filter)
+                        },
+                        deleteItem: function (filter) {
+                            deleteGrid(filter)
+                        }
+                    },
+                    deleteConfirm: "Bạn có chắc chắn muốn xóa không?",
+                    invalidMessage: "Lỗi",
+                    noDataContent: "Không có dữ liệu",
+                    data: e,
+                    inserting: true,
+                    editing: true,
+                    sorting: true,
+                    paging: true,
+
+                    fields: [
+                        {
+                            name: "DESCRIPTION", title: "Câu trả lời", type: "text", width: 150, validate: {
+                                validator: "required",
+                                message: function (value, item) {
+                                    return "Cần nhập câu trả lời";
+                                },
+                            }
+                        },
+                        { name: "LIST_ORDER", title: "Sắp xếp", type: "number", width: 25 },
+                        { name: "IS_CORRECT", type: "checkbox", width: 20, title: "Đáp án", sorting: false },
+                        { type: "control" }
+                    ]
+                });
+            }, "json")
+        }
+
         function insertGrid(filter) {
             let question_id = $("#QUESTION_ID").val();
             return $.post("/Question/AddAnswer", {
                 description: filter.DESCRIPTION,
                 list_order: filter.LIST_ORDER,
                 is_correct: filter.IS_CORRECT,
-                question_id : question_id
+                question_id: question_id
             }, function (e) {
-
-            },"json")
+                loadJsGrid();
+            }, "json")
         }
         function checkBeforeInsert(args) {
             let question_id = $("#QUESTION_ID").val();
@@ -132,9 +145,10 @@
             }
         }
         function updateGrid(filter) {
+            let question_id = $("#QUESTION_ID").val();
             return $.post("/Question/UpdateAnswer", {
                 answer_id: filter.ANSWER_ID,
-                question_id: filter.QUESTION_ID,
+                question_id: question_id,
                 description: filter.DESCRIPTION,
                 list_order: filter.LIST_ORDER,
                 is_correct: filter.IS_CORRECT,
@@ -150,7 +164,18 @@
 
             }, "json")
         }
-        
-        
+        $(document).ready(function () {
+            loadJsGrid();
+            $("#cbIsListening").change(function (e) {
+                if ($("#cbIsListening")[0].checked == true) {
+                    $("#ddlType").attr('style', 'display:none !important')
+                    $("#ddlListening").attr('style', 'display:visible !important')
+                }
+                else {
+                    $("#ddlListening").attr('style', 'display:none !important')
+                    $("#ddlType").attr('style', 'display:visible !important')
+                }
+            })
+        })
     </script>
 }

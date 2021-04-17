@@ -1,7 +1,7 @@
 ﻿@model English_Quiz.Models.Quiz
 
 @{
-    ViewBag.Title = "EditQuizz";
+    ViewBag.Title = "Sửa đề";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -18,7 +18,7 @@
     <div class="form-group">
         <label class="control-label col-md-2">  Mã đề</label>
         <div class="col-md-10">
-            @Html.EditorFor(model => model.QUIZ_ID, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.EditorFor(model => model.QUIZ_ID, new { htmlAttributes = new { @class = "form-control", @readonly = "" } })
             @Html.ValidationMessageFor(model => model.QUIZ_ID, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -37,13 +37,20 @@
         </div>
     </div>
     <div class="form-group">
+        <label class="control-label col-md-2"> Mô tả</label>
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.DESCRIPTION, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.DESCRIPTION, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
         <label class="control-label col-md-2">Cấp độ</label>
         <div class="col-md-10">
             @Html.DropDownListFor(model => model.QUIZ_TYPE_ID, (SelectList)ViewBag.listType, "--Chọn--", new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.QUIZ_TYPE_ID, "", new { @class = "text-danger" })
         </div>
     </div>
-    <div class="col-md-10" id="jsGrid"></div>
+    <div class="col-md-10" id="jsGridQuestion"></div>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" value="Lưu" class="btn btn-default" />
@@ -66,7 +73,7 @@
                     if (e) {
                         data = e;
                     }
-            $("#jsGrid").jsGrid({
+            $("#jsGridQuestion").jsGrid({
             width: "100%",
             height: "400px",
             autoload : true,

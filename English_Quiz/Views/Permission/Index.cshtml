@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<English_Quiz.Models.PermissionViewModel>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Phân quyền";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -166,10 +166,10 @@
                                                     {
                                                         if (item.CapChucNang)
                                                         {
-                                                            <tr>
+                                                            <tr >
                                                                 <td class="text-md-center"><input type="checkbox" name="dacapquyen" class="myCheckboxdacap" value="@item.Id" /></td>
                                                                 <td>@item.TenChucNang</td>
-                                                                <td class="text-md-center"><a href="#" onclick="Edit(@item.Id,'@item.TenChucNang')"><i class="fa fa-pencil-square-o"></i></a></td>
+                                                                <td class="text-md-center"><a href="#" onclick="Edit(@item.Id,'@item.TenChucNang')"><i class="fas fa-edit"></i></a></td>
                                                             </tr>
                                                         }
 
@@ -249,6 +249,7 @@
 </div>
 @section scripts{
     <script>
+        
     function Edit(id,tenchucnang) {
         let vaitroId = $('#ddlVaiTro').val()
         $('#_cnid').val(id)
@@ -256,7 +257,7 @@
         formData.append('id', id);
         formData.append('vaitroid', vaitroId);
         $.ajax({
-            url: '@Url.Action("GetObjToEdit","PhanQuyen")',
+            url: '@Url.Action("GetObjToEdit","Permission")',
             data: formData,
             type: 'POST',
             success: function (data) {

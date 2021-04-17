@@ -65,6 +65,10 @@ namespace English_Quiz.Controllers
                     fUpload.SaveAs(Server.MapPath($"~/Content/img/User/{fUpload.FileName}"));
                     user.PROFILE_IMAGE = fUpload.FileName;
                 }
+                else
+                {
+                    user.PROFILE_IMAGE = oldUser.PROFILE_IMAGE;
+                }
                 user.PASSWORD = toMD5.MD5Hash(user.PASSWORD);
                 db.Entry(oldUser).CurrentValues.SetValues(user);
                 db.SaveChanges();
@@ -75,31 +79,44 @@ namespace English_Quiz.Controllers
         [CheckPermission(PermissionName = "QuanLyNguoiDung", Action = ConstantCommon.Action.Delete)]
         public JsonResult delete(int id)
         {
-            try
+            int role = int.Parse(Session["Role"].ToString());
+            Permission permission = db.Permissions.FirstOrDefault(x => x.Role_Id == role);
+            if (permission.Is_Delete == true)
             {
-                var data = db.Users.FirstOrDefault(x => x.USER_ID == id);
-                if (data == null)
+                try
+                {
+                    var data = db.Users.FirstOrDefault(x => x.USER_ID == id);
+                    if (data == null)
+                    {
+                        return Json(new
+                        {
+                            Success = false,
+                            Message = "Không tìm thấy đối tượng cần xóa."
+                        }, JsonRequestBehavior.AllowGet);
+                    }
+                    db.Users.Remove(data);
+                    db.SaveChanges();
+                    return Json(new
+                    {
+                        Success = true,
+                        Message = "Xóa thành công"
+                    }, JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception e)
                 {
                     return Json(new
                     {
                         Success = false,
-                        Message = "Không tìm thấy đối tượng cần xóa."
+                        Message = "Không thể xóa đối tượng này. Vì sẽ ảnh hưởng đến dữ liệu khác." + e.Message
                     }, JsonRequestBehavior.AllowGet);
                 }
-                db.Users.Remove(data);
-                db.SaveChanges();
-                return Json(new
-                {
-                    Success = true,
-                    Message = "Xóa thành công"
-                }, JsonRequestBehavior.AllowGet);
             }
-            catch (Exception e)
+            else
             {
                 return Json(new
                 {
                     Success = false,
-                    Message = "Không thể xóa đối tượng này. Vì sẽ ảnh hưởng đến dữ liệu khác." + e.Message
+                    Message = "Không có quyền xóa !"
                 }, JsonRequestBehavior.AllowGet);
             }
         }

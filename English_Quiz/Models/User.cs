@@ -14,14 +14,6 @@ namespace English_Quiz.Models
     
     public partial class User
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public User()
-        {
-            this.Exam_Information = new HashSet<Exam_Information>();
-            this.User_Quiz_Question = new HashSet<User_Quiz_Question>();
-            this.Quizs = new HashSet<Quiz>();
-        }
-    
         public int USER_ID { get; set; }
         public string FULL_NAME { get; set; }
         public string PROFILE_IMAGE { get; set; }
@@ -31,12 +23,6 @@ namespace English_Quiz.Models
         public Nullable<int> ROLE_ID { get; set; }
         public string USER_NAME { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Exam_Information> Exam_Information { get; set; }
         public virtual Role Role { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<User_Quiz_Question> User_Quiz_Question { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Quiz> Quizs { get; set; }
     }
 }

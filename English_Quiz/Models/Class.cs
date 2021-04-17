@@ -14,17 +14,8 @@ namespace English_Quiz.Models
     
     public partial class Class
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Class()
-        {
-            this.Exam_Class = new HashSet<Exam_Class>();
-        }
-    
         public int CLASS_ID { get; set; }
         public string CLASS_NAME { get; set; }
         public string DESCRIPTION { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Exam_Class> Exam_Class { get; set; }
     }
 }

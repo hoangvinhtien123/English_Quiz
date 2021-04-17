@@ -138,12 +138,15 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\BaseController.cs" />
-    <Compile Include="Controllers\BaseUserController.cs" />
+    <Compile Include="Controllers\BaseController\BaseController.cs" />
+    <Compile Include="Controllers\BaseController\BaseUserController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\FunctionController.cs" />
+    <Compile Include="Controllers\ListeningController.cs" />
     <Compile Include="Controllers\PermissionController.cs" />
     <Compile Include="Controllers\QuestionController.cs" />
+    <Compile Include="Controllers\QuestionTypeController.cs" />
+    <Compile Include="Controllers\QuizTypeController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\Take_QuizController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -169,15 +172,6 @@
     <Compile Include="Models\EmployeeMaster.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Exam.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Exam_Class.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Exam_Information.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Function.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -185,7 +179,10 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\JsonPostBack.cs" />
-    <Compile Include="Models\Level.cs">
+    <Compile Include="Models\Listening.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Listening_Type.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\LoginModel.cs" />
@@ -214,10 +211,10 @@
     <Compile Include="Models\Questions_Auto_Generate.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Quiz.cs">
+    <Compile Include="Models\Question_Type.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Quiz_Level.cs">
+    <Compile Include="Models\Quiz.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Quiz_Questions.cs">
@@ -233,18 +230,14 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\toMD5.cs" />
-    <Compile Include="Models\Type.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\User.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\User_Quiz_Question.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\audio\01_Track 1.mp3" />
+    <Content Include="Content\audio\TEST 01.mp3" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -2099,7 +2092,6 @@
     <Content Include="Views\Role\EditRole.cshtml" />
     <Content Include="Views\Quizz\EditQuizz.cshtml" />
     <Content Include="Views\Take_Quiz\History.cshtml" />
-    <Content Include="Views\Take_Quiz\test.cshtml" />
     <Content Include="Views\Shared\_MainLayout.cshtml" />
     <Content Include="Views\Take_Quiz\AboutUs.cshtml" />
     <Content Include="Views\Take_Quiz\QuizType.cshtml" />
@@ -2108,6 +2100,15 @@
     <Content Include="Views\Question\Index.cshtml" />
     <Content Include="Views\Question\CreateQuestion.cshtml" />
     <Content Include="Views\Question\EditQuestion.cshtml" />
+    <Content Include="Views\QuizType\Index.cshtml" />
+    <Content Include="Views\QuizType\CreateQuizType.cshtml" />
+    <Content Include="Views\QuizType\EditQuizType.cshtml" />
+    <Content Include="Views\QuestionType\Index.cshtml" />
+    <Content Include="Views\QuestionType\CreateQuestionType.cshtml" />
+    <Content Include="Views\QuestionType\EditQuestionType.cshtml" />
+    <Content Include="Views\Listening\Index.cshtml" />
+    <Content Include="Views\Listening\CreateListening.cshtml" />
+    <Content Include="Views\Listening\EditListening.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

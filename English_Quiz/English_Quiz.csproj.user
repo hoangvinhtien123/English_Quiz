@@ -22,6 +22,7 @@
     <WebStackScaffolding_ViewDialogWidth>600</WebStackScaffolding_ViewDialogWidth>
     <NameOfLastUsedPublishProfile>EnglishQuizHoangVinhTien - Web Deploy</NameOfLastUsedPublishProfile>
     <WebStackScaffolding_DbContextTypeFullName>English_Quiz.Models.English_QuizEntities</WebStackScaffolding_DbContextTypeFullName>
+    <ProjectView>ShowAllFiles</ProjectView>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>

@@ -1,0 +1,44 @@
+﻿@model English_Quiz.Models.Question_Type
+
+@{
+    ViewBag.Title = "Thêm mới loại câu hỏi";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Thêm mới loại câu hỏi</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Loại câu hỏi</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <label class="control-label col-md-2">  Tên loại câu hỏi</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TYPE_NAME, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TYPE_NAME, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2"> Mô tả</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DESCRIPTION, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DESCRIPTION, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Thêm mới" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Trở lại", "Index")
+</div>

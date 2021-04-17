@@ -4,48 +4,34 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="466b5f7cb81448218cf25b7d73970015" Name="Diagram1">
-        <EntityTypeShape EntityType="English_QuizModel.Answer" Width="1.5" PointX="0.75" PointY="0.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="English_QuizModel.Class" Width="1.5" PointX="0.75" PointY="5.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="English_QuizModel.EmployeeMaster" Width="1.5" PointX="10.75" PointY="4.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="English_QuizModel.Exam" Width="1.5" PointX="0.75" PointY="8" IsExpanded="true" />
-        <EntityTypeShape EntityType="English_QuizModel.Exam_Class" Width="1.5" PointX="3" PointY="8.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="English_QuizModel.Exam_Information" Width="1.5" PointX="3" PointY="5.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="English_QuizModel.Function" Width="1.5" PointX="9" PointY="11.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="English_QuizModel.History_Quiz" Width="1.5" PointX="0.75" PointY="11.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="English_QuizModel.Level" Width="1.5" PointX="3.75" PointY="1.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="English_QuizModel.Permission" Width="1.5" PointX="11.25" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="English_QuizModel.Question" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="English_QuizModel.Questions_Auto_Generate" Width="1.5" PointX="6" PointY="17" IsExpanded="true" />
-        <EntityTypeShape EntityType="English_QuizModel.Quiz" Width="1.5" PointX="6" PointY="7.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="English_QuizModel.Quiz_Level" Width="1.5" PointX="3.75" PointY="11" IsExpanded="true" />
-        <EntityTypeShape EntityType="English_QuizModel.Quiz_Questions" Width="1.5" PointX="8.25" PointY="8" IsExpanded="true" />
-        <EntityTypeShape EntityType="English_QuizModel.Quiz_Type" Width="1.5" PointX="3.75" PointY="13.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="English_QuizModel.Role" Width="1.5" PointX="9" PointY="1.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="English_QuizModel.sysdiagram" Width="1.5" PointX="5.75" PointY="11.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="English_QuizModel.Type" Width="1.5" PointX="3.75" PointY="17.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="English_QuizModel.User_Quiz_Question" Width="1.5" PointX="8.25" PointY="5" IsExpanded="true" />
-        <EntityTypeShape EntityType="English_QuizModel.User" Width="1.5" PointX="11.25" PointY="7.5" IsExpanded="true" />
-        <AssociationConnector Association="English_QuizModel.FK_Answer_Answer" ManuallyRouted="false" />
-        <AssociationConnector Association="English_QuizModel.FK_Exam_Class_Class" ManuallyRouted="false" />
-        <AssociationConnector Association="English_QuizModel.FK_Exam_Class_Exam" ManuallyRouted="false" />
-        <AssociationConnector Association="English_QuizModel.FK_Exam_Information_Exam" ManuallyRouted="false" />
-        <AssociationConnector Association="English_QuizModel.FK_Exam_Information_Users" ManuallyRouted="false" />
+      <Diagram DiagramId="0bcb9719c49c424183682323b83477f0" Name="Diagram1">
+        <EntityTypeShape EntityType="English_QuizModel.Answer" Width="1.5" PointX="0.75" PointY="11.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="English_QuizModel.Class" Width="1.5" PointX="2.75" PointY="11.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="English_QuizModel.EmployeeMaster" Width="1.5" PointX="10.75" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="English_QuizModel.Function" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="English_QuizModel.History_Quiz" Width="1.5" PointX="10.75" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="English_QuizModel.Listening" Width="1.5" PointX="10.75" PointY="11.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="English_QuizModel.Listening_Type" Width="1.5" PointX="4.75" PointY="12.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="English_QuizModel.Permission" Width="1.5" PointX="3" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="English_QuizModel.Question_Type" Width="1.5" PointX="5.75" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="English_QuizModel.Question" Width="1.5" PointX="8" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="English_QuizModel.Questions_Auto_Generate" Width="1.5" PointX="8" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="English_QuizModel.Quiz" Width="1.5" PointX="8" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="English_QuizModel.Quiz_Questions" Width="1.5" PointX="10.25" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="English_QuizModel.Quiz_Type" Width="1.5" PointX="5.75" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="English_QuizModel.Role" Width="1.5" PointX="0.75" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="English_QuizModel.sysdiagram" Width="1.5" PointX="6.75" PointY="12.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="English_QuizModel.User" Width="1.5" PointX="3" PointY="7" IsExpanded="true" />
         <AssociationConnector Association="English_QuizModel.FK_Permission_Role" ManuallyRouted="false" />
-        <AssociationConnector Association="English_QuizModel.FK_Questions_Level" ManuallyRouted="false" />
         <AssociationConnector Association="English_QuizModel.FK_Permission_Role_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="English_QuizModel.FK_Questions_Auto_Generate_Type" ManuallyRouted="false" />
         <AssociationConnector Association="English_QuizModel.FK_Questions_Type" ManuallyRouted="false" />
         <AssociationConnector Association="English_QuizModel.FK_Quiz_Questions_Questions" ManuallyRouted="false" />
-        <AssociationConnector Association="English_QuizModel.FK_User_Quiz_Question_Questions" ManuallyRouted="false" />
-        <AssociationConnector Association="English_QuizModel.FK_Questions_Auto_Generate_Type" ManuallyRouted="false" />
         <AssociationConnector Association="English_QuizModel.FK_Quiz_Questions_Quiz" ManuallyRouted="false" />
-        <AssociationConnector Association="English_QuizModel.FK_Quiz_Quiz_Level" ManuallyRouted="false" />
         <AssociationConnector Association="English_QuizModel.FK_Quiz_Quiz_Type" ManuallyRouted="false" />
-        <AssociationConnector Association="English_QuizModel.FK_User_Quiz_Question_Quiz" ManuallyRouted="false" />
         <AssociationConnector Association="English_QuizModel.FK_Users_Role" ManuallyRouted="false" />
-        <AssociationConnector Association="English_QuizModel.FK_User_Quiz_Question_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="English_QuizModel.Exam_Quiz" ManuallyRouted="false" />
-        <AssociationConnector Association="English_QuizModel.User_Quiz" ManuallyRouted="false" />
+        <AssociationConnector Association="English_QuizModel.FK_Listening_Listening_Type" />
+        <AssociationConnector Association="English_QuizModel.FK_Questions_Listening" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

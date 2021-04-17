@@ -18,20 +18,18 @@ namespace English_Quiz.Models
         public Question()
         {
             this.Quiz_Questions = new HashSet<Quiz_Questions>();
-            this.User_Quiz_Question = new HashSet<User_Quiz_Question>();
         }
     
         public string QUESTION_ID { get; set; }
         public string QUESTION_TEXT { get; set; }
         public Nullable<double> POINT { get; set; }
-        public Nullable<int> LEVEL_ID { get; set; }
         public Nullable<int> TYPE_ID { get; set; }
+        public string LISTENING_ID { get; set; }
+        public bool IS_LISTENING { get; set; }
     
-        public virtual Level Level { get; set; }
-        public virtual Type Type { get; set; }
+        public virtual Question_Type Question_Type { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Quiz_Questions> Quiz_Questions { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<User_Quiz_Question> User_Quiz_Question { get; set; }
+        public virtual Listening Listening { get; set; }
     }
 }

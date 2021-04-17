@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<English_Quiz.Models.Quiz>
 
 @{
-    ViewBag.Title = "Quizz";
+    ViewBag.Title = "Thông tin đề";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 <style>
@@ -25,6 +25,9 @@
         <th>
             Thời gian (phút)
         </th>
+        <th>
+            Mô tả
+        </th>
     </tr>
 
     @foreach (var item in Model)
@@ -38,6 +41,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.TIME)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DESCRIPTION)
             </td>
             <td>
                 <a href='@Url.Action("EditQuizz","Quizz", new{ QuizId = item.QUIZ_ID})' class="btn btn-info"><i class="fas fa-edit"></i></a>

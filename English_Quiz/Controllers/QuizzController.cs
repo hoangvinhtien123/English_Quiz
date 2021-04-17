@@ -98,7 +98,7 @@ namespace English_Quiz.Controllers
         {
             string quizId = (Request["id"] == null) ? string.Empty : Request["id"].ToString();
             List<Questions_Auto_Generate> auto_Generate = db.Questions_Auto_Generate.Where(x => x.QUIZ_ID == quizId).ToList();
-            List<Models.Type> questionsType = db.Types.ToList();
+            List<Models.Question_Type> questionsType = db.Question_Type.ToList();
             DataSet ds = new DataSet();
             DataTable questions = new DataTable();
             questions.Columns.Add("PR_KEY", typeof(Guid));
@@ -127,7 +127,7 @@ namespace English_Quiz.Controllers
             return JsonConvert.SerializeObject(ds);
         }
 
-        public void AddTypeQuestion()
+        public string AddTypeQuestion()
         {
             int type = (Request["type"] == null) ? 0 : int.Parse(Request["type"].ToString());
             string quiz_id = (Request["quiz_id"] == null) ? string.Empty : Request["quiz_id"].ToString();
@@ -142,6 +142,7 @@ namespace English_Quiz.Controllers
             auto_Generate.TYPE_ID = type;
             db.Questions_Auto_Generate.Add(auto_Generate);
             db.SaveChanges();
+            return JsonConvert.SerializeObject(auto_Generate);
         }
         public void UpdateTypeQuestion()
         {

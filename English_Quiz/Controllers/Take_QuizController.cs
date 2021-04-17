@@ -30,11 +30,6 @@ namespace English_Quiz.Controllers
             return View();
         }
 
-
-        public ActionResult test()
-        {
-            return View();
-        }
         #region Take quizz
         [HttpGet]
         public ActionResult UserLogin()
@@ -129,37 +124,62 @@ namespace English_Quiz.Controllers
             List<Question> lstQuestion = new List<Question>();
             List<Question> finalLstQuestion = new List<Question>();
             Random r = new Random();
+            int total = 0;
             if (data != null && data.Count > 0)
             {
                 Session["QuizzSelected"] = data;
-
+                ViewBag.time = data[0].TIME;
             }
             List<Questions_Auto_Generate> lstAutoGenerate = db.Questions_Auto_Generate.SqlQuery($"select * from Questions_Auto_Generate where QUIZ_ID='{quizId}'").ToList();
             for (int i = 0; i < lstAutoGenerate.Count; i++)
             {
                 int? type_id = lstAutoGenerate[i].TYPE_ID;
-                int? total_question = lstAutoGenerate[i].TOTAL_QUESTION;
+                int? total_question_per_type = lstAutoGenerate[i].TOTAL_QUESTION;
 
-                if (type_id != null && total_question != null)
+                if (type_id != null && total_question_per_type != null)
                 {
                     List<int> lstNumberRandom = new List<int>();
-                    int total = Convert.ToInt32(total_question);
+                    int number_question = Convert.ToInt32(total_question_per_type);
+                    total += number_question;
                     lstQuestion = db.Questions.Where(x => x.TYPE_ID == type_id).ToList();
-                    int random = r.Next(0, lstQuestion.Count - 1);
-                    
-                    for (int j = 0; j < total; j++)
+                    if (number_question >= lstQuestion.Count)
                     {
-                        finalLstQuestion.Add(lstQuestion[random]);
-                        lstNumberRandom.Add(random);
-                        while (lstNumberRandom.Contains(random))
+                        for (int j = 0; j < lstQuestion.Count; j++)
                         {
-                            random = r.Next(0, lstQuestion.Count - 1);
+                            finalLstQuestion.Add(lstQuestion[j]);
+                        }
+                    }
+                    else
+                    {
+                        int random = r.Next(0, lstQuestion.Count);
+                        int count = random;
+                        for (int j = 0; j < number_question; j++)
+                        {
+                            finalLstQuestion.Add(lstQuestion[random]);
+                            lstNumberRandom.Add(random);
+                            while (lstNumberRandom.Contains(random) && finalLstQuestion.Count<total)
+                            {
+                                count++;
+                                if (count < lstQuestion.Count)
+                                {
+                                    random = count;
+                                }
+                                else
+                                {
+                                    count = 0;
+                                }
+                            }
                         }
                     }
                 }
 
             }
-
+            lstQuestion = db.Questions.Where(x => x.IS_LISTENING == true).ToList();
+            for (int i = 0; i < lstQuestion.Count; i++)
+            {
+                finalLstQuestion.Add(lstQuestion[i]);
+                
+            }
             //if (quizId != string.Empty)
             //{
 
@@ -170,7 +190,8 @@ namespace English_Quiz.Controllers
             //    );
             //}
             ViewData["Answer"] = db.Answers.SqlQuery(@"select * from Answer ORDER BY LIST_ORDER ASC").ToList();
-
+            ViewData["ListeningType"] = db.Listening_Type.ToList();
+            ViewData["Listening"] = db.Listenings.ToList();
             return View(finalLstQuestion);
         }
         public string GetAllAnswer()
@@ -193,6 +214,9 @@ namespace English_Quiz.Controllers
             {
                 QuestionDTO dto = new QuestionDTO();
                 dto.QUESTION_ID = item.QUESTION_ID;
+                Answer ans = db.Answers.SqlQuery($"select * from Answer where QUESTION_ID='{item.QUESTION_ID}' and IS_CORRECT=1 ").FirstOrDefault();
+                dto.ANSWER_ID = ans.ANSWER_ID;
+                dto.POINT = item.POINT;
                 //dto.ANSWER_DESCRIPTION = item.DESCRIPTION;
                 //dto.ANSWER = item.;
                 //dto.POINT = item.POINT;
@@ -234,6 +258,10 @@ namespace English_Quiz.Controllers
         //    }
         //    return View();
         //}
+        public ActionResult PlayFile(string filePath)
+        {
+            return new FilePathResult(filePath, "audio/wav");
+        }
         public ActionResult LogOut()
         {
             Session[ConstantData.USER_QUIZZ_SESSION] = null;

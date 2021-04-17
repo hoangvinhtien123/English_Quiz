@@ -17,9 +17,6 @@
             Điểm
         </th>
         <th>
-            Cấp độ
-        </th>
-        <th>
             Loại
         </th>
         <th></th>
@@ -34,15 +31,13 @@
             <td>
                 @Html.DisplayFor(modelItem => item.POINT)
             </td>
+            
             <td>
-                @Html.DisplayFor(modelItem => item.Level.LEVEL_NAME)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Type.TYPE_NAME)
+                @Html.DisplayFor(modelItem => item.Question_Type.TYPE_NAME)
             </td>
             <td>
                 <a href='@Url.Action("EditQuestion","Question", new { id = item.QUESTION_ID })' class="btn btn-info"><i class="fa fa-edit"></i></a>|
-                <a style="width:44px;" href="javascript:void(0)" class="btn btn-secondary"><i class="fa fa-info"></i></a>|
+                @*<a style="width:44px;" href="javascript:void(0)" class="btn btn-secondary"><i class="fa fa-info"></i></a>|*@
                 <a href="javascript:void(0)" onclick="deleteQuestion('@item.QUESTION_ID')" class="btn btn-danger"><i class="fa fa-trash-alt"></i></a>
             </td>
         </tr>
@@ -70,17 +65,17 @@
                             if (data.Success) {
                                Swal.fire(
                                     'Deleted!',
-                                    'Xóa câu hỏi thành công thành công',
+                                    data.Message,
                                     'success'
                                 )
-                                setTimeout(function () { location.reload(); }, 500);
+                                setTimeout(function () { location.reload(); }, 700);
 
                             }
                             else {
                               Swal.fire(
-                                    'Deleted!',
-                                    'Xóa câu hỏi thất bại',
-                                    'danger'
+                                    "Can't Delete",
+                                    data.Message,
+                                    'error'
                                 )
                             }
                         },

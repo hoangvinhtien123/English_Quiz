@@ -21,6 +21,6 @@ namespace English_Quiz.Models
         public Nullable<double> POINT_EACH_QS { get; set; }
         public Nullable<int> LIST_ORDER { get; set; }
     
-        public virtual Type Type { get; set; }
+        public virtual Question_Type Question_Type { get; set; }
     }
 }

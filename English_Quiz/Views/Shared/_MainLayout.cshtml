@@ -34,21 +34,22 @@
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="@Url.Action("Index","Take_Quiz")">Trang chủ</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="@Url.Action("AboutUs","Take_Quiz")">Về chúng tôi</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="@Url.Action("QuizType","Take_Quiz")">Kiểm tra trình độ</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="@Url.Action("LessonType","Take_Quiz")">Bài luyện tập</a></li>
                 </ul>
-                <ul class="navbar-nav ml-auto my-2 my-lg-0">
-                    @if (user == null)
-                    {
+                @*<ul class="navbar-nav ml-auto my-2 my-lg-0">
+                        @if (user == null)
+                        {
 
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="@Url.Action("UserLogin","Take_Quiz")">Đăng nhập</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="@Url.Action("Index","Take_Quiz")">Đăng ký</a></li>
+                            <li class="nav-item"><a class="nav-link js-scroll-trigger" href="@Url.Action("UserLogin","Take_Quiz")">Đăng nhập</a></li>
+                            <li class="nav-item"><a class="nav-link js-scroll-trigger" href="@Url.Action("Index","Take_Quiz")">Đăng ký</a></li>
 
-                    }
-                    else
-                    {
-                        <li class="nav-item"> <a class="nav-link js-scroll-trigger">Chào mừng : @user.FULL_NAME </a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="@Url.Action("LogOut","Take_Quiz")">Đăng xuất</a></li>
-                    }
-                </ul>
+                        }
+                        else
+                        {
+                            <li class="nav-item"> <a class="nav-link js-scroll-trigger">Chào mừng : @user.FULL_NAME </a></li>
+                            <li class="nav-item"><a class="nav-link js-scroll-trigger" href="@Url.Action("LogOut","Take_Quiz")">Đăng xuất</a></li>
+                        }
+                    </ul>*@
             </div>
         </div>
     </nav>
@@ -81,7 +82,8 @@
     </footer>
     <!-- Bootstrap core JS-->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
+    @*<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>*@
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <!-- Third party plugin JS-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>

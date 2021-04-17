@@ -41,14 +41,6 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2">Cấp độ</label>
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.LEVEL_ID, (SelectList)ViewBag.ListLevel, "--Chọn--", new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.LEVEL_ID, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
             <label class="control-label col-md-2">Loại</label>
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.TYPE_ID, (SelectList)ViewBag.ListType, "--Chọn--", new { @class = "form-control" })

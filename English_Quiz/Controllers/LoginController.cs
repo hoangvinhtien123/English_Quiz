@@ -36,6 +36,8 @@ namespace English_Quiz.Controllers
                 { //Đăng nhập thành công
                     Session.Add(ConstantData.USER_SESSION, obj);
                     Session.Add("UserName", username);
+                    Session.Add("Image", obj.PROFILE_IMAGE);
+                    Session.Add("Role", obj.ROLE_ID);
                     if (Convert.ToBoolean(remember))
                     {
                         HttpCookie cookie = new HttpCookie(ConstantData.USER_COOKIES);
