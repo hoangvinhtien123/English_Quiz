@@ -147,6 +147,7 @@
     <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Controllers\QuestionTypeController.cs" />
     <Compile Include="Controllers\QuizTypeController.cs" />
+    <Compile Include="Controllers\ReadingController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\Take_QuizController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -224,6 +225,12 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Quiz_Type.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Reading.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Reading_Type.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Role.cs">
@@ -2112,6 +2119,9 @@
     <Content Include="Views\Listening\Index.cshtml" />
     <Content Include="Views\Listening\CreateListening.cshtml" />
     <Content Include="Views\Listening\EditListening.cshtml" />
+    <Content Include="Views\Reading\CreateReading.cshtml" />
+    <Content Include="Views\Reading\Index.cshtml" />
+    <Content Include="Views\Reading\EditReading.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

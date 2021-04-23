@@ -25,6 +25,8 @@ namespace English_Quiz.Models
         public string QUIZ_TYPE_ID { get; set; }
         public string DESCRIPTION { get; set; }
         public Nullable<int> TIME { get; set; }
+        public string SOURCE_DESCRIPTION { get; set; }
+        public string SOURCE_LINK { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Quiz_Questions> Quiz_Questions { get; set; }

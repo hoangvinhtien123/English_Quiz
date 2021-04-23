@@ -89,6 +89,7 @@
     <Property Name="TYPE_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="TYPE_NAME" Type="nvarchar" MaxLength="50" />
     <Property Name="DESCRIPTION" Type="nvarchar" MaxLength="50" />
+    <Property Name="IS_TEST" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Questions">
     <Key>
@@ -100,6 +101,7 @@
     <Property Name="TYPE_ID" Type="int" />
     <Property Name="LISTENING_ID" Type="nvarchar" MaxLength="20" />
     <Property Name="IS_LISTENING" Type="bit" Nullable="false" />
+    <Property Name="READING_ID" Type="int" />
   </EntityType>
   <EntityType Name="Questions_Auto_Generate">
     <Key>
@@ -121,14 +123,16 @@
     <Property Name="QUIZ_TYPE_ID" Type="nvarchar" MaxLength="20" />
     <Property Name="DESCRIPTION" Type="nvarchar" MaxLength="150" />
     <Property Name="TIME" Type="int" />
+    <Property Name="SOURCE_DESCRIPTION" Type="nvarchar" MaxLength="250" />
+    <Property Name="SOURCE_LINK" Type="nvarchar" MaxLength="250" />
   </EntityType>
   <EntityType Name="Quiz_Listening">
     <Key>
-      <PropertyRef Name="QUIZ_ID" />
-      <PropertyRef Name="LISTENING_ID" />
+      <PropertyRef Name="PR_KEY" />
     </Key>
-    <Property Name="QUIZ_ID" Type="nvarchar" MaxLength="20" Nullable="false" />
-    <Property Name="LISTENING_ID" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="PR_KEY" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="QUIZ_ID" Type="nvarchar" MaxLength="20" />
+    <Property Name="LISTENING_ID" Type="nvarchar" MaxLength="20" />
     <Property Name="ACTIVE" Type="bit" />
   </EntityType>
   <EntityType Name="Quiz_Questions">
@@ -148,6 +152,23 @@
     <Property Name="QUIZ_TYPE_ID" Type="nvarchar" MaxLength="20" Nullable="false" />
     <Property Name="QUIZ_TYPE_NAME" Type="nvarchar" MaxLength="150" />
     <Property Name="QUIZ_TYPE_DESCRIPTION" Type="nvarchar" MaxLength="150" />
+  </EntityType>
+  <EntityType Name="Reading">
+    <Key>
+      <PropertyRef Name="READING_ID" />
+    </Key>
+    <Property Name="READING_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="READING_TEXT" Type="nvarchar(max)" />
+    <Property Name="READING_TYPE_ID" Type="int" />
+  </EntityType>
+  <EntityType Name="Reading_Type">
+    <Key>
+      <PropertyRef Name="READING_TYPE_ID" />
+    </Key>
+    <Property Name="READING_TYPE_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="READING_TYPE_NAME" Type="nvarchar" MaxLength="250" />
+    <Property Name="DESCRIPTION" Type="nvarchar" MaxLength="250" />
+    <Property Name="ACTIVE" Type="bit" />
   </EntityType>
   <EntityType Name="Role">
     <Key>
@@ -240,6 +261,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Questions_Reading">
+    <End Role="Reading" Type="Self.Reading" Multiplicity="0..1" />
+    <End Role="Questions" Type="Self.Questions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Reading">
+        <PropertyRef Name="READING_ID" />
+      </Principal>
+      <Dependent Role="Questions">
+        <PropertyRef Name="READING_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Questions_Type">
     <End Role="Question_Type" Type="Self.Question_Type" Multiplicity="0..1" />
     <End Role="Questions" Type="Self.Questions" Multiplicity="*" />
@@ -249,6 +282,18 @@
       </Principal>
       <Dependent Role="Questions">
         <PropertyRef Name="TYPE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Quiz_Listening_Listening">
+    <End Role="Listening" Type="Self.Listening" Multiplicity="0..1" />
+    <End Role="Quiz_Listening" Type="Self.Quiz_Listening" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Listening">
+        <PropertyRef Name="LISTENING_ID" />
+      </Principal>
+      <Dependent Role="Quiz_Listening">
+        <PropertyRef Name="LISTENING_ID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -276,15 +321,15 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Quiz_Quiz_Type">
-    <End Role="Quiz_Type" Type="Self.Quiz_Type" Multiplicity="0..1" />
-    <End Role="Quiz" Type="Self.Quiz" Multiplicity="*" />
+  <Association Name="FK_Reading_Reading_Type">
+    <End Role="Reading_Type" Type="Self.Reading_Type" Multiplicity="0..1" />
+    <End Role="Reading" Type="Self.Reading" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Quiz_Type">
-        <PropertyRef Name="QUIZ_TYPE_ID" />
+      <Principal Role="Reading_Type">
+        <PropertyRef Name="READING_TYPE_ID" />
       </Principal>
-      <Dependent Role="Quiz">
-        <PropertyRef Name="QUIZ_TYPE_ID" />
+      <Dependent Role="Reading">
+        <PropertyRef Name="READING_TYPE_ID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -316,6 +361,8 @@
     <EntitySet Name="Quiz_Listening" EntityType="Self.Quiz_Listening" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Quiz_Questions" EntityType="Self.Quiz_Questions" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Quiz_Type" EntityType="Self.Quiz_Type" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Reading" EntityType="Self.Reading" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Reading_Type" EntityType="Self.Reading_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
@@ -339,9 +386,17 @@
       <End Role="Listening" EntitySet="Listening" />
       <End Role="Questions" EntitySet="Questions" />
     </AssociationSet>
+    <AssociationSet Name="FK_Questions_Reading" Association="Self.FK_Questions_Reading">
+      <End Role="Reading" EntitySet="Reading" />
+      <End Role="Questions" EntitySet="Questions" />
+    </AssociationSet>
     <AssociationSet Name="FK_Questions_Type" Association="Self.FK_Questions_Type">
       <End Role="Question_Type" EntitySet="Question_Type" />
       <End Role="Questions" EntitySet="Questions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Quiz_Listening_Listening" Association="Self.FK_Quiz_Listening_Listening">
+      <End Role="Listening" EntitySet="Listening" />
+      <End Role="Quiz_Listening" EntitySet="Quiz_Listening" />
     </AssociationSet>
     <AssociationSet Name="FK_Quiz_Questions_Questions" Association="Self.FK_Quiz_Questions_Questions">
       <End Role="Questions" EntitySet="Questions" />
@@ -351,9 +406,9 @@
       <End Role="Quiz" EntitySet="Quiz" />
       <End Role="Quiz_Questions" EntitySet="Quiz_Questions" />
     </AssociationSet>
-    <AssociationSet Name="FK_Quiz_Quiz_Type" Association="Self.FK_Quiz_Quiz_Type">
-      <End Role="Quiz_Type" EntitySet="Quiz_Type" />
-      <End Role="Quiz" EntitySet="Quiz" />
+    <AssociationSet Name="FK_Reading_Reading_Type" Association="Self.FK_Reading_Reading_Type">
+      <End Role="Reading_Type" EntitySet="Reading_Type" />
+      <End Role="Reading" EntitySet="Reading" />
     </AssociationSet>
     <AssociationSet Name="FK_Users_Role" Association="Self.FK_Users_Role">
       <End Role="Role" EntitySet="Role" />

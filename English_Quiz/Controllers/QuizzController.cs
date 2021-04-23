@@ -20,7 +20,7 @@ namespace English_Quiz.Controllers
         }
         English_QuizEntities db = new English_QuizEntities();
         // GET: Quizz
-        #region Manage quizz
+        #region Quản lý bộ đề
         [CheckPermission(PermissionName = "QuanLyCauHoi", Action = ConstantCommon.Action.View)]
         public ActionResult Quizz()
         {
@@ -94,6 +94,7 @@ namespace English_Quiz.Controllers
                 }, JsonRequestBehavior.AllowGet);
             }
         }
+        #region Quản lý nhóm câu hỏi
         public string getQuestionTypeByQuizId()
         {
             string quizId = (Request["id"] == null) ? string.Empty : Request["id"].ToString();
@@ -170,6 +171,77 @@ namespace English_Quiz.Controllers
             db.Questions_Auto_Generate.Remove(auto_Generate);
             db.SaveChanges();
         }
+        #endregion
+
+        #region Quản lý bài nghe
+        public string getListeningById()
+        {
+            DataSet ds = new DataSet();
+            string quizId = (Request["id"] == null) ? string.Empty : Request["id"].ToString();
+            List<Quiz_Listening> lstQuizListening = db.Quiz_Listening.Where(x => x.QUIZ_ID == quizId && x.ACTIVE==true).ToList();
+            DataTable quizListeningTbl = new DataTable();
+            quizListeningTbl.Columns.Add("PR_KEY", typeof(string));
+            quizListeningTbl.Columns.Add("QUIZ_ID", typeof(string));
+            quizListeningTbl.Columns.Add("LISTENING_ID", typeof(string));
+            quizListeningTbl.Columns.Add("ACTIVE", typeof(bool));
+            quizListeningTbl.TableName = "Quiz_Listening";
+            foreach (var item in lstQuizListening)
+            {
+                quizListeningTbl.Rows.Add(item.PR_KEY,item.QUIZ_ID, item.LISTENING_ID, item.ACTIVE);
+            }
+            ds.Tables.Add(quizListeningTbl);
+            List<Listening> lstListening = db.Listenings.ToList();
+            DataTable listeningTbl = new DataTable();
+            listeningTbl.Columns.Add("LISTENING_ID", typeof(string));
+            listeningTbl.Columns.Add("LISTENING_NAME_VN", typeof(string));
+            listeningTbl.TableName = "Listening";
+            foreach (var item in lstListening)
+            {
+                listeningTbl.Rows.Add(item.LISTENING_ID, item.LISTENING_NAME_VN);
+            }
+            ds.Tables.Add(listeningTbl);
+            return JsonConvert.SerializeObject(ds);
+        }
+        public string AddListening()
+        {
+            string quiz_id = (Request["quiz_id"] == null) ? string.Empty : Request["quiz_id"].ToString();
+            string listening_id = (Request["listening_id"] == null) ? string.Empty : Request["listening_id"].ToString();
+            bool active = (Request["active"] == null) ? true : bool.Parse(Request["active"].ToString());
+            Quiz_Listening quiz_listening = new Quiz_Listening();
+            quiz_listening.PR_KEY = Guid.NewGuid();
+            quiz_listening.QUIZ_ID = quiz_id;
+            quiz_listening.LISTENING_ID = listening_id;
+            quiz_listening.ACTIVE = active;
+            db.Quiz_Listening.Add(quiz_listening);
+            db.SaveChanges();
+            return JsonConvert.SerializeObject(quiz_listening);
+        }
+        public void UpdateListening()
+        {
+            Guid pr_key = (Request["pr_key"] == null) ? Guid.NewGuid() : Guid.Parse(Request["pr_key"].ToString());
+            string quiz_id = (Request["quiz_id"] == null) ? string.Empty : Request["quiz_id"].ToString();
+            string listening_id = (Request["listening_id"] == null) ? string.Empty : Request["listening_id"].ToString();
+            bool active = (Request["active"] == null) ? true : bool.Parse(Request["active"].ToString());
+            Quiz_Listening oldQuizListening = db.Quiz_Listening.FirstOrDefault(x => x.PR_KEY == pr_key);
+            Quiz_Listening newQuizListening = new Quiz_Listening();
+            newQuizListening.PR_KEY = pr_key;
+            newQuizListening.QUIZ_ID = quiz_id;
+            newQuizListening.LISTENING_ID = listening_id;
+            newQuizListening.ACTIVE = active;
+            db.Entry(oldQuizListening).CurrentValues.SetValues(newQuizListening);
+            db.SaveChanges();
+        }
+        public void DeleteListening()
+        {
+            string quiz_id = (Request["quiz_id"] == null) ? string.Empty : Request["quiz_id"].ToString();
+            string listening_id = (Request["listening_id"] == null) ? string.Empty : Request["listening_id"].ToString();
+            Quiz_Listening quiz_Listening = db.Quiz_Listening.First(x => x.QUIZ_ID == quiz_id && x.LISTENING_ID == listening_id);
+            db.Quiz_Listening.Remove(quiz_Listening);
+            db.SaveChanges();
+        }
+        #endregion
+
+
         #endregion
 
 

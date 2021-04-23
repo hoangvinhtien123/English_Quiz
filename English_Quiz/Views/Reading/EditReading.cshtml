@@ -1,0 +1,46 @@
+﻿@model English_Quiz.Models.Reading
+
+@{
+    ViewBag.Title = "Sửa bài đọc";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Sửa bài đọc</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Bài đọc</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.READING_ID)
+
+        <div class="form-group">
+            <label class="control-label col-md-2">  Câu hỏi bài đọc</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.READING_TEXT, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.READING_TEXT, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">  Loại</label>
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.READING_TYPE_ID, (SelectList)ViewBag.ListType, "--Chọn--", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.READING_TYPE_ID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Lưu" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Trở lại", "Index")
+</div>

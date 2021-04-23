@@ -14,8 +14,11 @@ namespace English_Quiz.Models
     
     public partial class Quiz_Listening
     {
+        public System.Guid PR_KEY { get; set; }
         public string QUIZ_ID { get; set; }
         public string LISTENING_ID { get; set; }
         public Nullable<bool> ACTIVE { get; set; }
+    
+        public virtual Listening Listening { get; set; }
     }
 }

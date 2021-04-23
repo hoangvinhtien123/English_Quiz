@@ -1,22 +1,22 @@
-﻿@model IEnumerable<English_Quiz.Models.Quiz_Type>
+﻿@model IEnumerable<English_Quiz.Models.Reading>
 
 @{
-    ViewBag.Title = "Loại đề";
+    ViewBag.Title = "Bài đọc";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Loại đề</h2>
+<h2>Bài đọc</h2>
 
 <p style="margin-left:10px;">
-    <a class="btn btn-primary" href='@Url.Action("CreateQuizType","QuizType")'> Thêm mới</a>
+    <a class="btn btn-primary" href='@Url.Action("CreateReading","Reading")'> Thêm mới</a>
 </p>
 <table class="table">
     <tr>
         <th>
-            Tên loại đề
+            Bài đọc
         </th>
         <th>
-            Mô tả
+            Loại
         </th>
         <th></th>
     </tr>
@@ -24,22 +24,37 @@
     @foreach (var item in Model)
     {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.QUIZ_TYPE_NAME)
+            <td style="width:55%">
+                @Html.DisplayFor(modelItem => item.READING_TEXT)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.QUIZ_TYPE_DESCRIPTION)
+                @Html.DisplayFor(modelItem => item.Reading_Type.READING_TYPE_NAME)
             </td>
             <td>
-                <a href='@Url.Action("EditQuizType","QuizType", new{ quizTypeId = item.QUIZ_TYPE_ID})' class="btn btn-info"><i class="fas fa-edit"></i></a>
+                <a href='@Url.Action("EditQuizType","QuizType", new{ id = item.READING_ID})' class="btn btn-info"><i class="fas fa-edit"></i></a>
                 |
-                <a href="javascript:void(0)" onclick="deleteQuizType(@item.QUIZ_TYPE_ID)" class="btn btn-danger"><i class="far fa-trash-alt"></i></a>
-                |
+                <a href="javascript:void(0)" onclick="deleteQuizType(@item.READING_ID)" class="btn btn-danger"><i class="far fa-trash-alt"></i></a>
+                | <a href="showReadingQuestion(@item.READING_ID)" data-toggle="modal" class="btn btn-dark"><i class="fas fa-plus"></i></a>
             </td>
         </tr>
     }
 
 </table>
+
+<div class="modal fade bd-example-modal-lg" id="modalListQuestion" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Câu hỏi</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body" id="content">
+
+            </div>
+        </div>
+    </div>
+</div>
 @section scripts{
     <script type="text/javascript">
 
@@ -55,7 +70,7 @@
             }).then((result) => {
                 if (result.value) {
                     $.ajax({
-                        url: '@Url.Action("DeleteQuizType","QuizType")' + `?id=${id}`,
+                        url: '@Url.Action("DeleteReading","Reading")' + `?id=${id}`,
                         type: 'POST',
                         success: function (data) {
                             if (data.Success) {
@@ -84,6 +99,14 @@
                     });
                 }
             })
+        }
+        const showReadingQuestion = (id) => {
+            $.post("/Reading/getQuestionByReadingId", {
+                questionId : id
+            }, function (e) {
+
+                    $('#modalListQuestion').modal('show');
+            }, "json")
         }
     </script>
 }

@@ -92,6 +92,7 @@
     <EntitySetMapping Name="Question_Type">
       <EntityTypeMapping TypeName="English_QuizModel.Question_Type">
         <MappingFragment StoreEntitySet="Question_Type">
+          <ScalarProperty Name="IS_TEST" ColumnName="IS_TEST" />
           <ScalarProperty Name="TYPE_ID" ColumnName="TYPE_ID" />
           <ScalarProperty Name="TYPE_NAME" ColumnName="TYPE_NAME" />
           <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
@@ -101,12 +102,13 @@
     <EntitySetMapping Name="Questions">
       <EntityTypeMapping TypeName="English_QuizModel.Question">
         <MappingFragment StoreEntitySet="Questions">
-          <ScalarProperty Name="IS_LISTENING" ColumnName="IS_LISTENING" />
-          <ScalarProperty Name="LISTENING_ID" ColumnName="LISTENING_ID" />
+          <ScalarProperty Name="READING_ID" ColumnName="READING_ID" />
           <ScalarProperty Name="QUESTION_ID" ColumnName="QUESTION_ID" />
           <ScalarProperty Name="QUESTION_TEXT" ColumnName="QUESTION_TEXT" />
           <ScalarProperty Name="POINT" ColumnName="POINT" />
           <ScalarProperty Name="TYPE_ID" ColumnName="TYPE_ID" />
+          <ScalarProperty Name="LISTENING_ID" ColumnName="LISTENING_ID" />
+          <ScalarProperty Name="IS_LISTENING" ColumnName="IS_LISTENING" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -125,11 +127,23 @@
     <EntitySetMapping Name="Quizs">
       <EntityTypeMapping TypeName="English_QuizModel.Quiz">
         <MappingFragment StoreEntitySet="Quiz">
+          <ScalarProperty Name="SOURCE_LINK" ColumnName="SOURCE_LINK" />
+          <ScalarProperty Name="SOURCE_DESCRIPTION" ColumnName="SOURCE_DESCRIPTION" />
           <ScalarProperty Name="QUIZ_ID" ColumnName="QUIZ_ID" />
           <ScalarProperty Name="QUIZ_NAME" ColumnName="QUIZ_NAME" />
           <ScalarProperty Name="QUIZ_TYPE_ID" ColumnName="QUIZ_TYPE_ID" />
           <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
           <ScalarProperty Name="TIME" ColumnName="TIME" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Quiz_Listening">
+      <EntityTypeMapping TypeName="English_QuizModel.Quiz_Listening">
+        <MappingFragment StoreEntitySet="Quiz_Listening">
+          <ScalarProperty Name="PR_KEY" ColumnName="PR_KEY" />
+          <ScalarProperty Name="QUIZ_ID" ColumnName="QUIZ_ID" />
+          <ScalarProperty Name="LISTENING_ID" ColumnName="LISTENING_ID" />
+          <ScalarProperty Name="ACTIVE" ColumnName="ACTIVE" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -186,12 +200,22 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Quiz_Listening">
-      <EntityTypeMapping TypeName="English_QuizModel.Quiz_Listening">
-        <MappingFragment StoreEntitySet="Quiz_Listening">
+    <EntitySetMapping Name="Readings">
+      <EntityTypeMapping TypeName="English_QuizModel.Reading">
+        <MappingFragment StoreEntitySet="Reading">
+          <ScalarProperty Name="READING_TYPE_ID" ColumnName="READING_TYPE_ID" />
+          <ScalarProperty Name="READING_TEXT" ColumnName="READING_TEXT" />
+          <ScalarProperty Name="READING_ID" ColumnName="READING_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Reading_Type">
+      <EntityTypeMapping TypeName="English_QuizModel.Reading_Type">
+        <MappingFragment StoreEntitySet="Reading_Type">
           <ScalarProperty Name="ACTIVE" ColumnName="ACTIVE" />
-          <ScalarProperty Name="LISTENING_ID" ColumnName="LISTENING_ID" />
-          <ScalarProperty Name="QUIZ_ID" ColumnName="QUIZ_ID" />
+          <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+          <ScalarProperty Name="READING_TYPE_NAME" ColumnName="READING_TYPE_NAME" />
+          <ScalarProperty Name="READING_TYPE_ID" ColumnName="READING_TYPE_ID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

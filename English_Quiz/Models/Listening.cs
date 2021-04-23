@@ -18,6 +18,7 @@ namespace English_Quiz.Models
         public Listening()
         {
             this.Questions = new HashSet<Question>();
+            this.Quiz_Listening = new HashSet<Quiz_Listening>();
         }
     
         public string LISTENING_ID { get; set; }
@@ -29,5 +30,7 @@ namespace English_Quiz.Models
         public virtual Listening_Type Listening_Type { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Question> Questions { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Quiz_Listening> Quiz_Listening { get; set; }
     }
 }

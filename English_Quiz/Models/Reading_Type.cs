@@ -12,23 +12,20 @@ namespace English_Quiz.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Question_Type
+    public partial class Reading_Type
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Question_Type()
+        public Reading_Type()
         {
-            this.Questions_Auto_Generate = new HashSet<Questions_Auto_Generate>();
-            this.Questions = new HashSet<Question>();
+            this.Readings = new HashSet<Reading>();
         }
     
-        public int TYPE_ID { get; set; }
-        public string TYPE_NAME { get; set; }
+        public int READING_TYPE_ID { get; set; }
+        public string READING_TYPE_NAME { get; set; }
         public string DESCRIPTION { get; set; }
-        public bool IS_TEST { get; set; }
+        public Nullable<bool> ACTIVE { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Questions_Auto_Generate> Questions_Auto_Generate { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Question> Questions { get; set; }
+        public virtual ICollection<Reading> Readings { get; set; }
     }
 }

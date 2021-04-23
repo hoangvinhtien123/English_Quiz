@@ -37,11 +37,13 @@ namespace English_Quiz.Models
         public virtual DbSet<Question> Questions { get; set; }
         public virtual DbSet<Questions_Auto_Generate> Questions_Auto_Generate { get; set; }
         public virtual DbSet<Quiz> Quizs { get; set; }
+        public virtual DbSet<Quiz_Listening> Quiz_Listening { get; set; }
         public virtual DbSet<Quiz_Questions> Quiz_Questions { get; set; }
         public virtual DbSet<Quiz_Type> Quiz_Type { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<Quiz_Listening> Quiz_Listening { get; set; }
+        public virtual DbSet<Reading> Readings { get; set; }
+        public virtual DbSet<Reading_Type> Reading_Type { get; set; }
     }
 }

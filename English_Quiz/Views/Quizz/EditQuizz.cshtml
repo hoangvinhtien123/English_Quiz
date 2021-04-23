@@ -44,13 +44,29 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label col-md-2">Cấp độ</label>
+            <label class="control-label col-md-2">Loại đề</label>
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.QUIZ_TYPE_ID, (SelectList)ViewBag.listType, "--Chọn--", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.QUIZ_TYPE_ID, "", new { @class = "text-danger" })
             </div>
         </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Thông tin nguồn đề</label>
+            <div class="col-md-10">
+                @Html.TextAreaFor(Model => Model.SOURCE_DESCRIPTION, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SOURCE_DESCRIPTION, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Đường dẫn </label>
+            <div class="col-md-10">
+                @Html.EditorFor(Model => Model.SOURCE_LINK, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SOURCE_LINK, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <label class="control-label col-md-2">Danh sách nhóm câu hỏi</label>
         <div class="col-md-10" id="jsGridQuestion"></div>
+        <label class="control-label col-md-2">Danh sách bài nghe</label>
         <div class="col-md-10" id="jsGridListening"></div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -66,7 +82,7 @@
 @section scripts{
     <script type="text/javascript">
         var data = [];
-
+        var listening = [];
         const loadDataQuestionType = (id) =>{
             $.post("/Quizz/getQuestionTypeByQuizId", {
                 id : id
@@ -127,7 +143,7 @@
                 total_question: filter.TOTAL_QUESTION,
                 quiz_id : quiz_id
             }, function (e) {
-
+                    loadDataQuestionType(quiz_id);
             },"json")
         }
         function updateQuestion(filter) {
@@ -154,8 +170,88 @@
         function updatingQuestion(args) {
             console.log(args);
         }
+
+        const loadListening = (id) => {
+            $.post("/Quizz/getListeningById", {
+                id: id
+            }, function (e) {
+                    if (e) {
+                        listening = e;
+                    }
+                    $("#jsGridListening").jsGrid({
+                        width: "100%",
+                        height: "400px",
+                        autoload: true,
+                        controller: {
+                            insertItem: function (filter) {
+                                insertListening(filter)
+                            },
+                            updateItem: function (filter) {
+                                updateListening(filter)
+                            },
+                            deleteItem: function (filter) {
+                                deleteListening(filter)
+                            }
+                        },
+
+                        deleteConfirm: "Bạn có chắc chắn muốn xóa không?",
+                        invalidMessage: "Lỗi",
+                        noDataContent: "Không có dữ liệu",
+                        data: listening.Quiz_Listening,
+                        inserting: true,
+                        editing: true,
+                        sorting: true,
+                        paging: true,
+                        fields: [
+                            {
+                                name: "LISTENING_ID", title: "Bài nghe", type: "select", width: 150, items: listening.Listening, valueField: "LISTENING_ID", textField: "LISTENING_NAME_VN", validate: {
+                                    validator: "required",
+                                    message: function (value, item) {
+                                        return "Cần bài nghe";
+                                    },
+                                }
+                            },
+                             { name: "PR_KEY", visible: false},
+                            { name: "ACTIVE", type: "checkbox", width: 20, title: "Hoạt động", sorting: false },
+                            { type: "control" }
+                        ]
+                    });
+            }, "json");
+        }
+
+        function insertListening(filter) {
+            let quiz_id = $("#QUIZ_ID").val();
+            return $.post("/Quizz/AddListening", {
+                listening_id: filter.LISTENING_ID,
+                quiz_id: quiz_id,
+                active: filter.ACTIVE
+            }, function (e) {
+                loadListening(quiz_id)
+            },"json")
+        }
+        function updateListening(filter) {
+            let quiz_id = $("#QUIZ_ID").val();
+            return $.post("/Quizz/UpdateListening", {
+                pr_key : filter.PR_KEY,
+                listening_id: filter.LISTENING_ID,
+                quiz_id: quiz_id,
+                active: filter.ACTIVE
+            }, function (e) {
+
+            }, "json")
+        }
+        function deleteListening(filter) {
+             let quiz_id = $("#QUIZ_ID").val();
+            return $.post("/Quizz/DeleteListening", {
+                listening_id: filter.LISTENING_ID,
+                quiz_id : quiz_id
+            }, function (e) {
+
+            }, "json")
+        }
         $(document).ready(function () {
             loadDataQuestionType('@Model.QUIZ_ID');
+            loadListening('@Model.QUIZ_ID');
         })
     </script>
 }

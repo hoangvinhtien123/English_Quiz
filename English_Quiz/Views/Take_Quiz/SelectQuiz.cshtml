@@ -4,31 +4,39 @@
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 
-    <section class="page-section bg-primary" id="services">
-        <div class="container">
-            <h2 class="text-center text-white mt-0">Các bài kiểm tra</h2>
-            <hr class="divider light my-4" />
-            <div class="row">
-                @if (Model != null)
+<section class="page-section bg-primary" id="services">
+    <div class="container">
+        <h2 class="text-center text-white mt-0">Các bài kiểm tra</h2>
+        <hr class="divider light my-4" />
+        <div class="row">
+            @if (Model != null)
+            {
+                int count = 0;
+                foreach (var quiz in Model)
                 {
-                    int count = 0;
-                    foreach (var quiz in Model)
-                    {
 
-                        <div class="col-lg-3 col-md-6 text-center">
-                            <div class="mt-5">
-                                <i class="fas fa-book" style="font-size:48px"></i>
-                                <h3 class="h4 mb-2"> <a style="color:black" href='@Url.Action("QuizTest","Take_Quiz", new{ quizId = quiz.QUIZ_ID})'>@quiz.QUIZ_NAME</a></h3>
-                                <p class="text-white mb-0">@quiz.DESCRIPTION</p>
-                                @*<a class="btn btn-light btn-xl js-scroll-trigger" href="">Tham gia</a>*@
-                                
-                            </div>
+                    <div class="col-lg-3 col-md-6 text-center">
+                        <div class="mt-5">
+                            <i class="fas fa-book" style="font-size:48px"></i>
+                            <h3 class="h4 mb-2"> <a onclick="setOpenModal(@quiz.QUIZ_ID)" style="color:black" href='@Url.Action("QuizTest","Take_Quiz", new{ quizId = quiz.QUIZ_ID})'>@quiz.QUIZ_NAME</a></h3>
+                            <p class="text-white mb-0">@quiz.DESCRIPTION</p>
+                            @*<a class="btn btn-light btn-xl js-scroll-trigger" href="">Tham gia</a>*@
+
                         </div>
-                        count++;
-                    }
+                    </div>
+                    count++;
                 }
+            }
 
-            </div>
         </div>
-    </section>
+    </div>
+</section>
 
+@section Scripts{
+    <script>
+        function setOpenModal(id) {
+            localStorage.setItem('openModal', id);
+        }
+    </script>
+
+}
