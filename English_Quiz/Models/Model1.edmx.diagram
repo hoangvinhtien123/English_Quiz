@@ -11,7 +11,7 @@
         <EntityTypeShape EntityType="English_QuizModel.Function" Width="1.5" PointX="5.75" PointY="12.25" IsExpanded="true" />
         <EntityTypeShape EntityType="English_QuizModel.History_Quiz" Width="1.5" PointX="9.75" PointY="5" IsExpanded="true" />
         <EntityTypeShape EntityType="English_QuizModel.Listening" Width="1.5" PointX="0.75" PointY="7.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="English_QuizModel.Listening_Type" Width="1.5" PointX="1.5" PointY="12.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="English_QuizModel.Listening_Type" Width="1.75" PointX="1.5" PointY="12.5" IsExpanded="true" />
         <EntityTypeShape EntityType="English_QuizModel.Permission" Width="1.5" PointX="8" PointY="9.125" IsExpanded="true" />
         <EntityTypeShape EntityType="English_QuizModel.Question_Type" Width="1.5" PointX="0.75" PointY="15.625" IsExpanded="true" />
         <EntityTypeShape EntityType="English_QuizModel.Question" Width="1.5" PointX="3" PointY="8.625" IsExpanded="true" />
@@ -36,7 +36,7 @@
         <AssociationConnector Association="English_QuizModel.FK_Users_Role" ManuallyRouted="false" />
         <EntityTypeShape EntityType="English_QuizModel.Reading" Width="2.375" PointX="0.75" PointY="0.75" />
         <AssociationConnector Association="English_QuizModel.FK_Questions_Reading" />
-        <EntityTypeShape EntityType="English_QuizModel.Reading_Type" Width="1.5" PointX="0.75" PointY="19.5" />
+        <EntityTypeShape EntityType="English_QuizModel.Reading_Type" Width="1.5" PointX="0.75" PointY="18.25" />
         <AssociationConnector Association="English_QuizModel.FK_Reading_Reading_Type" />
       </Diagram>
     </edmx:Diagrams>

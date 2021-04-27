@@ -31,7 +31,7 @@
                 <!-- Add icons to the links using the .nav-icon class
                 with font-awesome or any other icon font library -->
                 <li class="nav-item has-treeview menu-open">
-                    <a href="@Url.Action("Index","Dashboard")#" class="nav-link active">
+                    <a href="@Url.Action("Index","Dashboard")" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Trang chủ
@@ -49,7 +49,7 @@
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href='@Url.Action("Quizz","Quizz")' class="nav-link">
-                                <i class="nav-icon fas fa-copy"></i>
+                                <i class="far fa-circle nav-icon"></i>
                                 <p>
                                     Đề thi
                                 </p>
@@ -57,7 +57,7 @@
                         </li>
                         <li class="nav-item">
                             <a href='@Url.Action("Index","QuizType")' class="nav-link">
-                                <i class="nav-icon fas fa-copy"></i>
+                                <i class="far fa-circle nav-icon"></i>
                                 <p>
                                     Loại đề
                                 </p>
@@ -65,7 +65,7 @@
                         </li>
                         <li class="nav-item">
                             <a href='@Url.Action("Index","Question")' class="nav-link">
-                                <i class="nav-icon fas fa-copy"></i>
+                                <i class="far fa-circle nav-icon"></i>
                                 <p>
                                     Câu hỏi
                                 </p>
@@ -73,7 +73,7 @@
                         </li>
                         <li class="nav-item">
                             <a href='@Url.Action("Index","QuestionType")' class="nav-link">
-                                <i class="nav-icon fas fa-copy"></i>
+                                <i class="far fa-circle nav-icon"></i>
                                 <p>
                                     Loại câu hỏi
                                 </p>
@@ -81,15 +81,23 @@
                         </li>
                         <li class="nav-item">
                             <a href='@Url.Action("Index","Listening")' class="nav-link">
-                                <i class="nav-icon fas fa-copy"></i>
+                                <i class="far fa-circle nav-icon"></i>
                                 <p>
                                     Bài nghe
                                 </p>
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href='@Url.Action("Index","ListeningType")' class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                   Loại bài nghe
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href='@Url.Action("Index","Reading")' class="nav-link">
-                                <i class="nav-icon fas fa-copy"></i>
+                                <i class="far fa-circle nav-icon"></i>
                                 <p>
                                     Bài đọc
                                 </p>
@@ -99,7 +107,7 @@
                 </li>
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-chart-pie"></i>
+                        <i class="fas fa-users"></i>
                         <p>
                             Người dùng
                             <i class="right fas fa-angle-left"></i>

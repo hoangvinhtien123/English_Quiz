@@ -46,14 +46,77 @@
                 <a href='@Url.Action("EditListening","Listening", new { id = item.LISTENING_ID })' class="btn btn-info"><i class="fa fa-edit"></i></a>|
                 @*<a style="width:44px;" href="javascript:void(0)" class="btn btn-secondary"><i class="fa fa-info"></i></a>|*@
                 <a href="javascript:void(0)" onclick="deleteListening('@item.LISTENING_ID')" class="btn btn-danger"><i class="fa fa-trash-alt"></i></a>
+                | <a href="#" onclick="showListeningQuestion(@item.LISTENING_ID)" data-toggle="modal" class="btn btn-dark"><i class="fas fa-plus"></i></a>
             </td>
         </tr>
     }
 
 </table>
+<div class="modal fade" id="modalListQuestion" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Danh sách câu hỏi</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body" id="contentListQuestion">
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalQuestionDetail" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Thông tin câu hỏi</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="control-label col-md-2">Mã câu hỏi</label>
+
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" id="QUESTION_ID" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-2">Câu hỏi</label>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" id="QUESTION_TEXT" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-2">Điểm</label>
+                    <div class="col-md-10">
+                        <input type="number" min="1" class="form-control" id="POINT" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-2">Ảnh</label>
+                    <div class="col-md-10">
+                        <img id="img" alt="Question Image" style="height:300px;width:350px" />
+                        <input type='file' id="fUpload" name="fUpload" />
+                    </div>
+                </div>
+                <input id="LISTENING_ID" style="display:none;" />
+                <div class="col-md-12" id="jsGrid"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="saveReadingQuestion()" class="btn btn-info" data-dismiss="modal">Lưu</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+
+    </div>
+</div>
 @section scripts{
     <script type="text/javascript">
-
+        var is_new = false;
+        var questionIdNow = "";
+        var files = "";
         const deleteListening = (id) => {
             Swal.fire({
                 title: 'Bạn chắc chắn sẽ xóa?',
@@ -96,5 +159,252 @@
                 }
             })
         }
+
+        const initTableQuestions = (question ,id) => {
+            var listQuestion = `
+                    <a class="btn btn-default" onclick="addListeningQuestion(`+ id + `)"> <i class="fas fa-plus"></i> Thêm mới </a>
+                    <table class="table" style="margin-top:10px;">
+                            <tr>
+                                <th>
+                                    Mã câu hỏi
+                                </th>
+                                <th>
+                                    Câu hỏi
+                                </th>
+                                <th>
+                                   Điểm
+                                </th>
+                                <th></th>
+                            </tr>
+
+                       `;
+                    if (question) {
+                        for (var i = 0; i < question.length; i++) {
+                            listQuestion += `<tr>
+                                <td>` + question[i].QUESTION_ID +  `</td>
+                                <td>` + question[i].QUESTION_TEXT +  `</td>
+                                <td>` + question[i].POINT +  `</td>
+                                <td>
+
+                                    <a class="btn btn-info" onclick="editListeningQuestion('`+ id + `', '` + question[i].QUESTION_ID + `', '` + question[i].QUESTION_TEXT + `','` + question[i].POINT +`','`+question[i].QUESTION_IMAGE+`')"> <i class="fas fa-edit"> </i> </a>
+                                    <a class="btn btn-danger" onclick="deleteListeningQuestion('`+question[i].QUESTION_ID+`', '`+id+`')"> <i class="fas fa-trash-alt"> </i></a>
+                                </td>
+                                </tr>`
+                        }
+                    }
+            listQuestion += ` </table>`;
+            return listQuestion;
+        }
+        const showListeningQuestion = (id) => {
+            $.post("/Listening/getQuestionByListeningId", {
+                listeningId : id
+            }, function (e) {
+                    var lstQuestion = initTableQuestions(e.Question,id)
+                    $("#contentListQuestion").html(lstQuestion);
+                    $('#modalListQuestion').modal('show');
+                    files = "";
+            }, "json")
+        }
+        const addListeningQuestion = (id) => {
+            $('#modalQuestionDetail').modal('show');
+            $("#LISTENING_ID").val(id);
+            $("#QUESTION_ID").val("");
+            $("#QUESTION_TEXT").val("");
+            $("#POINT").val("");
+            is_new = true;
+            $("#img").attr("src", "");
+            loadJsGrid();
+        }
+        const editListeningQuestion = (id , question_id,question_text,point,image) => {
+            $('#modalQuestionDetail').modal('show');
+            $("#LISTENING_ID").val(id);
+            $("#QUESTION_ID").val(question_id);
+            $("#QUESTION_TEXT").val(question_text);
+            $("#POINT").val(point);
+            is_new = false;
+            $("#img").attr("src", image);
+
+
+            loadJsGrid();
+        }
+        const saveReadingQuestion = () => {
+            let listening_id = $("#LISTENING_ID").val();
+            let question_id = $("#QUESTION_ID").val();
+            let question_text = $("#QUESTION_TEXT").val();
+            let point = $("#POINT").val();
+            var formData = new FormData();
+            if (files != "") {
+                formData.append("files", files, files.name);
+            }
+            formData.append("listeningId", listening_id);
+            formData.append("questionId", question_id);
+            formData.append("questionText", question_text);
+            formData.append("point", point);
+            formData.append("isNew", is_new);
+            $.ajax({
+                type: 'POST',
+                data: formData,
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                url: "/Listening/saveListeningQuestion",
+                success: function (e) {
+                    if (e) {
+                        var lstQuestion = initTableQuestions(e.Question, listening_id);
+                        $("#contentListQuestion").html(lstQuestion);
+                    }
+                }
+            });
+        }
+        const deleteListeningQuestion = (questionId , id) => {
+            Swal.fire({
+                title: 'Bạn chắc chắn sẽ xóa?',
+                text: "Bạn sẽ không thể khôi phục bản ghi này!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Xóa!',
+                cancelButtonText: 'Đóng'
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        url: '@Url.Action("deleteListeningQuestion","Listening")' + `?id=${questionId}`,
+                        type: 'POST',
+                        success: function (data) {
+                            if (data.Success) {
+                               Swal.fire(
+                                    'Deleted!',
+                                    data.Message,
+                                    'success'
+                                )
+                                showListeningQuestion(id);
+                            }
+                            else {
+                              Swal.fire(
+                                    "Can't Delete",
+                                    data.Message,
+                                    'error'
+                                )
+                            }
+                        },
+                         error: function (error) {
+                             alert('Lỗi ajax' + error)
+                        },
+                        cache: false,
+                        processData: false,
+                        contentType: false
+                    });
+                }
+            })
+        }
+
+        function loadJsGrid() {
+            let question_id = $("#QUESTION_ID").val();
+            $.post("/Question/GetAnswerByQuestionId", {
+                question_id: question_id
+            }, function (e) {
+                if (e) {
+                    data = e;
+                }
+                    $("#jsGrid").jsGrid({
+                        width: "100%",
+                        height: "400px",
+                        autoload: true,
+                        controller: {
+                            insertItem: function (filter) {
+                                insertGrid(filter)
+                            },
+                            updateItem: function (filter) {
+                                updateGrid(filter)
+                            },
+                            deleteItem: function (filter) {
+                                deleteGrid(filter)
+                            }
+                        },
+                        onItemInserting: function (args) {
+                            checkBeforeInsert(args)
+                        },
+                    deleteConfirm: "Bạn có chắc chắn muốn xóa không?",
+                    invalidMessage: "Lỗi",
+                    noDataContent: "Không có dữ liệu",
+                    data: e,
+                    inserting: true,
+                    editing: true,
+                    sorting: true,
+                    paging: true,
+
+                    fields: [
+                        {
+                            name: "DESCRIPTION", title: "Câu trả lời", type: "text", width: 150, validate: {
+                                validator: "required",
+                                message: function (value, item) {
+                                    return "Cần nhập câu trả lời";
+                                },
+                            }
+                        },
+                        { name: "LIST_ORDER", title: "Sắp xếp", type: "number", width: 25 },
+                        { name: "IS_CORRECT", type: "checkbox", width: 20, title: "Đáp án", sorting: false },
+                        { type: "control" }
+                    ]
+                });
+            }, "json")
+        }
+
+        function insertGrid(filter) {
+            let question_id = $("#QUESTION_ID").val();
+            return $.post("/Question/AddAnswer", {
+                description: filter.DESCRIPTION,
+                list_order: filter.LIST_ORDER,
+                is_correct: filter.IS_CORRECT,
+                question_id: question_id
+            }, function (e) {
+                loadJsGrid();
+            }, "json")
+        }
+        function checkBeforeInsert(args) {
+            let question_id = $("#QUESTION_ID").val();
+            if (question_id == "" || question_id == null || question_id == undefined) {
+                args.cancel = true;
+                alert("Cần nhập mã câu hỏi");
+            }
+        }
+        function updateGrid(filter) {
+            let question_id = $("#QUESTION_ID").val();
+            return $.post("/Question/UpdateAnswer", {
+                answer_id: filter.ANSWER_ID,
+                question_id: question_id,
+                description: filter.DESCRIPTION,
+                list_order: filter.LIST_ORDER,
+                is_correct: filter.IS_CORRECT,
+            }, function (e) {
+
+            }, "json")
+        }
+        function deleteGrid(filter) {
+            return $.post("/Question/DeleteAnswer", {
+                answer_id: filter.ANSWER_ID,
+                question_id: filter.QUESTION_ID
+            }, function (e) {
+
+            }, "json")
+        }
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#img').attr('src', e.target.result);
+                };
+
+                reader.readAsDataURL(input.files[0]); // convert to base64 string
+                files = input.files[0];
+            }
+        };
+
+        $("#fUpload").change(function () {
+            readURL(this);
+        });
     </script>
 }

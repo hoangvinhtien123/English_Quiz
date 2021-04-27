@@ -74,6 +74,7 @@
     <Property Name="DESCRIPTION_VN" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="DESCRIPTION_EN" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Listenings" Relationship="Self.FK_Listening_Listening_Type" FromRole="Listening_Type" ToRole="Listening" />
+    <Property Name="ORDER_BY" Type="Int32" />
   </EntityType>
   <EntityType Name="Permission">
     <Key>
@@ -94,11 +95,12 @@
       <PropertyRef Name="TYPE_ID" />
     </Key>
     <Property Name="TYPE_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TYPE_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TYPE_NAME" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="DESCRIPTION" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Questions_Auto_Generate" Relationship="Self.FK_Questions_Auto_Generate_Type" FromRole="Question_Type" ToRole="Questions_Auto_Generate" />
     <NavigationProperty Name="Questions" Relationship="Self.FK_Questions_Type" FromRole="Question_Type" ToRole="Questions" />
     <Property Name="IS_TEST" Type="Boolean" Nullable="false" />
+    <Property Name="TYPE_NAME_EN" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="Question">
     <Key>
@@ -115,6 +117,7 @@
     <NavigationProperty Name="Quiz_Questions" Relationship="Self.FK_Quiz_Questions_Questions" FromRole="Questions" ToRole="Quiz_Questions" />
     <Property Name="READING_ID" Type="Int32" />
     <NavigationProperty Name="Reading" Relationship="English_QuizModel.FK_Questions_Reading" FromRole="Question" ToRole="Reading" />
+    <Property Name="QUESTION_IMAGE" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="Questions_Auto_Generate">
     <Key>
@@ -422,6 +425,7 @@
     <NavigationProperty Name="Questions" Relationship="English_QuizModel.FK_Questions_Reading" FromRole="Reading" ToRole="Question" />
     <Property Name="READING_TYPE_ID" Type="Int32" />
     <NavigationProperty Name="Reading_Type" Relationship="English_QuizModel.FK_Reading_Reading_Type" FromRole="Reading" ToRole="Reading_Type" />
+    <Property Name="READING_IMAGE" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
   </EntityType>
   <Association Name="FK_Questions_Reading">
     <End Type="English_QuizModel.Reading" Role="Reading" Multiplicity="0..1" />
@@ -444,6 +448,7 @@
     <Property Name="DESCRIPTION" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="ACTIVE" Type="Boolean" />
     <NavigationProperty Name="Readings" Relationship="English_QuizModel.FK_Reading_Reading_Type" FromRole="Reading_Type" ToRole="Reading" />
+    <Property Name="READING_TYPE_NAME_EN" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
   </EntityType>
   <Association Name="FK_Reading_Reading_Type">
     <End Type="English_QuizModel.Reading_Type" Role="Reading_Type" Multiplicity="0..1" />

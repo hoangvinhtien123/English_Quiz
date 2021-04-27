@@ -129,6 +129,8 @@ namespace English_Quiz.Controllers
             {
                 Session["QuizzSelected"] = data;
                 ViewBag.time = data[0].TIME;
+                ViewBag.description = data[0].SOURCE_DESCRIPTION;
+                ViewBag.link = data[0].SOURCE_LINK;
             }
             List<Questions_Auto_Generate> lstAutoGenerate = db.Questions_Auto_Generate.SqlQuery($"select * from Questions_Auto_Generate where QUIZ_ID='{quizId}'").ToList();
             for (int i = 0; i < lstAutoGenerate.Count; i++)
@@ -157,7 +159,7 @@ namespace English_Quiz.Controllers
                         {
                             finalLstQuestion.Add(lstQuestion[random]);
                             lstNumberRandom.Add(random);
-                            while (lstNumberRandom.Contains(random) && finalLstQuestion.Count<total)
+                            while (lstNumberRandom.Contains(random) && finalLstQuestion.Count < total)
                             {
                                 count++;
                                 if (count < lstQuestion.Count)
@@ -172,39 +174,45 @@ namespace English_Quiz.Controllers
                         }
                     }
                 }
-
             }
             lstQuestion = db.Questions.Where(x => x.IS_LISTENING == true).ToList();
-            List<Quiz_Listening> lstQuestionListening = db.Quiz_Listening.ToList();
-            for (int i = 0; i < lstQuestionListening.Count; i++)
+            List<Quiz_Listening> lstQuestionListening = db.Quiz_Listening.Where(x => x.QUIZ_ID == quizId).ToList();
+            if (lstQuestionListening.Count > 0)
             {
-                Quiz_Listening quiz_Listening = lstQuestionListening[i];
-                if (quiz_Listening.ACTIVE == true)
+                ViewData["ListeningType"] = db.Listening_Type.SqlQuery("select * from Listening_Type order by ORDER_BY asc").ToList();
+                ViewData["Listening"] = db.Listenings.ToList();
+                for (int i = 0; i < lstQuestionListening.Count; i++)
                 {
-                    if (quiz_Listening.QUIZ_ID == quizId)
+
+                    Quiz_Listening quiz_Listening = lstQuestionListening[i];
+                    if (quiz_Listening.ACTIVE == true)
                     {
-                        for (int j = 0; j < lstQuestion.Count; j++)
+                        if (quiz_Listening.QUIZ_ID == quizId)
                         {
-                            if (lstQuestion[j].LISTENING_ID == quiz_Listening.LISTENING_ID)
+                            for (int j = 0; j < lstQuestion.Count; j++)
                             {
-                                finalLstQuestion.Add(lstQuestion[j]);
+                                if (lstQuestion[j].LISTENING_ID == quiz_Listening.LISTENING_ID)
+                                {
+                                    finalLstQuestion.Add(lstQuestion[j]);
+                                }
                             }
                         }
                     }
                 }
             }
-            //if (quizId != string.Empty)
-            //{
 
-            //    var list = db.Quiz_Questions.Where(x => x.QUIZ_ID == quizId);
-            //    question.Where(p => {
-            //        foreach (var f in list) if (p.QUESTION_ID == f.QUESTION_ID) return (true); return (false);
-            //        }
-            //    );
-            //}
+            lstQuestion = db.Questions.Where(x => x.READING_ID == 1).ToList();
+            if (lstQuestion.Count > 0)
+            {
+                for (int i = 0; i < lstQuestion.Count; i++)
+                {
+                    ViewData["Reading"] = db.Readings.ToList();
+                    ViewData["ReadingType"] = db.Reading_Type.ToList();
+                    finalLstQuestion.Add(lstQuestion[i]);
+                }
+            }
             ViewData["Answer"] = db.Answers.SqlQuery(@"select * from Answer ORDER BY LIST_ORDER ASC").ToList();
-            ViewData["ListeningType"] = db.Listening_Type.ToList();
-            ViewData["Listening"] = db.Listenings.ToList();
+
             return View(finalLstQuestion);
         }
         public string GetAllAnswer()
@@ -230,6 +238,7 @@ namespace English_Quiz.Controllers
                 Answer ans = db.Answers.SqlQuery($"select * from Answer where QUESTION_ID='{item.QUESTION_ID}' and IS_CORRECT=1 ").FirstOrDefault();
                 dto.ANSWER_ID = ans.ANSWER_ID;
                 dto.POINT = item.POINT;
+                dto.ANSWER_DESCRIPTION = ans.DESCRIPTION;
                 //dto.ANSWER_DESCRIPTION = item.DESCRIPTION;
                 //dto.ANSWER = item.;
                 //dto.POINT = item.POINT;

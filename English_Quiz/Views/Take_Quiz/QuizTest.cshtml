@@ -3,11 +3,17 @@
     ViewBag.Title = "Bài kiểm tra";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
     Random r = new Random();
-    int count = 1, countR = r.Next(0, 1500), countTab = 1, questionPerTab = 5, totalNotListeningQuestion = 0;
+    int count = 1, countR = r.Next(0, 1500), countTab = 1, questionPerTab = 10, totalNotListeningQuestion = 0;
+    #region Thông tin bộ đề
     IList<English_Quiz.Models.Answer> lstanswer = ViewData["Answer"] as IList<English_Quiz.Models.Answer>;
     IList<English_Quiz.Models.Listening_Type> lstListeningType = ViewData["ListeningType"] as IList<English_Quiz.Models.Listening_Type>;
     IList<English_Quiz.Models.Listening> lstListening = ViewData["Listening"] as IList<English_Quiz.Models.Listening>;
+    IList<English_Quiz.Models.Reading> lstReading = ViewData["Reading"] as IList<English_Quiz.Models.Reading>;
+    IList<English_Quiz.Models.Reading_Type> lstReadingType = ViewData["ReadingType"] as IList<English_Quiz.Models.Reading_Type>;
+    #endregion
     int quiz_time = (ViewBag.time == null) ? 1 : ViewBag.time;
+    string description = (ViewBag.description == null) ? string.Empty : ViewBag.description;
+    string link = (ViewBag.link == null) ? string.Empty : ViewBag.link;
     List<English_Quiz.Models.Question> lstQuestions = new List<English_Quiz.Models.Question>();
 }
 
@@ -32,23 +38,65 @@
                     if (countTab == 1)
                     {
                         <li class="active nav-item">
-                            <a class="nav-link active" style="color:black;" data-toggle="tab" href="#@countTab">@countTab - @next </a>
+                            <a class="nav-link active" style="color:black;" data-toggle="tab" href="#@countTab"> Incomplete Sentences @countTab - @next </a>
                         </li>
                     }
                     else
                     {
                         <li class=" nav-item">
-                            <a class="nav-link " style="color:black;" data-toggle="tab" href="#@countTab">@countTab - @next </a>
+                            <a class="nav-link " style="color:black;" data-toggle="tab" href="#@countTab"> Incomplete Sentences @countTab - @next </a>
                         </li>
                     }
                     countTab += questionPerTab;
                 }
-                foreach (var item in lstListeningType)
+                if (lstReadingType != null)
                 {
-                    <li class=" nav-item">
-                        <a class="nav-link " style="color:black;" data-toggle="tab" href="#Listening_@item.LISTENING_TYPE_ID">@item.LISTENING_TYPE_NAME_EN </a>
-                    </li>
+                    int countReadingType = 0;
+                    foreach (var item in lstReadingType)
+                    {
+                        foreach (var question in Model)
+                        {
+                            if (question.Reading != null)
+                            {
+                                if (question.Reading.READING_TYPE_ID == item.READING_TYPE_ID) { countReadingType++; }
+                            }
+                        }
+                        if (countReadingType > 0)
+                        {
+                            <li class=" nav-item">
+                                <a class="nav-link " style="color:black;" data-toggle="tab" href="#Reading_@item.READING_TYPE_ID">@item.READING_TYPE_NAME_EN  1 - @countReadingType  </a>
+                            </li>
+                        }
+
+                        countReadingType = 0;
+                    }
                 }
+                if (lstListeningType != null)
+                {
+                    int countListeningType = 0;
+                    foreach (var item in lstListeningType)
+                    {
+                        foreach (var question in Model)
+                        {
+                            if (question.Listening != null)
+                            {
+                                if (question.Listening.LISTENING_TYPE_ID == item.LISTENING_TYPE_ID)
+                                {
+                                    countListeningType++;
+                                }
+                            }
+                        }
+                        if (countListeningType > 0)
+                        {
+                            <li class=" nav-item">
+                                <a class="nav-link " style="color:black;" data-toggle="tab" href="#Listening_@item.LISTENING_TYPE_ID">@item.LISTENING_TYPE_NAME_EN  1 - @countListeningType  </a>
+                            </li>
+                        }
+
+                        countListeningType = 0;
+                    }
+                }
+
             }
 
         </ul>
@@ -77,7 +125,7 @@
                                     {
                                         break;
                                     }
-                                    if (!question.IS_LISTENING)
+                                    if (!question.IS_LISTENING && question.READING_ID == null)
                                     {
                                         <div class="BlockQ" style="border: 1px solid #bdbdbd; width: 75%; border-radius: 4px; margin-top: 40px; background-color: #f0ffff; padding: 8px;">
                                             <div class="Question" style="padding: 2%;">
@@ -116,9 +164,9 @@
                         <div id="@count" class="tab-pane fade  ">
                             <div class="Quiz">
                                 <h4> <span class="label label-info">Câu hỏi :</span> </h4>
+
                                 @foreach (var question in Model)
                                 {
-
                                     if (count >= firstCount + questionPerTab)
                                     {
                                         break;
@@ -127,7 +175,7 @@
                                     {
                                         continue;
                                     }
-                                    if (!question.IS_LISTENING)
+                                    if (!question.IS_LISTENING && question.READING_ID == null)
                                     {
                                         <div class="BlockQ" style="border: 1px solid #bdbdbd; width: 75%; border-radius: 4px; margin-top: 40px; background-color: #f0ffff; padding: 8px;">
                                             <div class="Question" style="padding: 2%;">
@@ -156,66 +204,134 @@
                                         lstQuestions.Add(question);
                                     }
                                 }
-
                             </div>
                         </div>
                     }
                 }
-                foreach (var item in lstListeningType)
+                if (lstReadingType != null)
                 {
-                    int countListening = 1;
-                    <div id="Listening_@item.LISTENING_TYPE_ID" class="tab-pane fade ">
-                        <div class="Quiz">
-                            <h4> <span class="label label-info">Câu hỏi :</span> </h4>
-                            @foreach (var listening in lstListening)
-                            {
-                                if (listening.LISTENING_TYPE_ID == item.LISTENING_TYPE_ID)
+                    foreach (var item in lstReadingType)
+                    {
+                        int countReading = 1;
+                        <div id="Reading_@item.READING_TYPE_ID" class="tab-pane fade ">
+                            <div class="Quiz">
+                                <h4> <span class="label label-info">Câu hỏi :</span> </h4>
+                                @foreach (var listreading in lstReading)
                                 {
-                                    <div style="margin-top:20px;">
-                                        <audio controls preload="metadata" style="width:500px;">
-                                            <source src="~/Content/audio/@listening.LISTENING_FILE_NAME" />
-                                        </audio>
-                                    </div>
-                                    foreach (var question in Model)
+                                    if (listreading.READING_TYPE_ID == item.READING_TYPE_ID)
                                     {
-                                        if (lstQuestions.Contains(question))
+                                        <div style="margin-top:20px;background-color: #f0ffff; width: 75%;line-height:2; border-radius: 4px;">
+                                            <p style="margin-left:10px;">
+                                                @listreading.READING_TEXT
+                                            </p>
+                                        </div>
+                                        foreach (var question in Model)
                                         {
-                                            continue;
-                                        }
-                                        if (question.IS_LISTENING == true && question.LISTENING_ID == listening.LISTENING_ID)
-                                        {
-                                            <div class="BlockQ" style="border: 1px solid #bdbdbd; width: 75%; border-radius: 4px; margin-top: 40px; background-color: #f0ffff; padding: 8px;">
-                                                <div class="Question" style="padding: 2%;">
-                                                    <span class="label label-warning"> @string.Format("{0}{1}.", "Q", countListening)</span>
-                                                    <span id="@string.Format("{0}{1}", "ID_Q", count)" style="display:none;">@question.QUESTION_ID</span>
-                                                    <p style="display: inline; padding: 2%;" id="@string.Format("{0}{1}", "Q", count)">@question.QUESTION_TEXT</p>
+                                            if (lstQuestions.Contains(question))
+                                            {
+                                                continue;
+                                            }
+                                            if (question.IS_LISTENING == false && question.READING_ID == listreading.READING_ID)
+                                            {
+                                                <div class="BlockQ" style="border: 1px solid #bdbdbd; width: 75%; border-radius: 4px; margin-top: 40px; background-color: #f0ffff; padding: 8px;">
+                                                    <div class="Question" style="padding: 2%;">
+                                                        <span class="label label-warning"> @string.Format("{0}{1}.", "Q", countReading)</span>
+                                                        <span id="@string.Format("{0}{1}", "ID_Q", count)" style="display:none;">@question.QUESTION_ID</span>
+                                                        <p style="display: inline; padding: 2%;" id="@string.Format("{0}{1}", "Q", count)">@question.QUESTION_TEXT</p>
 
-                                                </div>
-                                                <div class="Choices" style="margin-left: 8%;">
-                                                    @foreach (var answer in lstanswer)
-                                                    {
-                                                        if (answer.QUESTION_ID == question.QUESTION_ID)
+                                                    </div>
+                                                    <div class="Choices" style="margin-left: 8%;">
+                                                        @foreach (var answer in lstanswer)
                                                         {
-                                                            <label class="radio-inline">
-                                                                <input type="radio" name="@string.Format("{0}{1}", "inlineRadioOptions",count)" id="@string.Format("{0}{1}", "inlineRadio", countR)" value="@answer.ANSWER_ID" style="margin-left: -16px;"> @answer.DESCRIPTION
-                                                            </label><br />
+                                                            if (answer.QUESTION_ID == question.QUESTION_ID)
+                                                            {
+                                                                <label class="radio-inline">
+                                                                    <input type="radio" name="@string.Format("{0}{1}", "inlineRadioOptions",count)" id="@string.Format("{0}{1}", "inlineRadio", countR)" value="@answer.ANSWER_ID" style="margin-left: -16px;"> @answer.DESCRIPTION
+                                                                </label><br />
+                                                            }
                                                         }
-                                                    }
-                                                </div> <!--END Choices-->
+                                                    </div> <!--END Choices-->
 
-                                                <div id="@string.Format("{0}{1}{2}", "Ans","Q", count)">
+                                                    <div id="@string.Format("{0}{1}{2}", "Ans","Q", count)">
 
-                                                </div>
-                                            </div> <!-- END BlockQ -->
-                                            count++;
-                                            countListening++;
-                                            lstQuestions.Add(question);
+                                                    </div>
+                                                </div> <!-- END BlockQ -->
+                                                count++;
+                                                countReading++;
+                                                lstQuestions.Add(question);
+                                            }
                                         }
                                     }
                                 }
-                            }
+                            </div>
                         </div>
-                    </div>
+                    }
+                }
+                if (lstListeningType != null)
+                {
+                    foreach (var item in lstListeningType)
+                    {
+                        int countListening = 1;
+                        <div id="Listening_@item.LISTENING_TYPE_ID" class="tab-pane fade ">
+                            <div class="Quiz">
+                                <h4> <span class="label label-info">Câu hỏi :</span> </h4>
+                                @foreach (var listening in lstListening)
+                                {
+                                    if (listening.LISTENING_TYPE_ID == item.LISTENING_TYPE_ID)
+                                    {
+                                        <div style="margin-top:20px;">
+                                            <audio controls preload="metadata" style="width:500px;">
+                                                <source src="~/Content/audio/@listening.LISTENING_FILE_NAME" />
+                                            </audio>
+                                        </div>
+                                        foreach (var question in Model)
+                                        {
+                                            if (lstQuestions.Contains(question))
+                                            {
+                                                continue;
+                                            }
+                                            if (question.IS_LISTENING == true && question.LISTENING_ID == listening.LISTENING_ID)
+                                            {
+
+                                                <div class="BlockQ" style="border: 1px solid #bdbdbd; width: 75%; border-radius: 4px; margin-top: 40px; background-color: #f0ffff; padding: 8px;">
+                                                    @if (question.QUESTION_IMAGE != null && question.QUESTION_IMAGE != string.Empty)
+                                                    {
+                                                        <div style="">
+                                                            <img id="img" src="~/Content/img/Question/@question.QUESTION_IMAGE" alt="Question Image" style="display:block ;margin-left:30%;height:300px;width:350px" />
+                                                        </div>
+                                                    }
+                                                    <div class="Question" style="padding: 2%;">
+                                                        <span class="label label-warning"> @string.Format("{0}{1}.", "Q", countListening)</span>
+                                                        <span id="@string.Format("{0}{1}", "ID_Q", count)" style="display:none;">@question.QUESTION_ID</span>
+                                                        <p style="display: inline; padding: 2%;" id="@string.Format("{0}{1}", "Q", count)">@question.QUESTION_TEXT</p>
+
+                                                    </div>
+                                                    <div class="Choices" style="margin-left: 8%;">
+                                                        @foreach (var answer in lstanswer)
+                                                        {
+                                                            if (answer.QUESTION_ID == question.QUESTION_ID)
+                                                            {
+                                                                <label class="radio-inline">
+                                                                    <input type="radio" name="@string.Format("{0}{1}", "inlineRadioOptions",count)" id="@string.Format("{0}{1}", "inlineRadio", countR)" value="@answer.ANSWER_ID" style="margin-left: -16px;"> @answer.DESCRIPTION
+                                                                </label><br />
+                                                            }
+                                                        }
+                                                    </div> <!--END Choices-->
+
+                                                    <div id="@string.Format("{0}{1}{2}", "Ans","Q", count)">
+
+                                                    </div>
+                                                </div> <!-- END BlockQ -->
+                                                count++;
+                                                countListening++;
+                                                lstQuestions.Add(question);
+                                            }
+                                        }
+                                    }
+                                }
+                            </div>
+                        </div>
+                    }
                 }
                 <div class="modal fade" id="myModal" role="dialog">
                     <div class="modal-dialog">
@@ -228,7 +344,8 @@
                             </div>
                             <div class="modal-body">
                                 <p>Thời gian bài thi : @quiz_time phút</p>
-
+                                <p>Thông tin đề thi : @description</p>
+                                <p>Nguồn : @link</p>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-light" data-dismiss="modal">Đóng</button>
@@ -241,44 +358,19 @@
             <button style="display:none;" type="button" class="btn btn-info btn-lg" id="openModal" data-toggle="modal" data-target="#myModal">Open Modal</button>
             <span id="countquestions" style="display:none;">@count</span>
             <div style="margin-top:5%" id="GetLesson"></div>
-            @*<div id="home" class="tab-pane fade active show in">
-                    <div class="Quiz ">
-                        <h4> <span class="label label-info">Câu hỏi :</span> </h4>
-                        @if (Model != null)
-                        {
-
-
-
-                            <div style="margin-top:5%" id="GetLesson"></div>
-
-                        }
-                    </div>
-                </div>
-                <div id="menu1" class="tab-pane fade">
-                    <div class="Quiz ">
-                        <h4> <span class="label label-info">Câu hỏi :</span> </h4>
-                        @if (Model != null)
-                        {
-
-                        }
-                    </div>
-                </div>*@
         </div>
-
     </div>
-
 </section>
-
+@*<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="~/Scripts/slickQuiz.js"></script>*@
 @section Scripts {
 
     <script type="text/javascript">
-
+        
         function CountDown(p) {
         // p: là số phút
         window.SI = null;
-        //if ($("#test").length == 0) {
-        //    $("#test").append(`<div id="countdown"></div>`);
-        //    }
+
             var now = new Date (),
             time = new Date ( now );
             time.setMinutes ( now.getMinutes() + @quiz_time );
@@ -290,31 +382,32 @@
     /* Lấy phút */
         function GetMinutes(time) {
 
-        let now = new Date().getTime();
-        // Find the distance between now and the count down date
+        let now = new Date()
+
         let distance = time - now;
-        // If the count down is finished, write some text
+
         if (distance < 0) {
             clearInterval(window.SI);
             document.getElementById("countdown").style.display = "none";
             $("#SubmitQuiz").click();
         }
         else {
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            hours = (hours < 10) ? ("0" + hours) : hours;
             minutes = (minutes < 10) ? ("0" + minutes) : minutes;
             seconds = (seconds < 10) ? ("0" + seconds) : seconds;
-            document.getElementById("countdown").innerHTML = minutes + " : " + seconds;
+            document.getElementById("countdown").innerHTML = hours + " : " + minutes + " : " + seconds;
         }
     }
         $(document).ready(function () {
             var modalId = localStorage.getItem('openModal');
              if (modalId != null){
                 $("#openModal").click();
-                //$("#myModal").modal("toggle");
-                //localStorage.removeItem('openModal');
+
              }
-            CountDown(30);
+            CountDown(@quiz_time);
             $('#SubmitQuiz').on('click', function () {
 
                 //count Questions
@@ -338,7 +431,12 @@
                             var point = 0;
                             for (var i = 0; i < resultQuiz.length; i++) {
                                 if (resultQuiz[i].Answer == null) {
-                                    $('#AnsQ' + j).html('<div class="alert alert-danger" role="alert"> <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> Incorrect answer' /*- The Good Answer is <b>' + response[i].ANSWER + '</b></div>*/);
+                                    for (var m = 0; m < response.length; m++) {
+                                        if (resultQuiz[i].QuestionID == response[m].QUESTION_ID) {
+                                             $('#AnsQ' + j).html('<div class="alert alert-danger" role="alert"> <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> Incorrect answer - right answer is <b>' + response[m].ANSWER_DESCRIPTION + '</b></div>');
+                                        }
+                                    }
+
                                 }
                                 else {
                                     for (var m = 0; m < response.length; m++) {
@@ -349,7 +447,7 @@
                                             }
                                             else
                                             {
-                                            $('#AnsQ' + j).html('<div class="alert alert-danger" role="alert"> <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> Incorrect answer '/*right answer is <b>' + response[i].ANSWER_DESCRIPTION + '</b></div>*/);
+                                            $('#AnsQ' + j).html('<div class="alert alert-danger" role="alert"> <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> Incorrect answer - right answer is <b>' + response[i].ANSWER_DESCRIPTION + '</b></div>')
                                             }
                                         }
 

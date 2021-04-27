@@ -52,7 +52,7 @@
         <div class="form-group">
             <label class="control-label col-md-2">Thông tin nguồn đề</label>
             <div class="col-md-10">
-                @Html.TextAreaFor(Model => Model.SOURCE_DESCRIPTION, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextAreaFor(Model => Model.SOURCE_DESCRIPTION, new { Class =  "form-control" , Style="width:100%"  })
                 @Html.ValidationMessageFor(model => model.SOURCE_DESCRIPTION, "", new { @class = "text-danger" })
             </div>
         </div>

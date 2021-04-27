@@ -74,6 +74,7 @@
           <Property Name="LISTENING_TYPE_NAME_EN" Type="nvarchar" MaxLength="150" />
           <Property Name="DESCRIPTION_VN" Type="nvarchar" MaxLength="250" />
           <Property Name="DESCRIPTION_EN" Type="nvarchar" MaxLength="250" />
+          <Property Name="ORDER_BY" Type="int" />
         </EntityType>
         <EntityType Name="Permission">
           <Key>
@@ -92,7 +93,8 @@
             <PropertyRef Name="TYPE_ID" />
           </Key>
           <Property Name="TYPE_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="TYPE_NAME" Type="nvarchar" MaxLength="50" />
+          <Property Name="TYPE_NAME" Type="nvarchar" MaxLength="250" />
+          <Property Name="TYPE_NAME_EN" Type="nvarchar" MaxLength="250" />
           <Property Name="DESCRIPTION" Type="nvarchar" MaxLength="50" />
           <Property Name="IS_TEST" Type="bit" Nullable="false" />
         </EntityType>
@@ -107,6 +109,7 @@
           <Property Name="LISTENING_ID" Type="nvarchar" MaxLength="20" />
           <Property Name="IS_LISTENING" Type="bit" Nullable="false" />
           <Property Name="READING_ID" Type="int" />
+          <Property Name="QUESTION_IMAGE" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="Questions_Auto_Generate">
           <Key>
@@ -165,6 +168,7 @@
           <Property Name="READING_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="READING_TEXT" Type="nvarchar(max)" />
           <Property Name="READING_TYPE_ID" Type="int" />
+          <Property Name="READING_IMAGE" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="Reading_Type">
           <Key>
@@ -172,6 +176,7 @@
           </Key>
           <Property Name="READING_TYPE_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="READING_TYPE_NAME" Type="nvarchar" MaxLength="250" />
+          <Property Name="READING_TYPE_NAME_EN" Type="nvarchar" MaxLength="250" />
           <Property Name="DESCRIPTION" Type="nvarchar" MaxLength="250" />
           <Property Name="ACTIVE" Type="bit" />
         </EntityType>
@@ -498,6 +503,7 @@
           <Property Name="DESCRIPTION_VN" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="DESCRIPTION_EN" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Listenings" Relationship="Self.FK_Listening_Listening_Type" FromRole="Listening_Type" ToRole="Listening" />
+          <Property Name="ORDER_BY" Type="Int32" />
         </EntityType>
         <EntityType Name="Permission">
           <Key>
@@ -518,11 +524,12 @@
             <PropertyRef Name="TYPE_ID" />
           </Key>
           <Property Name="TYPE_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TYPE_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TYPE_NAME" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="DESCRIPTION" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Questions_Auto_Generate" Relationship="Self.FK_Questions_Auto_Generate_Type" FromRole="Question_Type" ToRole="Questions_Auto_Generate" />
           <NavigationProperty Name="Questions" Relationship="Self.FK_Questions_Type" FromRole="Question_Type" ToRole="Questions" />
           <Property Name="IS_TEST" Type="Boolean" Nullable="false" />
+          <Property Name="TYPE_NAME_EN" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Question">
           <Key>
@@ -539,6 +546,7 @@
           <NavigationProperty Name="Quiz_Questions" Relationship="Self.FK_Quiz_Questions_Questions" FromRole="Questions" ToRole="Quiz_Questions" />
           <Property Name="READING_ID" Type="Int32" />
           <NavigationProperty Name="Reading" Relationship="English_QuizModel.FK_Questions_Reading" FromRole="Question" ToRole="Reading" />
+          <Property Name="QUESTION_IMAGE" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Questions_Auto_Generate">
           <Key>
@@ -846,6 +854,7 @@
           <NavigationProperty Name="Questions" Relationship="English_QuizModel.FK_Questions_Reading" FromRole="Reading" ToRole="Question" />
           <Property Name="READING_TYPE_ID" Type="Int32" />
           <NavigationProperty Name="Reading_Type" Relationship="English_QuizModel.FK_Reading_Reading_Type" FromRole="Reading" ToRole="Reading_Type" />
+          <Property Name="READING_IMAGE" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_Questions_Reading">
           <End Type="English_QuizModel.Reading" Role="Reading" Multiplicity="0..1" />
@@ -868,6 +877,7 @@
           <Property Name="DESCRIPTION" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="ACTIVE" Type="Boolean" />
           <NavigationProperty Name="Readings" Relationship="English_QuizModel.FK_Reading_Reading_Type" FromRole="Reading_Type" ToRole="Reading" />
+          <Property Name="READING_TYPE_NAME_EN" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_Reading_Reading_Type">
           <End Type="English_QuizModel.Reading_Type" Role="Reading_Type" Multiplicity="0..1" />
@@ -954,6 +964,7 @@
           <EntitySetMapping Name="Listening_Type">
             <EntityTypeMapping TypeName="English_QuizModel.Listening_Type">
               <MappingFragment StoreEntitySet="Listening_Type">
+                <ScalarProperty Name="ORDER_BY" ColumnName="ORDER_BY" />
                 <ScalarProperty Name="LISTENING_TYPE_ID" ColumnName="LISTENING_TYPE_ID" />
                 <ScalarProperty Name="LISTENING_TYPE_NAME_VN" ColumnName="LISTENING_TYPE_NAME_VN" />
                 <ScalarProperty Name="LISTENING_TYPE_NAME_EN" ColumnName="LISTENING_TYPE_NAME_EN" />
@@ -978,6 +989,7 @@
           <EntitySetMapping Name="Question_Type">
             <EntityTypeMapping TypeName="English_QuizModel.Question_Type">
               <MappingFragment StoreEntitySet="Question_Type">
+                <ScalarProperty Name="TYPE_NAME_EN" ColumnName="TYPE_NAME_EN" />
                 <ScalarProperty Name="IS_TEST" ColumnName="IS_TEST" />
                 <ScalarProperty Name="TYPE_ID" ColumnName="TYPE_ID" />
                 <ScalarProperty Name="TYPE_NAME" ColumnName="TYPE_NAME" />
@@ -988,6 +1000,7 @@
           <EntitySetMapping Name="Questions">
             <EntityTypeMapping TypeName="English_QuizModel.Question">
               <MappingFragment StoreEntitySet="Questions">
+                <ScalarProperty Name="QUESTION_IMAGE" ColumnName="QUESTION_IMAGE" />
                 <ScalarProperty Name="READING_ID" ColumnName="READING_ID" />
                 <ScalarProperty Name="QUESTION_ID" ColumnName="QUESTION_ID" />
                 <ScalarProperty Name="QUESTION_TEXT" ColumnName="QUESTION_TEXT" />
@@ -1089,6 +1102,7 @@
           <EntitySetMapping Name="Readings">
             <EntityTypeMapping TypeName="English_QuizModel.Reading">
               <MappingFragment StoreEntitySet="Reading">
+                <ScalarProperty Name="READING_IMAGE" ColumnName="READING_IMAGE" />
                 <ScalarProperty Name="READING_TYPE_ID" ColumnName="READING_TYPE_ID" />
                 <ScalarProperty Name="READING_TEXT" ColumnName="READING_TEXT" />
                 <ScalarProperty Name="READING_ID" ColumnName="READING_ID" />
@@ -1098,6 +1112,7 @@
           <EntitySetMapping Name="Reading_Type">
             <EntityTypeMapping TypeName="English_QuizModel.Reading_Type">
               <MappingFragment StoreEntitySet="Reading_Type">
+                <ScalarProperty Name="READING_TYPE_NAME_EN" ColumnName="READING_TYPE_NAME_EN" />
                 <ScalarProperty Name="ACTIVE" ColumnName="ACTIVE" />
                 <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
                 <ScalarProperty Name="READING_TYPE_NAME" ColumnName="READING_TYPE_NAME" />

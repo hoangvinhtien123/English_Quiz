@@ -24,6 +24,7 @@ namespace English_Quiz.Models
         public string READING_TYPE_NAME { get; set; }
         public string DESCRIPTION { get; set; }
         public Nullable<bool> ACTIVE { get; set; }
+        public string READING_TYPE_NAME_EN { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Reading> Readings { get; set; }

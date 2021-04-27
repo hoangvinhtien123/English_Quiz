@@ -69,6 +69,7 @@
     <Property Name="LISTENING_TYPE_NAME_EN" Type="nvarchar" MaxLength="150" />
     <Property Name="DESCRIPTION_VN" Type="nvarchar" MaxLength="250" />
     <Property Name="DESCRIPTION_EN" Type="nvarchar" MaxLength="250" />
+    <Property Name="ORDER_BY" Type="int" />
   </EntityType>
   <EntityType Name="Permission">
     <Key>
@@ -87,7 +88,8 @@
       <PropertyRef Name="TYPE_ID" />
     </Key>
     <Property Name="TYPE_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="TYPE_NAME" Type="nvarchar" MaxLength="50" />
+    <Property Name="TYPE_NAME" Type="nvarchar" MaxLength="250" />
+    <Property Name="TYPE_NAME_EN" Type="nvarchar" MaxLength="250" />
     <Property Name="DESCRIPTION" Type="nvarchar" MaxLength="50" />
     <Property Name="IS_TEST" Type="bit" Nullable="false" />
   </EntityType>
@@ -102,6 +104,7 @@
     <Property Name="LISTENING_ID" Type="nvarchar" MaxLength="20" />
     <Property Name="IS_LISTENING" Type="bit" Nullable="false" />
     <Property Name="READING_ID" Type="int" />
+    <Property Name="QUESTION_IMAGE" Type="nvarchar" MaxLength="100" />
   </EntityType>
   <EntityType Name="Questions_Auto_Generate">
     <Key>
@@ -160,6 +163,7 @@
     <Property Name="READING_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="READING_TEXT" Type="nvarchar(max)" />
     <Property Name="READING_TYPE_ID" Type="int" />
+    <Property Name="READING_IMAGE" Type="nvarchar" MaxLength="100" />
   </EntityType>
   <EntityType Name="Reading_Type">
     <Key>
@@ -167,6 +171,7 @@
     </Key>
     <Property Name="READING_TYPE_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="READING_TYPE_NAME" Type="nvarchar" MaxLength="250" />
+    <Property Name="READING_TYPE_NAME_EN" Type="nvarchar" MaxLength="250" />
     <Property Name="DESCRIPTION" Type="nvarchar" MaxLength="250" />
     <Property Name="ACTIVE" Type="bit" />
   </EntityType>

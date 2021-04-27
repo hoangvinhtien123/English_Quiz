@@ -25,6 +25,7 @@ namespace English_Quiz.Models
         public string LISTENING_TYPE_NAME_EN { get; set; }
         public string DESCRIPTION_VN { get; set; }
         public string DESCRIPTION_EN { get; set; }
+        public Nullable<int> ORDER_BY { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Listening> Listenings { get; set; }

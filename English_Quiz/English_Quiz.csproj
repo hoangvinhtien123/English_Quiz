@@ -143,6 +143,7 @@
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\FunctionController.cs" />
     <Compile Include="Controllers\ListeningController.cs" />
+    <Compile Include="Controllers\ListeningTypeController.cs" />
     <Compile Include="Controllers\PermissionController.cs" />
     <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Controllers\QuestionTypeController.cs" />
@@ -2066,6 +2067,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\slickQuiz.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -2122,9 +2124,13 @@
     <Content Include="Views\Reading\CreateReading.cshtml" />
     <Content Include="Views\Reading\Index.cshtml" />
     <Content Include="Views\Reading\EditReading.cshtml" />
+    <Content Include="Views\ListeningType\Index.cshtml" />
+    <Content Include="Views\ListeningType\CreateListeningType.cshtml" />
+    <Content Include="Views\ListeningType\EditListeningType.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\img\Question\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

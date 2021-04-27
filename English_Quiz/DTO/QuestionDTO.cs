@@ -13,6 +13,7 @@ namespace English_Quiz.DTO
         public Nullable<double> POINT { get; set; }
         public Nullable<int> LEVEL_ID { get; set; }
         public Nullable<int> TYPE_ID { get; set; }
-        
+
+        public string ANSWER_DESCRIPTION { get; set; }
     }
 }
