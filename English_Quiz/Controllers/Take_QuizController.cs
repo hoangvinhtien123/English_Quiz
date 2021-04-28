@@ -201,7 +201,7 @@ namespace English_Quiz.Controllers
                 }
             }
 
-            lstQuestion = db.Questions.Where(x => x.READING_ID == 1).ToList();
+            lstQuestion = db.Questions.Where(x => x.READING_ID != null).ToList();
             if (lstQuestion.Count > 0)
             {
                 for (int i = 0; i < lstQuestion.Count; i++)

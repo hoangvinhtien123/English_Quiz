@@ -164,6 +164,7 @@
     <Property Name="READING_TEXT" Type="nvarchar(max)" />
     <Property Name="READING_TYPE_ID" Type="int" />
     <Property Name="READING_IMAGE" Type="nvarchar" MaxLength="100" />
+    <Property Name="IS_IMAGE" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Reading_Type">
     <Key>

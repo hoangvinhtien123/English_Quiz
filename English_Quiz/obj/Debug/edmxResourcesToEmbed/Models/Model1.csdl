@@ -426,6 +426,7 @@
     <Property Name="READING_TYPE_ID" Type="Int32" />
     <NavigationProperty Name="Reading_Type" Relationship="English_QuizModel.FK_Reading_Reading_Type" FromRole="Reading" ToRole="Reading_Type" />
     <Property Name="READING_IMAGE" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="IS_IMAGE" Type="Boolean" Nullable="false" />
   </EntityType>
   <Association Name="FK_Questions_Reading">
     <End Type="English_QuizModel.Reading" Role="Reading" Multiplicity="0..1" />

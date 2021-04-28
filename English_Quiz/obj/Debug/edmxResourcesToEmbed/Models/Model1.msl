@@ -206,6 +206,7 @@
     <EntitySetMapping Name="Readings">
       <EntityTypeMapping TypeName="English_QuizModel.Reading">
         <MappingFragment StoreEntitySet="Reading">
+          <ScalarProperty Name="IS_IMAGE" ColumnName="IS_IMAGE" />
           <ScalarProperty Name="READING_IMAGE" ColumnName="READING_IMAGE" />
           <ScalarProperty Name="READING_TYPE_ID" ColumnName="READING_TYPE_ID" />
           <ScalarProperty Name="READING_TEXT" ColumnName="READING_TEXT" />

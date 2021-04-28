@@ -25,10 +25,16 @@ namespace English_Quiz.Controllers
         }
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public ActionResult CreateReading(Reading reading)
+        public ActionResult CreateReading(Reading reading , HttpPostedFileBase fUpload)
         {
             if (ModelState.IsValid)
             {
+                if (fUpload != null)
+                {
+                    fUpload.SaveAs(Server.MapPath($"~/Content/img/Reading/{fUpload.FileName}"));
+                    reading.READING_IMAGE = fUpload.FileName;
+                }
+                
                 db.Readings.Add(reading);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -43,11 +49,16 @@ namespace English_Quiz.Controllers
         }
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public ActionResult EditReading(int id, Reading reading)
+        public ActionResult EditReading(int id, Reading reading , HttpPostedFileBase fUpload)
         {
             Reading oldReading = db.Readings.FirstOrDefault(x => x.READING_ID == id);
             if (ModelState.IsValid)
             {
+                if (fUpload != null)
+                {
+                    fUpload.SaveAs(Server.MapPath($"~/Content/img/Reading/{fUpload.FileName}"));
+                    reading.READING_IMAGE = fUpload.FileName;
+                }
                 db.Entry(oldReading).CurrentValues.SetValues(reading);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -115,6 +126,13 @@ namespace English_Quiz.Controllers
                 questionTbl.Rows.Add(item.QUESTION_ID, item.QUESTION_TEXT, item.POINT, item.READING_ID);
             }
             ds.Tables.Add(questionTbl);
+            int totalQuestion = db.Questions.ToList().Count+1;
+            string questionId = "TOEIC" + totalQuestion;
+            DataTable countQuestion = new DataTable();
+            countQuestion.Columns.Add("QUESTION_ID", typeof(string));
+            countQuestion.Rows.Add(questionId);
+            countQuestion.TableName = "NewQuestionId";
+            ds.Tables.Add(countQuestion);
             return JsonConvert.SerializeObject(ds); 
         }
 

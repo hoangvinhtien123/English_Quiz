@@ -4,7 +4,14 @@
     ViewBag.Title = "Bài đọc";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-
+<style>
+    #reading_text {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 500px;
+    }
+</style>
 <h2>Bài đọc</h2>
 
 <p style="margin-left:10px;">
@@ -18,17 +25,23 @@
         <th>
             Loại
         </th>
+        <th>
+            Ảnh
+        </th>
         <th></th>
     </tr>
 
     @foreach (var item in Model)
     {
         <tr>
-            <td style="width:55%">
+            <td id="reading_text">
                 @Html.DisplayFor(modelItem => item.READING_TEXT)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Reading_Type.READING_TYPE_NAME)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.READING_IMAGE)
             </td>
             <td>
                 <a href='@Url.Action("EditReading","Reading", new{ id = item.READING_ID})' class="btn btn-info"><i class="fas fa-edit"></i></a>
@@ -141,10 +154,10 @@
             })
         }
 
-        //Question theo reading 
-        const initTableQuestions = (question ,id) => {
+        //Question theo reading
+        const initTableQuestions = (question ,id , newQuestionid) => {
             var listQuestion = `
-                    <a class="btn btn-default" onclick="addReadingQuestion(`+ id + `)"> <i class="fas fa-plus"></i> Thêm mới </a>
+                    <a class="btn btn-default" onclick="addReadingQuestion(`+ id + ` , '`+newQuestionid[0].QUESTION_ID+`')"> <i class="fas fa-plus"></i> Thêm mới </a>
                     <table class="table" style="margin-top:10px;">
                             <tr>
                                 <th>
@@ -167,7 +180,7 @@
                                 <td>` + question[i].QUESTION_TEXT +  `</td>
                                 <td>` + question[i].POINT +  `</td>
                                 <td>
-                                    
+
                                     <a class="btn btn-info" onclick="editReadingQuestion('`+ id + `', '` + question[i].QUESTION_ID + `', '` + question[i].QUESTION_TEXT + `','` + question[i].POINT +`')"> <i class="fas fa-edit"> </i> </a>
                                     <a class="btn btn-danger" onclick="deleteReadingQuestion('`+question[i].QUESTION_ID+`', '`+id+`')"> <i class="fas fa-trash-alt"> </i></a>
                                 </td>
@@ -181,15 +194,15 @@
             $.post("/Reading/getQuestionByReadingId", {
                 readingId : id
             }, function (e) {
-                    var lstQuestion = initTableQuestions(e.Question,id)
+                    var lstQuestion = initTableQuestions(e.Question,id,e.NewQuestionId)
                     $("#contentListQuestion").html(lstQuestion);
                     $('#modalListQuestion').modal('show');
             }, "json")
         }
-        const addReadingQuestion = (id) => {
+        const addReadingQuestion = (id,newQuestionId) => {
             $('#modalQuestionDetail').modal('show');
             $("#READING_ID").val(id);
-            $("#QUESTION_ID").val("");
+            $("#QUESTION_ID").val(newQuestionId);
             $("#QUESTION_TEXT").val("");
             $("#POINT").val("");
             is_new = true;
@@ -217,7 +230,7 @@
                 isNew: is_new
             }, function (e) {
                     if (e) {
-                        var lstQuestion = initTableQuestions(e.Question, reading_id);
+                        var lstQuestion = initTableQuestions(e.Question, reading_id, e.NewQuestionId);
                         $("#contentListQuestion").html(lstQuestion);
                     }
             }, "json")

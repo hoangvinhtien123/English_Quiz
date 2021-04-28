@@ -16,7 +16,7 @@ namespace English_Quiz.Controllers
         [CheckPermission(PermissionName = "QuanLyCauHoi", Action = ConstantCommon.Action.View)]
         public ActionResult Index()
         {
-            return View(db.Questions.ToList());
+            return View(db.Questions.Where(x=>x.IS_LISTENING == false && x.READING_ID == null));
         }
         [CheckPermission(PermissionName = "QuanLyCauHoi", Action = ConstantCommon.Action.Add)]
         public ActionResult CreateQuestion()
@@ -24,7 +24,11 @@ namespace English_Quiz.Controllers
            
             ViewBag.ListType = new SelectList(db.Question_Type.ToList(), "TYPE_ID", "TYPE_NAME");
             ViewBag.ListListening = new SelectList(db.Listenings.ToList(), "LISTENING_ID", "LISTENING_NAME_VN");
-            return View();
+            Question question = new Question();
+            int totalQuestion = db.Questions.ToList().Count + 1;
+            string questionId = "TOEIC" + totalQuestion;
+            question.QUESTION_ID = questionId;
+            return View(question);
         }
         [ValidateAntiForgeryToken]
         [HttpPost]

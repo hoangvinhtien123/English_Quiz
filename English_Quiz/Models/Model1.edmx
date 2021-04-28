@@ -169,6 +169,7 @@
           <Property Name="READING_TEXT" Type="nvarchar(max)" />
           <Property Name="READING_TYPE_ID" Type="int" />
           <Property Name="READING_IMAGE" Type="nvarchar" MaxLength="100" />
+          <Property Name="IS_IMAGE" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Reading_Type">
           <Key>
@@ -855,6 +856,7 @@
           <Property Name="READING_TYPE_ID" Type="Int32" />
           <NavigationProperty Name="Reading_Type" Relationship="English_QuizModel.FK_Reading_Reading_Type" FromRole="Reading" ToRole="Reading_Type" />
           <Property Name="READING_IMAGE" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IS_IMAGE" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK_Questions_Reading">
           <End Type="English_QuizModel.Reading" Role="Reading" Multiplicity="0..1" />
@@ -1102,6 +1104,7 @@
           <EntitySetMapping Name="Readings">
             <EntityTypeMapping TypeName="English_QuizModel.Reading">
               <MappingFragment StoreEntitySet="Reading">
+                <ScalarProperty Name="IS_IMAGE" ColumnName="IS_IMAGE" />
                 <ScalarProperty Name="READING_IMAGE" ColumnName="READING_IMAGE" />
                 <ScalarProperty Name="READING_TYPE_ID" ColumnName="READING_TYPE_ID" />
                 <ScalarProperty Name="READING_TEXT" ColumnName="READING_TEXT" />
