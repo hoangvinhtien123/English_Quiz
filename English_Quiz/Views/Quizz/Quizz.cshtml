@@ -28,6 +28,9 @@
         <th>
             Mô tả
         </th>
+        <th>
+            Đề test
+        </th>
     </tr>
 
     @foreach (var item in Model)
@@ -44,6 +47,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DESCRIPTION)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IS_TEST)
             </td>
             <td>
                 <a href='@Url.Action("EditQuizz","Quizz", new{ QuizId = item.QUIZ_ID})' class="btn btn-info"><i class="fas fa-edit"></i></a>

@@ -38,6 +38,7 @@
         <AssociationConnector Association="English_QuizModel.FK_Questions_Reading" />
         <EntityTypeShape EntityType="English_QuizModel.Reading_Type" Width="1.5" PointX="0.75" PointY="18.25" />
         <AssociationConnector Association="English_QuizModel.FK_Reading_Reading_Type" />
+        <EntityTypeShape EntityType="English_QuizModel.Quiz_Reading" Width="2.5" PointX="10.375" PointY="10.5" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -24,7 +24,6 @@ namespace English_Quiz.Models
         public int TYPE_ID { get; set; }
         public string TYPE_NAME { get; set; }
         public string DESCRIPTION { get; set; }
-        public bool IS_TEST { get; set; }
         public string TYPE_NAME_EN { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

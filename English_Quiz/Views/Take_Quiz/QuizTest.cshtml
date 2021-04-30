@@ -362,11 +362,15 @@
                                 {
                                     if (listening.LISTENING_TYPE_ID == item.LISTENING_TYPE_ID)
                                     {
-                                        <div style="margin-top:20px;">
-                                            <audio controls preload="metadata" style="width:75%;">
-                                                <source src="~/Content/audio/@listening.LISTENING_FILE_NAME" />
-                                            </audio>
-                                        </div>
+                                        if (listening.LISTENING_FILE_NAME != string.Empty && listening.LISTENING_FILE_NAME != null)
+                                        {
+                                            <div style="margin-top:20px;">
+                                                <audio controls preload="metadata" style="width:75%;">
+                                                    <source src="~/Content/audio/@listening.LISTENING_FILE_NAME" />
+                                                </audio>
+                                            </div>
+                                        }
+
                                         foreach (var question in Model)
                                         {
                                             if (lstQuestions.Contains(question))

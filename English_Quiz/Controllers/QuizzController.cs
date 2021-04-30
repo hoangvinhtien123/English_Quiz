@@ -31,7 +31,11 @@ namespace English_Quiz.Controllers
         public ActionResult CreateQuizz()
         {
             ViewBag.listType = new SelectList(db.Quiz_Type.ToList(), "QUIZ_TYPE_ID", "QUIZ_TYPE_NAME");
-            return View();
+            Quiz quiz = new Quiz();
+            int totalQuiz = db.Quizs.ToList().Count + 1;
+            string quizId = "Quiz" + totalQuiz;
+            quiz.QUIZ_ID = quizId;
+            return View(quiz);
         }
         [HttpPost]
         public ActionResult CreateQuizz(Quiz quiz)
@@ -125,6 +129,7 @@ namespace English_Quiz.Controllers
                 types.Rows.Add(questionsType[i].TYPE_ID, questionsType[i].TYPE_NAME, questionsType[i].DESCRIPTION);
             }
             ds.Tables.Add(types);
+            
             return JsonConvert.SerializeObject(ds);
         }
 
@@ -190,7 +195,7 @@ namespace English_Quiz.Controllers
                 quizListeningTbl.Rows.Add(item.PR_KEY,item.QUIZ_ID, item.LISTENING_ID, item.ACTIVE);
             }
             ds.Tables.Add(quizListeningTbl);
-            List<Listening> lstListening = db.Listenings.ToList();
+            List<Listening> lstListening = db.Listenings.Where(x => x.IS_TEST == true).ToList();
             DataTable listeningTbl = new DataTable();
             listeningTbl.Columns.Add("LISTENING_ID", typeof(string));
             listeningTbl.Columns.Add("LISTENING_NAME_VN", typeof(string));
@@ -200,6 +205,16 @@ namespace English_Quiz.Controllers
                 listeningTbl.Rows.Add(item.LISTENING_ID, item.LISTENING_NAME_VN);
             }
             ds.Tables.Add(listeningTbl);
+            lstListening = db.Listenings.Where(x => x.IS_TEST == false).ToList();
+            DataTable practiceListeningTbl = new DataTable();
+            practiceListeningTbl.Columns.Add("LISTENING_ID", typeof(string));
+            practiceListeningTbl.Columns.Add("LISTENING_NAME_VN", typeof(string));
+            practiceListeningTbl.TableName = "ListeningPractice";
+            foreach (var item in lstListening)
+            {
+                practiceListeningTbl.Rows.Add(item.LISTENING_ID, item.LISTENING_NAME_VN);
+            }
+            ds.Tables.Add(practiceListeningTbl);
             return JsonConvert.SerializeObject(ds);
         }
         public string AddListening()
@@ -241,7 +256,80 @@ namespace English_Quiz.Controllers
         }
         #endregion
 
+        #region Quản lý bài đọc
+        public string getReadingById()
+        {
+            DataSet ds = new DataSet();
+            string quizId = (Request["id"] == null) ? string.Empty : Request["id"].ToString();
+            List<Quiz_Reading> quizReading = db.Quiz_Reading.Where(x => x.QUIZ_ID == quizId).ToList();
+            List<Reading_Type> readingType = db.Reading_Type.ToList();
+            DataTable quizReadingTbl = new DataTable();
+            quizReadingTbl.Columns.Add("PR_KEY", typeof(Guid));
+            quizReadingTbl.Columns.Add("QUIZ_ID", typeof(string));
+            quizReadingTbl.Columns.Add("READING_TYPE_ID", typeof(string));
+            quizReadingTbl.Columns.Add("TOTAL_READING", typeof(int));
+            quizReadingTbl.Columns.Add("ACTIVE", typeof(bool));
+            quizReadingTbl.TableName = "QuizReading";
+            for (int i = 0; i < quizReading.Count; i++)
+            {
+                quizReadingTbl.Rows.Add(quizReading[i].PR_KEY, quizReading[i].QUIZ_ID, quizReading[i].READING_TYPE_ID,quizReading[i].TOTAL_READING,quizReading[i].ACTIVE);
+            }
+            ds.Tables.Add(quizReadingTbl);
 
+            DataTable types = new DataTable();
+            types.Columns.Add("READING_TYPE_ID", typeof(int));
+            types.Columns.Add("READING_TYPE_NAME", typeof(string));
+            types.TableName = "ReadingType";
+            for (int i = 0; i < readingType.Count; i++)
+            {
+                types.Rows.Add(readingType[i].READING_TYPE_ID, readingType[i].READING_TYPE_NAME);
+            }
+            ds.Tables.Add(types);
+            return JsonConvert.SerializeObject(ds);
+        }
+        public string AddReading()
+        {
+            int readingType = (Request["reading_type_id"] == null) ? 0 : int.Parse(Request["reading_type_id"].ToString());
+            string quiz_id = (Request["quiz_id"] == null) ? string.Empty : Request["quiz_id"].ToString();
+            bool active = (Request["active"] == null) ?false : bool.Parse(Request["active"].ToString());
+            int totalReading = (Request["total_reading"] == null) ? 0 : int.Parse(Request["total_reading"].ToString());
+            Quiz_Reading quizReading = new Quiz_Reading();
+            quizReading.ACTIVE = active;
+            quizReading.READING_TYPE_ID = readingType;
+            quizReading.QUIZ_ID = quiz_id;
+            quizReading.TOTAL_READING = totalReading;
+            quizReading.PR_KEY = Guid.NewGuid();
+            db.Quiz_Reading.Add(quizReading);
+            db.SaveChanges();
+            return JsonConvert.SerializeObject(quizReading);
+        }
+        public void UpdateReading()
+        {
+            int readingType = (Request["reading_type_id"] == null) ? 0 : int.Parse(Request["reading_type_id"].ToString());
+            string quiz_id = (Request["quiz_id"] == null) ? string.Empty : Request["quiz_id"].ToString();
+            bool active = (Request["active"] == null) ? false : bool.Parse(Request["active"].ToString());
+            int totalReading = (Request["total_reading"] == null) ? 0 : int.Parse(Request["total_reading"].ToString());
+            Guid pr_key = (Request["pr_key"] == null) ? Guid.NewGuid() : Guid.Parse(Request["pr_key"].ToString());
+            Quiz_Reading oldQuizReading = db.Quiz_Reading.FirstOrDefault(x => x.PR_KEY == pr_key);
+            Quiz_Reading newQuizReading = new Quiz_Reading();
+            newQuizReading.ACTIVE = active;
+            newQuizReading.READING_TYPE_ID = readingType;
+            newQuizReading.QUIZ_ID = quiz_id;
+            newQuizReading.TOTAL_READING = totalReading;
+            newQuizReading.PR_KEY = pr_key;
+            db.Entry(oldQuizReading).CurrentValues.SetValues(newQuizReading);
+            db.SaveChanges();
+        }
+        public void DeleteReading()
+        {
+            Guid pr_key = (Request["pr_key"] == null) ? Guid.NewGuid() : Guid.Parse(Request["pr_key"].ToString());
+            int readingType = (Request["reading_type_id"] == null) ? 0 : int.Parse(Request["reading_type_id"].ToString());
+            string quiz_id = (Request["quiz_id"] == null) ? string.Empty : Request["quiz_id"].ToString();
+            Quiz_Reading quizReading = db.Quiz_Reading.FirstOrDefault(x => x.PR_KEY == pr_key && x.QUIZ_ID == quiz_id);
+            db.Quiz_Reading.Remove(quizReading);
+            db.SaveChanges();
+        }
+        #endregion
         #endregion
 
 

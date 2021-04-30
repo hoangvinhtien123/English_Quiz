@@ -59,6 +59,7 @@
     <Property Name="LISTENING_NAME_EN" Type="nvarchar" MaxLength="250" />
     <Property Name="LISTENING_TYPE_ID" Type="int" />
     <Property Name="LISTENING_FILE_NAME" Type="nvarchar" MaxLength="100" />
+    <Property Name="IS_TEST" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Listening_Type">
     <Key>
@@ -91,7 +92,6 @@
     <Property Name="TYPE_NAME" Type="nvarchar" MaxLength="250" />
     <Property Name="TYPE_NAME_EN" Type="nvarchar" MaxLength="250" />
     <Property Name="DESCRIPTION" Type="nvarchar" MaxLength="50" />
-    <Property Name="IS_TEST" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Questions">
     <Key>
@@ -105,6 +105,7 @@
     <Property Name="IS_LISTENING" Type="bit" Nullable="false" />
     <Property Name="READING_ID" Type="int" />
     <Property Name="QUESTION_IMAGE" Type="nvarchar" MaxLength="100" />
+    <Property Name="IS_TEST" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Questions_Auto_Generate">
     <Key>
@@ -128,6 +129,7 @@
     <Property Name="TIME" Type="int" />
     <Property Name="SOURCE_DESCRIPTION" Type="nvarchar" MaxLength="250" />
     <Property Name="SOURCE_LINK" Type="nvarchar" MaxLength="250" />
+    <Property Name="IS_TEST" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Quiz_Listening">
     <Key>
@@ -148,6 +150,16 @@
     <Property Name="ACTIVE" Type="bit" Nullable="false" />
     <Property Name="POINT" Type="float" />
   </EntityType>
+  <EntityType Name="Quiz_Reading">
+    <Key>
+      <PropertyRef Name="PR_KEY" />
+    </Key>
+    <Property Name="PR_KEY" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="QUIZ_ID" Type="nvarchar" MaxLength="20" />
+    <Property Name="READING_TYPE_ID" Type="int" />
+    <Property Name="TOTAL_READING" Type="int" />
+    <Property Name="ACTIVE" Type="bit" />
+  </EntityType>
   <EntityType Name="Quiz_Type">
     <Key>
       <PropertyRef Name="QUIZ_TYPE_ID" />
@@ -155,6 +167,7 @@
     <Property Name="QUIZ_TYPE_ID" Type="nvarchar" MaxLength="20" Nullable="false" />
     <Property Name="QUIZ_TYPE_NAME" Type="nvarchar" MaxLength="150" />
     <Property Name="QUIZ_TYPE_DESCRIPTION" Type="nvarchar" MaxLength="150" />
+    <Property Name="IS_TEST" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Reading">
     <Key>
@@ -165,6 +178,7 @@
     <Property Name="READING_TYPE_ID" Type="int" />
     <Property Name="READING_IMAGE" Type="nvarchar" MaxLength="100" />
     <Property Name="IS_IMAGE" Type="bit" Nullable="false" />
+    <Property Name="IS_TEST" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Reading_Type">
     <Key>
@@ -366,6 +380,7 @@
     <EntitySet Name="Quiz" EntityType="Self.Quiz" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Quiz_Listening" EntityType="Self.Quiz_Listening" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Quiz_Questions" EntityType="Self.Quiz_Questions" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Quiz_Reading" EntityType="Self.Quiz_Reading" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Quiz_Type" EntityType="Self.Quiz_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Reading" EntityType="Self.Reading" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Reading_Type" EntityType="Self.Reading_Type" Schema="dbo" store:Type="Tables" />

@@ -23,6 +23,7 @@ namespace English_Quiz.Models
         public string QUIZ_TYPE_ID { get; set; }
         public string QUIZ_TYPE_NAME { get; set; }
         public string QUIZ_TYPE_DESCRIPTION { get; set; }
+        public bool IS_TEST { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Quiz> Quizs { get; set; }

@@ -24,6 +24,9 @@
         <th>
             Tên file nghe
         </th>
+        <th>
+            Đề test
+        </th>
         <th></th>
     </tr>
 
@@ -41,6 +44,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.LISTENING_FILE_NAME)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IS_TEST)
             </td>
             <td>
                 <a href='@Url.Action("EditListening","Listening", new { id = item.LISTENING_ID })' class="btn btn-info"><i class="fa fa-edit"></i></a>|

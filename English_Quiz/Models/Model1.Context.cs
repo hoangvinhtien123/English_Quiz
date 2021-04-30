@@ -45,5 +45,6 @@ namespace English_Quiz.Models
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Reading> Readings { get; set; }
         public virtual DbSet<Reading_Type> Reading_Type { get; set; }
+        public virtual DbSet<Quiz_Reading> Quiz_Reading { get; set; }
     }
 }

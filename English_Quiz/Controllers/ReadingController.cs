@@ -59,6 +59,10 @@ namespace English_Quiz.Controllers
                     fUpload.SaveAs(Server.MapPath($"~/Content/img/Reading/{fUpload.FileName}"));
                     reading.READING_IMAGE = fUpload.FileName;
                 }
+                else
+                {
+                    reading.READING_IMAGE = oldReading.READING_IMAGE;
+                }
                 db.Entry(oldReading).CurrentValues.SetValues(reading);
                 db.SaveChanges();
                 return RedirectToAction("Index");

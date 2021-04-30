@@ -18,6 +18,9 @@
         <th>
             Mô tả
         </th>
+        <th>
+            Loại test
+        </th>
         <th></th>
     </tr>
 
@@ -29,6 +32,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.QUIZ_TYPE_DESCRIPTION)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IS_TEST)
             </td>
             <td>
                 <a href='@Url.Action("EditQuizType","QuizType", new{ quizTypeId = item.QUIZ_TYPE_ID})' class="btn btn-info"><i class="fas fa-edit"></i></a>

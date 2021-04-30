@@ -19,6 +19,9 @@
         <th>
             Loại
         </th>
+        <th>
+            Đề test
+        </th>
         <th></th>
     </tr>
 
@@ -31,9 +34,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.POINT)
             </td>
-            
+
             <td>
                 @Html.DisplayFor(modelItem => item.Question_Type.TYPE_NAME)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IS_TEST)
             </td>
             <td>
                 <a href='@Url.Action("EditQuestion","Question", new { id = item.QUESTION_ID })' class="btn btn-info"><i class="fa fa-edit"></i></a>|

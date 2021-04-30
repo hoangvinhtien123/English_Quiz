@@ -29,6 +29,14 @@
             </div>
         </div>
         <div class="form-group">
+            <div class="col-md-12">
+                <label class="control-label col-md-2">Đề test</label>
+                @Html.CheckBoxFor(model => model.IS_TEST, new { htmlAttributes = new { @class = "form-control" }, id = "cbIsTest" })
+                @Html.ValidationMessageFor(model => model.IS_TEST, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+        <div class="form-group">
             <label class="control-label col-md-2"> Thời gian (phút)</label>
             <div class="col-md-10">
                 @Html.EditorFor(model => model.TIME, new { htmlAttributes = new { @class = "form-control" } })
@@ -52,7 +60,7 @@
         <div class="form-group">
             <label class="control-label col-md-2">Thông tin nguồn đề</label>
             <div class="col-md-10">
-                @Html.TextAreaFor(Model => Model.SOURCE_DESCRIPTION, new { Class =  "form-control" , Style="width:100%"  })
+                @Html.TextAreaFor(Model => Model.SOURCE_DESCRIPTION, new { Class = "form-control", Style = "width:100%" })
                 @Html.ValidationMessageFor(model => model.SOURCE_DESCRIPTION, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -67,6 +75,8 @@
         <div class="col-md-10" id="jsGridQuestion"></div>
         <label class="control-label col-md-2">Danh sách bài nghe</label>
         <div class="col-md-10" id="jsGridListening"></div>
+        <label class="control-label col-md-2">Danh sách bài đọc</label>
+        <div class="col-md-10" id="jsGridReading"></div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Thêm mới" class="btn btn-default" />
@@ -80,14 +90,15 @@
 </div>
 @section scripts{
     <script type="text/javascript">
-        var data = [];
+        var questionType = [];
         var listening = [];
+        var reading = [];
         const loadDataQuestionType = (id) => {
             $.post("/Quizz/getQuestionTypeByQuizId", {
                 id: id
             }, function (e) {
                 if (e) {
-                    data = e;
+                    questionType = e;
                 }
                 $("#jsGridQuestion").jsGrid({
                     width: "100%",
@@ -110,14 +121,14 @@
                     deleteConfirm: "Bạn có chắc chắn muốn xóa không?",
                     invalidMessage: "Lỗi",
                     noDataContent: "Không có dữ liệu",
-                    data: data.Questions,
+                    data: questionType.Questions,
                     inserting: true,
                     editing: true,
                     sorting: true,
                     paging: true,
                     fields: [
                         {
-                            name: "TYPE_ID", title: "Nhóm câu hỏi", type: "select", width: 150, items: data.QuestionTypes, valueField: "TYPE_ID", textField: "TYPE_NAME", validate: {
+                            name: "TYPE_ID", title: "Nhóm câu hỏi", type: "select", width: 150, items: questionType.QuestionTypes, valueField: "TYPE_ID", textField: "TYPE_NAME", validate: {
                                 validator: "required",
                                 message: function (value, item) {
                                     return "Cần chọn loại câu hỏi";
@@ -174,6 +185,49 @@
             }, "json")
         }
 
+        const initGridListening = (data, isTest) => {
+            $("#jsGridListening").jsGrid({
+                width: "100%",
+                height: "400px",
+                autoload: true,
+                controller: {
+                    insertItem: function (filter) {
+                        insertListening(filter)
+                    },
+                    updateItem: function (filter) {
+                        updateListening(filter)
+                    },
+                    deleteItem: function (filter) {
+                        deleteListening(filter)
+                    }
+                },
+                onItemInserting: function (args) {
+                    checkBeforeInsert(args);
+                },
+                deleteConfirm: "Bạn có chắc chắn muốn xóa không?",
+                invalidMessage: "Lỗi",
+                noDataContent: "Không có dữ liệu",
+                data: data.Quiz_Listening,
+                inserting: true,
+                editing: true,
+                sorting: true,
+                paging: true,
+                fields: [
+                    {
+                        name: "LISTENING_ID", title: "Bài nghe", type: "select", width: 150, items: (isTest == true) ? data.Listening : data.ListeningPractice, valueField: "LISTENING_ID", textField: "LISTENING_NAME_VN", validate: {
+                            validator: "required",
+                            message: function (value, item) {
+                                return "Cần bài nghe";
+                            },
+                        }
+                    },
+                    { name: "PR_KEY", visible: false },
+                   
+                    { name: "ACTIVE", type: "checkbox", width: 20, title: "Hoạt động", sorting: false },
+                    { type: "control" }
+                ]
+            });
+        }
         const loadListening = (id) => {
             $.post("/Quizz/getListeningById", {
                 id: id
@@ -181,46 +235,7 @@
                 if (e) {
                     listening = e;
                 }
-                $("#jsGridListening").jsGrid({
-                    width: "100%",
-                    height: "400px",
-                    autoload: true,
-                    controller: {
-                        insertItem: function (filter) {
-                            insertListening(filter)
-                        },
-                        updateItem: function (filter) {
-                            updateListening(filter)
-                        },
-                        deleteItem: function (filter) {
-                            deleteListening(filter)
-                        }
-                    },
-                    onItemInserting: function (args) {
-                        checkBeforeInsert(args);
-                    },
-                    deleteConfirm: "Bạn có chắc chắn muốn xóa không?",
-                    invalidMessage: "Lỗi",
-                    noDataContent: "Không có dữ liệu",
-                    data: listening.Quiz_Listening,
-                    inserting: true,
-                    editing: true,
-                    sorting: true,
-                    paging: true,
-                    fields: [
-                        {
-                            name: "LISTENING_ID", title: "Bài nghe", type: "select", width: 150, items: listening.Listening, valueField: "LISTENING_ID", textField: "LISTENING_NAME_VN", validate: {
-                                validator: "required",
-                                message: function (value, item) {
-                                    return "Cần bài nghe";
-                                },
-                            }
-                        },
-                        { name: "PR_KEY", visible: false },
-                        { name: "ACTIVE", type: "checkbox", width: 20, title: "Hoạt động", sorting: false },
-                        { type: "control" }
-                    ]
-                });
+                initGridListening(listening, false);
             }, "json");
         }
 
@@ -254,9 +269,106 @@
 
             }, "json")
         }
+
+        const initGridReading = (data) => {
+            $("#jsGridReading").jsGrid({
+                width: "100%",
+                height: "400px",
+                autoload: true,
+                controller: {
+                    insertItem: function (filter) {
+                        insertReading(filter)
+                    },
+                    updateItem: function (filter) {
+                        updateReading(filter)
+                    },
+                    deleteItem: function (filter) {
+                        deleteReading(filter)
+                    }
+                },
+                onItemInserting: function (args) {
+                    checkBeforeInsert(args);
+                },
+                deleteConfirm: "Bạn có chắc chắn muốn xóa không?",
+                invalidMessage: "Lỗi",
+                noDataContent: "Không có dữ liệu",
+                data: data.QuizReading,
+                inserting: true,
+                editing: true,
+                sorting: true,
+                paging: true,
+                fields: [
+                    {
+                        name: "READING_TYPE_ID", title: "Loại bài đọc", type: "select", width: 150, items: data.ReadingType, valueField: "READING_TYPE_ID", textField: "READING_TYPE_NAME", validate: {
+                            validator: "required",
+                            message: function (value, item) {
+                                return "Cần bài nghe";
+                            },
+                        }
+                    },
+                    { name: "PR_KEY", visible: false },
+                     { name: "TOTAL_READING", type: "number", width: 20, title: "Số lượng câu hỏi", min:0 },
+                    { name: "ACTIVE", type: "checkbox", width: 20, title: "Hoạt động", sorting: false },
+                    { type: "control" }
+                ]
+            });
+        }
+        const loadReading = (id) => {
+            $.post("/Quizz/getReadingById", {
+                id: id
+            }, function (e) {
+                if (e) {
+                    reading = e;
+                }
+                initGridReading(reading);
+            }, "json");
+        }
+
+        function insertReading(filter) {
+            let quiz_id = $("#QUIZ_ID").val();
+            return $.post("/Quizz/AddReading", {
+                reading_type_id: filter.READING_TYPE_ID,
+                quiz_id: quiz_id,
+                total_reading: filter.TOTAL_READING,
+                active: filter.ACTIVE
+            }, function (e) {
+                loadListening(quiz_id)
+            }, "json")
+        }
+        function updateReading(filter) {
+            let quiz_id = $("#QUIZ_ID").val();
+            return $.post("/Quizz/UpdateReading", {
+                reading_type_id: filter.READING_TYPE_ID,
+                quiz_id: quiz_id,
+                total_reading: filter.TOTAL_READING,
+                active: filter.ACTIVE,
+                pr_key: filter.PR_KEY
+            }, function (e) {
+
+            }, "json")
+        }
+        function deleteReading(filter) {
+            let quiz_id = $("#QUIZ_ID").val();
+            return $.post("/Quizz/DeleteReading", {
+                reading_type_id: filter.READING_TYPE_ID,
+                quiz_id: quiz_id,
+                pr_key: filter.PR_KEY
+            }, function (e) {
+
+            }, "json")
+        }
         $(document).ready(function () {
             loadDataQuestionType('0');
             loadListening('0');
+            loadReading('0');
+            $("#cbIsTest").change(function (e) {
+                if ($("#cbIsTest")[0].checked == true) {
+                    initGridListening(listening, true);
+                }
+                else {
+                    initGridListening(listening, false);
+                }
+            })
         })
     </script>
 }

@@ -225,6 +225,9 @@
     <Compile Include="Models\Quiz_Questions.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Quiz_Reading.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Quiz_Type.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

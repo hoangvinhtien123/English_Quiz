@@ -120,18 +120,19 @@ namespace English_Quiz.Controllers
         [HttpGet]
         public ActionResult QuizTest(string quizId)
         {
-            List<Quiz> data = db.Quizs.Where(p => p.QUIZ_ID == quizId).ToList();
+            Quiz data = db.Quizs.Where(p => p.QUIZ_ID == quizId).FirstOrDefault();
             List<Question> lstQuestion = new List<Question>();
             List<Question> finalLstQuestion = new List<Question>();
             Random r = new Random();
             int total = 0;
-            if (data != null && data.Count > 0)
+            if (data != null)
             {
                 Session["QuizzSelected"] = data;
-                ViewBag.time = data[0].TIME;
-                ViewBag.description = data[0].SOURCE_DESCRIPTION;
-                ViewBag.link = data[0].SOURCE_LINK;
+                ViewBag.time = data.TIME;
+                ViewBag.description = data.SOURCE_DESCRIPTION;
+                ViewBag.link = data.SOURCE_LINK;
             }
+            #region question
             List<Questions_Auto_Generate> lstAutoGenerate = db.Questions_Auto_Generate.SqlQuery($"select * from Questions_Auto_Generate where QUIZ_ID='{quizId}'").ToList();
             for (int i = 0; i < lstAutoGenerate.Count; i++)
             {
@@ -143,7 +144,14 @@ namespace English_Quiz.Controllers
                     List<int> lstNumberRandom = new List<int>();
                     int number_question = Convert.ToInt32(total_question_per_type);
                     total += number_question;
-                    lstQuestion = db.Questions.Where(x => x.TYPE_ID == type_id).ToList();
+                    if(data.IS_TEST == true)
+                    {
+                        lstQuestion = db.Questions.Where(x => x.TYPE_ID == type_id && x.IS_TEST == true).ToList();
+                    }
+                    else
+                    {
+                        lstQuestion = db.Questions.Where(x => x.TYPE_ID == type_id && x.IS_TEST == false).ToList();
+                    }
                     if (number_question >= lstQuestion.Count)
                     {
                         for (int j = 0; j < lstQuestion.Count; j++)
@@ -175,6 +183,8 @@ namespace English_Quiz.Controllers
                     }
                 }
             }
+            #endregion
+            #region Listening
             lstQuestion = db.Questions.Where(x => x.IS_LISTENING == true).ToList();
             List<Quiz_Listening> lstQuestionListening = db.Quiz_Listening.Where(x => x.QUIZ_ID == quizId).ToList();
             if (lstQuestionListening.Count > 0)
@@ -200,17 +210,82 @@ namespace English_Quiz.Controllers
                     }
                 }
             }
-
-            lstQuestion = db.Questions.Where(x => x.READING_ID != null).ToList();
-            if (lstQuestion.Count > 0)
+            #endregion
+           
+            List<Quiz_Reading> quizReading = db.Quiz_Reading.Where(x => x.QUIZ_ID == quizId).ToList();
+            List<Reading> readings = new List<Reading>();
+            if (quizReading.Count > 0)
             {
-                for (int i = 0; i < lstQuestion.Count; i++)
+                List<Reading> readingByType = new List<Reading>();
+                ViewData["ReadingType"] = db.Reading_Type.ToList();
+                for (int i = 0; i < quizReading.Count; i++)
                 {
-                    ViewData["Reading"] = db.Readings.ToList();
-                    ViewData["ReadingType"] = db.Reading_Type.ToList();
-                    finalLstQuestion.Add(lstQuestion[i]);
+                    
+                    total = 0;
+                    int? readingType = quizReading[i].READING_TYPE_ID;
+                    int? totalReading = quizReading[i].TOTAL_READING;
+                    if (readingType != null && totalReading != null)
+                    {
+                        List<int> lstNumberRandom = new List<int>();
+                        int number_reading = Convert.ToInt32(totalReading);
+                        total += number_reading;
+                        if (data.IS_TEST == true)
+                        {
+                            readings = db.Readings.Where(x => x.IS_TEST == true && x.READING_TYPE_ID == readingType).ToList();
+                        }
+                        else
+                        {
+                            readings = db.Readings.Where(x => x.IS_TEST == false && x.READING_TYPE_ID == readingType).ToList();
+                        }
+                        if (number_reading >= readings.Count)
+                        {
+                            for (int j = 0; j < readings.Count; j++)
+                            {
+                                readingByType.Add(readings[j]);
+                                lstQuestion = db.Questions.Where(x => x.READING_ID == readings[j].READING_ID).ToList();
+                                for (int m = 0; m < lstQuestion.Count; m++)
+                                {
+                                    finalLstQuestion.Add(lstQuestion[m]);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            int random = r.Next(0, readings.Count);
+                            int count = random;
+                            for (int j = 0; j < number_reading; j++)
+                            {
+                                readingByType.Add(readings[random]);
+                                lstNumberRandom.Add(random);
+                                while (lstNumberRandom.Contains(random) && readingByType.Count < total)
+                                {
+                                    count++;
+                                    if (count < readings.Count)
+                                    {
+                                        random = count;
+                                    }
+                                    else
+                                    {
+                                        count = 0;
+                                    }
+                                }
+                            }
+                            for (int j = 0; j < readingByType.Count; j++)
+                            {
+                                int readingId = readingByType[j].READING_ID;
+                                lstQuestion = db.Questions.Where(x => x.READING_ID == readingId).ToList();
+                                for (int m = 0; m < lstQuestion.Count; m++)
+                                {
+                                    finalLstQuestion.Add(lstQuestion[m]);
+                                }
+                            }
+                        }
+                    }
                 }
+                ViewData["Reading"] = readingByType;
             }
+            
+            
             ViewData["Answer"] = db.Answers.SqlQuery(@"select * from Answer ORDER BY LIST_ORDER ASC").ToList();
 
             return View(finalLstQuestion);
