@@ -2130,6 +2130,7 @@
     <Content Include="Views\ListeningType\Index.cshtml" />
     <Content Include="Views\ListeningType\CreateListeningType.cshtml" />
     <Content Include="Views\ListeningType\EditListeningType.cshtml" />
+    <Content Include="Views\Take_Quiz\SelectLesson.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

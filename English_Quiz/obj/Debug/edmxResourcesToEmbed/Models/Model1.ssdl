@@ -44,7 +44,7 @@
       <PropertyRef Name="User_Name" />
       <PropertyRef Name="Point" />
     </Key>
-    <Property Name="Quiz_ID" Type="int" Nullable="false" />
+    <Property Name="Quiz_ID" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="User_Name" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="Point" Type="float" Nullable="false" />
     <Property Name="Date_Take_Quiz" Type="date" />

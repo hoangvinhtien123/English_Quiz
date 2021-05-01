@@ -197,9 +197,9 @@
                         deleteListening(filter)
                     }
                 },
-                onItemInserting: function (args) {
-                    checkBeforeInsert(args);
-                },
+                //onItemInserting: function (args) {
+                //    checkBeforeInsert(args);
+                //},
                 deleteConfirm: "Bạn có chắc chắn muốn xóa không?",
                 invalidMessage: "Lỗi",
                 noDataContent: "Không có dữ liệu",
@@ -241,7 +241,14 @@
                 quiz_id: quiz_id,
                 active: filter.ACTIVE
             }, function (e) {
-                loadListening(quiz_id)
+                    var isTest = false;
+                if ($("#cbIsTest")[0].checked == true) {
+                     isTest = "True"
+                }
+                else {
+                     isTest = "False";
+                }
+                loadListening(quiz_id ,isTest )
             },"json")
         }
         function updateListening(filter) {
@@ -314,7 +321,7 @@
                     reading = e;
                 }
                     initGridReading(reading);
-                   
+
             }, "json");
         }
 
@@ -356,7 +363,7 @@
             loadReading('@Model.QUIZ_ID');
             loadDataQuestionType('@Model.QUIZ_ID');
             loadListening('@Model.QUIZ_ID', '@Model.IS_TEST');
-            
+
             $("#cbIsTest").change(function (e) {
                 if ($("#cbIsTest")[0].checked == true) {
                     initGridListening(listening, true);

@@ -39,7 +39,7 @@
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="@Url.Action("QuizType","Take_Quiz")">Kiểm tra trình độ</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="@Url.Action("LessonType","Take_Quiz")">Bài luyện tập</a></li>
                 </ul>
-                @*<ul class="navbar-nav ml-auto my-2 my-lg-0">
+                <ul class="navbar-nav ml-auto my-2 my-lg-0">
                         @if (user == null)
                         {
 
@@ -52,7 +52,7 @@
                             <li class="nav-item"> <a class="nav-link js-scroll-trigger">Chào mừng : @user.FULL_NAME </a></li>
                             <li class="nav-item"><a class="nav-link js-scroll-trigger" href="@Url.Action("LogOut","Take_Quiz")">Đăng xuất</a></li>
                         }
-                    </ul>*@
+                    </ul>
             </div>
         </div>
     </nav>
@@ -76,7 +76,7 @@
                 <div class="col-lg-4 mr-auto text-center">
                     <i class="fas fa-envelope fa-3x mb-3 text-muted"></i>
                     <!-- Make sure to change the email address in BOTH the anchor text and the link target below!-->
-                    <a class="d-block" href="#">hoangvinhtien@gmail.com</a>
+                    <a class="d-block" href="javascript:void(0)">hoangvinhtien@gmail.com</a>
                 </div>
             </div>
         </div>

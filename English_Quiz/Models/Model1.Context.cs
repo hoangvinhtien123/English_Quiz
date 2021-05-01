@@ -29,7 +29,6 @@ namespace English_Quiz.Models
         public virtual DbSet<Class> Classes { get; set; }
         public virtual DbSet<EmployeeMaster> EmployeeMasters { get; set; }
         public virtual DbSet<Function> Functions { get; set; }
-        public virtual DbSet<History_Quiz> History_Quiz { get; set; }
         public virtual DbSet<Listening> Listenings { get; set; }
         public virtual DbSet<Listening_Type> Listening_Type { get; set; }
         public virtual DbSet<Permission> Permissions { get; set; }
@@ -46,5 +45,6 @@ namespace English_Quiz.Models
         public virtual DbSet<Reading> Readings { get; set; }
         public virtual DbSet<Reading_Type> Reading_Type { get; set; }
         public virtual DbSet<Quiz_Reading> Quiz_Reading { get; set; }
+        public virtual DbSet<History_Quiz> History_Quiz { get; set; }
     }
 }

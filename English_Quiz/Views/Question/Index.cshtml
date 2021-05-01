@@ -8,6 +8,15 @@
 <p>
     <a class="btn btn-primary" href='@Url.Action("CreateQuestion","Question")'> Thêm mới</a>
 </p>
+@using (Html.BeginForm("Index", "Question", FormMethod.Post, new { @id = "questionTypeSubmit" }))
+{
+    <div class="form-group row">
+        <label class="control-label col-md-2" style="font-size:16px;">Loại câu hỏi </label>
+        <div class="col-md-4">
+            @Html.DropDownList("ddlQuestionType", (SelectList)ViewBag.ddlQuestionType, "--- Chọn vai trò ---", new { @class = "form-control", @name = "ddlQuestionType", @onchange = "submitQuestionType()" })
+        </div>
+    </div>
+}
 <table class="table">
     <tr>
         <th>
@@ -28,7 +37,7 @@
     @foreach (var item in Model)
     {
         <tr>
-            <td>
+            <td style="width:40%">
                 @Html.DisplayFor(modelItem => item.QUESTION_TEXT)
             </td>
             <td>
@@ -52,7 +61,9 @@
 </table>
 @section scripts{
     <script type="text/javascript">
-
+        function submitQuestionType() {
+        $("#questionTypeSubmit").submit();
+    }
         const deleteQuestion = (id) => {
             Swal.fire({
                 title: 'Bạn chắc chắn sẽ xóa?',

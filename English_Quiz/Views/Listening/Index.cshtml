@@ -52,7 +52,7 @@
                 <a href='@Url.Action("EditListening","Listening", new { id = item.LISTENING_ID })' class="btn btn-info"><i class="fa fa-edit"></i></a>|
                 @*<a style="width:44px;" href="javascript:void(0)" class="btn btn-secondary"><i class="fa fa-info"></i></a>|*@
                 <a href="javascript:void(0)" onclick="deleteListening('@item.LISTENING_ID')" class="btn btn-danger"><i class="fa fa-trash-alt"></i></a>
-                | <a href="#" onclick="showListeningQuestion(@item.LISTENING_ID)" data-toggle="modal" class="btn btn-dark"><i class="fas fa-plus"></i></a>
+                | <a href="#" onclick="showListeningQuestion('@item.LISTENING_ID')" data-toggle="modal" class="btn btn-dark"><i class="fas fa-plus"></i></a>
             </td>
         </tr>
     }
@@ -166,9 +166,9 @@
             })
         }
 
-        const initTableQuestions = (question ,id) => {
+        const initTableQuestions = (question ,id , newQuestionid) => {
             var listQuestion = `
-                    <a class="btn btn-default" onclick="addListeningQuestion(`+ id + `)"> <i class="fas fa-plus"></i> Thêm mới </a>
+                    <a class="btn btn-default" onclick="addListeningQuestion('`+ id + `' , '`+newQuestionid[0].QUESTION_ID+`')"> <i class="fas fa-plus"></i> Thêm mới </a>
                     <table class="table" style="margin-top:10px;">
                             <tr>
                                 <th>
@@ -205,16 +205,16 @@
             $.post("/Listening/getQuestionByListeningId", {
                 listeningId : id
             }, function (e) {
-                    var lstQuestion = initTableQuestions(e.Question,id)
+                    var lstQuestion = initTableQuestions(e.Question,id , e.NewQuestionId)
                     $("#contentListQuestion").html(lstQuestion);
                     $('#modalListQuestion').modal('show');
                     files = "";
             }, "json")
         }
-        const addListeningQuestion = (id) => {
+        const addListeningQuestion = (id , newQuestionId) => {
             $('#modalQuestionDetail').modal('show');
             $("#LISTENING_ID").val(id);
-            $("#QUESTION_ID").val("");
+            $("#QUESTION_ID").val(newQuestionId);
             $("#QUESTION_TEXT").val("");
             $("#POINT").val("");
             is_new = true;
@@ -256,7 +256,7 @@
                 url: "/Listening/saveListeningQuestion",
                 success: function (e) {
                     if (e) {
-                        var lstQuestion = initTableQuestions(e.Question, listening_id);
+                        var lstQuestion = initTableQuestions(e.Question, listening_id , e.NewQuestionId);
                         $("#contentListQuestion").html(lstQuestion);
                     }
                 }

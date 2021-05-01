@@ -22,7 +22,11 @@ namespace English_Quiz.Controllers
         public ActionResult CreateListening()
         {
             ViewBag.listType = new SelectList(db.Listening_Type.ToList(), "LISTENING_TYPE_ID", "LISTENING_TYPE_NAME_VN");
-            return View();
+            Listening listening = new Listening();
+            int totalListening = db.Listenings.ToList().Count + 1;
+            string listeningId = "LISTENING" + totalListening;
+            listening.LISTENING_ID = listeningId;
+            return View(listening);
         }
         [ValidateAntiForgeryToken]
         [HttpPost]
@@ -141,6 +145,13 @@ namespace English_Quiz.Controllers
                 path = string.Empty;
             }
             ds.Tables.Add(questionTbl);
+            int totalQuestion = db.Questions.ToList().Count + 1;
+            string questionId = "TOEIC" + totalQuestion;
+            DataTable countQuestion = new DataTable();
+            countQuestion.Columns.Add("QUESTION_ID", typeof(string));
+            countQuestion.Rows.Add(questionId);
+            countQuestion.TableName = "NewQuestionId";
+            ds.Tables.Add(countQuestion);
             return JsonConvert.SerializeObject(ds);
         }
 

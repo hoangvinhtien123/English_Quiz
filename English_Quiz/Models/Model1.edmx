@@ -49,7 +49,7 @@
             <PropertyRef Name="User_Name" />
             <PropertyRef Name="Point" />
           </Key>
-          <Property Name="Quiz_ID" Type="int" Nullable="false" />
+          <Property Name="Quiz_ID" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="User_Name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Point" Type="float" Nullable="false" />
           <Property Name="Date_Take_Quiz" Type="date" />
@@ -484,18 +484,6 @@
           <Property Name="OrderNumber" Type="Int32" />
           <NavigationProperty Name="Permissions" Relationship="Self.FK_Permission_Role" FromRole="Function" ToRole="Permission" />
         </EntityType>
-        <EntityType Name="History_Quiz">
-          <Key>
-            <PropertyRef Name="Quiz_ID" />
-            <PropertyRef Name="User_Name" />
-            <PropertyRef Name="Point" />
-          </Key>
-          <Property Name="Quiz_ID" Type="Int32" Nullable="false" />
-          <Property Name="User_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Point" Type="Double" Nullable="false" />
-          <Property Name="Date_Take_Quiz" Type="DateTime" Precision="0" />
-          <Property Name="Quiz_Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="Listening">
           <Key>
             <PropertyRef Name="LISTENING_ID" />
@@ -795,7 +783,6 @@
           <EntitySet Name="Classes" EntityType="Self.Class" />
           <EntitySet Name="EmployeeMasters" EntityType="Self.EmployeeMaster" />
           <EntitySet Name="Functions" EntityType="Self.Function" />
-          <EntitySet Name="History_Quiz" EntityType="Self.History_Quiz" />
           <EntitySet Name="Listenings" EntityType="Self.Listening" />
           <EntitySet Name="Listening_Type" EntityType="Self.Listening_Type" />
           <EntitySet Name="Permissions" EntityType="Self.Permission" />
@@ -864,6 +851,7 @@
             <End Role="Reading" EntitySet="Readings" />
           </AssociationSet>
           <EntitySet Name="Quiz_Reading" EntityType="English_QuizModel.Quiz_Reading" />
+          <EntitySet Name="History_Quiz" EntityType="English_QuizModel.History_Quiz" />
         </EntityContainer>
         <EntityType Name="Reading">
           <Key>
@@ -923,6 +911,18 @@
           <Property Name="READING_TYPE_ID" Type="Int32" />
           <Property Name="TOTAL_READING" Type="Int32" />
         </EntityType>
+        <EntityType Name="History_Quiz">
+          <Key>
+            <PropertyRef Name="Quiz_ID" />
+            <PropertyRef Name="User_Name" />
+            <PropertyRef Name="Point" />
+          </Key>
+          <Property Name="Quiz_ID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="User_Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Point" Type="Double" Nullable="false" />
+          <Property Name="Date_Take_Quiz" Type="DateTime" Precision="0" />
+          <Property Name="Quiz_Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -968,17 +968,6 @@
                 <ScalarProperty Name="Form_Name" ColumnName="Form_Name" />
                 <ScalarProperty Name="Module" ColumnName="Module" />
                 <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="History_Quiz">
-            <EntityTypeMapping TypeName="English_QuizModel.History_Quiz">
-              <MappingFragment StoreEntitySet="History_Quiz">
-                <ScalarProperty Name="Quiz_ID" ColumnName="Quiz_ID" />
-                <ScalarProperty Name="User_Name" ColumnName="User_Name" />
-                <ScalarProperty Name="Point" ColumnName="Point" />
-                <ScalarProperty Name="Date_Take_Quiz" ColumnName="Date_Take_Quiz" />
-                <ScalarProperty Name="Quiz_Name" ColumnName="Quiz_Name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1165,6 +1154,17 @@
                 <ScalarProperty Name="ACTIVE" ColumnName="ACTIVE" />
                 <ScalarProperty Name="QUIZ_ID" ColumnName="QUIZ_ID" />
                 <ScalarProperty Name="PR_KEY" ColumnName="PR_KEY" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="History_Quiz">
+            <EntityTypeMapping TypeName="English_QuizModel.History_Quiz">
+              <MappingFragment StoreEntitySet="History_Quiz">
+                <ScalarProperty Name="Quiz_Name" ColumnName="Quiz_Name" />
+                <ScalarProperty Name="Date_Take_Quiz" ColumnName="Date_Take_Quiz" />
+                <ScalarProperty Name="Point" ColumnName="Point" />
+                <ScalarProperty Name="User_Name" ColumnName="User_Name" />
+                <ScalarProperty Name="Quiz_ID" ColumnName="Quiz_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

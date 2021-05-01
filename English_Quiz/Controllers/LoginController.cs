@@ -28,14 +28,14 @@ namespace English_Quiz.Controllers
         public ActionResult CheckLogin(string username, string pwd, string remember)
         {
             User obj = new User();
-            obj = db.Users.First(x => x.FULL_NAME == username);
+            obj = db.Users.First(x => x.USER_NAME == username);
 
             if (obj.USER_ID > 0)
             {
                 if (checkPass(pwd, obj.PASSWORD))
                 { //Đăng nhập thành công
                     Session.Add(ConstantData.USER_SESSION, obj);
-                    Session.Add("UserName", username);
+                    Session.Add("UserName", obj.FULL_NAME);
                     Session.Add("Image", obj.PROFILE_IMAGE);
                     Session.Add("Role", obj.ROLE_ID);
                     if (Convert.ToBoolean(remember))

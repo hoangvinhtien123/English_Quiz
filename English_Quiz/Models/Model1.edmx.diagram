@@ -4,12 +4,11 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="02bd0d6cf7c647f9b6ad54e27f014bfa" Name="Diagram1">
+      <Diagram DiagramId="02bd0d6cf7c647f9b6ad54e27f014bfa" Name="Diagram1" ZoomLevel="86">
         <EntityTypeShape EntityType="English_QuizModel.Answer" Width="1.5" PointX="7.75" PointY="2" IsExpanded="true" />
         <EntityTypeShape EntityType="English_QuizModel.Class" Width="1.5" PointX="7.75" PointY="5" IsExpanded="true" />
         <EntityTypeShape EntityType="English_QuizModel.EmployeeMaster" Width="1.5" PointX="9.75" PointY="2" IsExpanded="true" />
         <EntityTypeShape EntityType="English_QuizModel.Function" Width="1.5" PointX="5.75" PointY="12.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="English_QuizModel.History_Quiz" Width="1.5" PointX="9.75" PointY="5" IsExpanded="true" />
         <EntityTypeShape EntityType="English_QuizModel.Listening" Width="1.5" PointX="0.75" PointY="7.375" IsExpanded="true" />
         <EntityTypeShape EntityType="English_QuizModel.Listening_Type" Width="1.75" PointX="1.5" PointY="12.5" IsExpanded="true" />
         <EntityTypeShape EntityType="English_QuizModel.Permission" Width="1.5" PointX="8" PointY="9.125" IsExpanded="true" />
@@ -39,6 +38,7 @@
         <EntityTypeShape EntityType="English_QuizModel.Reading_Type" Width="1.5" PointX="0.75" PointY="18.25" />
         <AssociationConnector Association="English_QuizModel.FK_Reading_Reading_Type" />
         <EntityTypeShape EntityType="English_QuizModel.Quiz_Reading" Width="2.5" PointX="10.375" PointY="10.5" />
+        <EntityTypeShape EntityType="English_QuizModel.History_Quiz" Width="1.5" PointX="10.375" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

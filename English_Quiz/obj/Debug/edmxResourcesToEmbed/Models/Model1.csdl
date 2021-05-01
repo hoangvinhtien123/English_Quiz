@@ -39,18 +39,6 @@
     <Property Name="OrderNumber" Type="Int32" />
     <NavigationProperty Name="Permissions" Relationship="Self.FK_Permission_Role" FromRole="Function" ToRole="Permission" />
   </EntityType>
-  <EntityType Name="History_Quiz">
-    <Key>
-      <PropertyRef Name="Quiz_ID" />
-      <PropertyRef Name="User_Name" />
-      <PropertyRef Name="Point" />
-    </Key>
-    <Property Name="Quiz_ID" Type="Int32" Nullable="false" />
-    <Property Name="User_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="Point" Type="Double" Nullable="false" />
-    <Property Name="Date_Take_Quiz" Type="DateTime" Precision="0" />
-    <Property Name="Quiz_Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-  </EntityType>
   <EntityType Name="Listening">
     <Key>
       <PropertyRef Name="LISTENING_ID" />
@@ -350,7 +338,6 @@
     <EntitySet Name="Classes" EntityType="Self.Class" />
     <EntitySet Name="EmployeeMasters" EntityType="Self.EmployeeMaster" />
     <EntitySet Name="Functions" EntityType="Self.Function" />
-    <EntitySet Name="History_Quiz" EntityType="Self.History_Quiz" />
     <EntitySet Name="Listenings" EntityType="Self.Listening" />
     <EntitySet Name="Listening_Type" EntityType="Self.Listening_Type" />
     <EntitySet Name="Permissions" EntityType="Self.Permission" />
@@ -419,6 +406,7 @@
       <End Role="Reading" EntitySet="Readings" />
     </AssociationSet>
     <EntitySet Name="Quiz_Reading" EntityType="English_QuizModel.Quiz_Reading" />
+    <EntitySet Name="History_Quiz" EntityType="English_QuizModel.History_Quiz" />
   </EntityContainer>
   <EntityType Name="Reading">
     <Key>
@@ -477,5 +465,17 @@
     <Property Name="ACTIVE" Type="Boolean" />
     <Property Name="READING_TYPE_ID" Type="Int32" />
     <Property Name="TOTAL_READING" Type="Int32" />
+  </EntityType>
+  <EntityType Name="History_Quiz">
+    <Key>
+      <PropertyRef Name="Quiz_ID" />
+      <PropertyRef Name="User_Name" />
+      <PropertyRef Name="Point" />
+    </Key>
+    <Property Name="Quiz_ID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="User_Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Point" Type="Double" Nullable="false" />
+    <Property Name="Date_Take_Quiz" Type="DateTime" Precision="0" />
+    <Property Name="Quiz_Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
   </EntityType>
 </Schema>

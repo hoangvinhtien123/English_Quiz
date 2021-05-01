@@ -141,6 +141,7 @@
         {
             <div style="right:0px;position:fixed;margin-right:15%;" id="countdown"></div>
             <button type="button" id="SubmitQuiz" class="btn btn-light btn-xl js-scroll-trigger" style="margin-top: 40px; position:fixed;right:13%;"><span class="glyphicon glyphicon-ok"></span>   Nộp bài </button>
+            
             <div style="margin-top:50px;position:fixed;right:15%;" id="point"></div>
         }
         <div class="tab-content">
@@ -362,7 +363,8 @@
                                 {
                                     if (listening.LISTENING_TYPE_ID == item.LISTENING_TYPE_ID)
                                     {
-                                        if (listening.LISTENING_FILE_NAME != string.Empty && listening.LISTENING_FILE_NAME != null)
+                                        var isTest = Model[0].IS_TEST;
+                                        if (listening.LISTENING_FILE_NAME != string.Empty && listening.LISTENING_FILE_NAME != null && listening.IS_TEST == isTest)
                                         {
                                             <div style="margin-top:20px;">
                                                 <audio controls preload="metadata" style="width:75%;">
@@ -428,8 +430,8 @@
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                             <div class="modal-body">
-                                <p>Thời gian bài thi : @quiz_time phút</p>
-                                <p>Thông tin đề thi : @description</p>
+                                <p>Thời gian : @quiz_time phút</p>
+                                <p>Thông tin bộ đề : @description</p>
                                 <p>Nguồn : @link</p>
                             </div>
                             <div class="modal-footer">
@@ -543,11 +545,11 @@
 
                             $("#point").html('<h4> Tổng điểm :' + point + '</h4>');
                             document.getElementById("SubmitQuiz").style.visibility = "hidden"
-                            //$.post("/Take_Quiz/Quiz_History",{
-                            //    point: point,
-                            //}, function () {
+                            $.post("/Take_Quiz/Quiz_History",{
+                                point: point,
+                            }, function () {
 
-                            //},"json")
+                            },"json")
                         }
                     else{
                         alert("Something Wrong");

@@ -53,7 +53,7 @@
                 <a href='@Url.Action("EditReading","Reading", new{ id = item.READING_ID})' class="btn btn-info"><i class="fas fa-edit"></i></a>
                 |
                 <a href="javascript:void(0)" onclick="deleteQuizType(@item.READING_ID)" class="btn  btn-danger"><i class="far fa-trash-alt"></i></a>
-                | <a href="#" onclick="showReadingQuestion(@item.READING_ID)" data-toggle="modal" class="btn btn-dark"><i class="fas fa-plus"></i></a>
+                | <a href="#" onclick="showReadingQuestion('@item.READING_ID')" data-toggle="modal" class="btn btn-dark"><i class="fas fa-plus"></i></a>
             </td>
         </tr>
     }
@@ -163,7 +163,7 @@
         //Question theo reading
         const initTableQuestions = (question ,id , newQuestionid) => {
             var listQuestion = `
-                    <a class="btn btn-default" onclick="addReadingQuestion(`+ id + ` , '`+newQuestionid[0].QUESTION_ID+`')"> <i class="fas fa-plus"></i> Thêm mới </a>
+                    <a class="btn btn-default" onclick="addReadingQuestion('`+ id + `' , '`+newQuestionid[0].QUESTION_ID+`')"> <i class="fas fa-plus"></i> Thêm mới </a>
                     <table class="table" style="margin-top:10px;">
                             <tr>
                                 <th>

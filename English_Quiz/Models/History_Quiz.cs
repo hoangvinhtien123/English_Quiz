@@ -14,7 +14,7 @@ namespace English_Quiz.Models
     
     public partial class History_Quiz
     {
-        public int Quiz_ID { get; set; }
+        public string Quiz_ID { get; set; }
         public string User_Name { get; set; }
         public double Point { get; set; }
         public Nullable<System.DateTime> Date_Take_Quiz { get; set; }

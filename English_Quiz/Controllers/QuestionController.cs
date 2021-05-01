@@ -14,9 +14,16 @@ namespace English_Quiz.Controllers
     {
         English_QuizEntities db = new English_QuizEntities();
         [CheckPermission(PermissionName = "QuanLyCauHoi", Action = ConstantCommon.Action.View)]
-        public ActionResult Index()
+        public ActionResult Index(int? ddlQuestionType)
         {
-            return View(db.Questions.Where(x=>x.IS_LISTENING == false && x.READING_ID == null));
+            var lstQuestionType = db.Question_Type.ToList();
+            ViewBag.ddlQuestionType = new SelectList(lstQuestionType, "TYPE_ID", "TYPE_NAME");
+            if (ddlQuestionType==null)
+            {
+                return View(db.Questions.Where(x => x.IS_LISTENING == false && x.READING_ID == null).ToList().OrderBy(x => x.TYPE_ID));
+            }
+            int? questionType = ddlQuestionType;
+            return View(db.Questions.Where(x => x.IS_LISTENING == false && x.READING_ID == null && x.TYPE_ID==questionType).ToList().OrderBy(x => x.TYPE_ID));
         }
         [CheckPermission(PermissionName = "QuanLyCauHoi", Action = ConstantCommon.Action.Add)]
         public ActionResult CreateQuestion()

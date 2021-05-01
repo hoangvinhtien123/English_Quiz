@@ -11,10 +11,10 @@
                 <div class="panel-body">
                     @using (Html.BeginForm("UserLogin", "Take_Quiz", FormMethod.Post))
                     {
-                        @Html.EditorFor(c => c.FULL_NAME, new { htmlAttributes = new { @class = "form-control", @placeholder = "Tên đăng nhập", @style = "width:100%;" } })<br />
+                        @Html.EditorFor(c => c.USER_NAME, new { htmlAttributes = new { @class = "form-control", @placeholder = "Tên đăng nhập", @style = "width:100%;" } })<br />
                         @Html.EditorFor(c => c.PASSWORD, new { htmlAttributes = new { @class = "form-control", @placeholder = "Mật khẩu", @style = "width:100%;", @type = "password" } })<br />
 
-                        <button type="submit" id="Enter" class="btn btn-light btn-xl js-scroll-trigger" style="width:100%;"><span class="glyphicon glyphicon-user"></span>   Enter</button>
+                        <button type="submit" id="Enter" class="btn btn-light btn-xl js-scroll-trigger" style="width:100%;"><span class="glyphicon glyphicon-user"></span>   Đăng nhập</button>
                     }
                 </div>
                 @if (ViewBag.Msg != null)
