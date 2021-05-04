@@ -29,6 +29,7 @@ namespace English_Quiz.Models
         public Nullable<int> READING_ID { get; set; }
         public string QUESTION_IMAGE { get; set; }
         public bool IS_TEST { get; set; }
+        public Nullable<int> LIST_ORDER { get; set; }
     
         public virtual Listening Listening { get; set; }
         public virtual Question_Type Question_Type { get; set; }

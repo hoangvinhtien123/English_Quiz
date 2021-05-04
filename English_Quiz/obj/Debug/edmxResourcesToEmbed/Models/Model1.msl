@@ -93,6 +93,7 @@
     <EntitySetMapping Name="Questions">
       <EntityTypeMapping TypeName="English_QuizModel.Question">
         <MappingFragment StoreEntitySet="Questions">
+          <ScalarProperty Name="LIST_ORDER" ColumnName="LIST_ORDER" />
           <ScalarProperty Name="IS_TEST" ColumnName="IS_TEST" />
           <ScalarProperty Name="QUESTION_IMAGE" ColumnName="QUESTION_IMAGE" />
           <ScalarProperty Name="READING_ID" ColumnName="READING_ID" />

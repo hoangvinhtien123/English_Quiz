@@ -124,10 +124,11 @@ namespace English_Quiz.Controllers
             questionTbl.Columns.Add("QUESTION_TEXT", typeof(string));
             questionTbl.Columns.Add("POINT", typeof(int));
             questionTbl.Columns.Add("READING_ID", typeof(int));
+            questionTbl.Columns.Add("LIST_ORDER", typeof(int));
             questionTbl.TableName = "Question";
             foreach (var item in lstQuestion)
             {
-                questionTbl.Rows.Add(item.QUESTION_ID, item.QUESTION_TEXT, item.POINT, item.READING_ID);
+                questionTbl.Rows.Add(item.QUESTION_ID, item.QUESTION_TEXT, item.POINT, item.READING_ID , item.LIST_ORDER);
             }
             ds.Tables.Add(questionTbl);
             int totalQuestion = db.Questions.ToList().Count+1;
@@ -147,6 +148,7 @@ namespace English_Quiz.Controllers
             string questionId = (Request["questionId"] == null) ? string.Empty : Request["questionId"].ToString();
             string questionText = (Request["questionText"] == null) ? string.Empty : Request["questionText"].ToString();
             bool isNew = (Request["isNew"] == null) ? false : bool.Parse(Request["isNew"].ToString());
+            int listOrder = (Request["listOrder"] == null) ? 0 : int.Parse(Request["listOrder"].ToString());
             if (isNew)
             {
                 Question question = new Question();
@@ -155,6 +157,7 @@ namespace English_Quiz.Controllers
                 question.QUESTION_TEXT = questionText;
                 question.POINT = point;
                 question.IS_LISTENING = false;
+                question.LIST_ORDER = listOrder;
                 db.Questions.Add(question);
                 db.SaveChanges();
             }
@@ -167,6 +170,7 @@ namespace English_Quiz.Controllers
                 newQuestion.QUESTION_TEXT = questionText;
                 newQuestion.POINT = point;
                 newQuestion.IS_LISTENING = false;
+                newQuestion.LIST_ORDER = listOrder;
                 db.Entry(oldQuestion).CurrentValues.SetValues(newQuestion);
                 db.SaveChanges();
             }

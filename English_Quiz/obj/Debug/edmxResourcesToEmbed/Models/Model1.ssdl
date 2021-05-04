@@ -106,6 +106,7 @@
     <Property Name="READING_ID" Type="int" />
     <Property Name="QUESTION_IMAGE" Type="nvarchar" MaxLength="100" />
     <Property Name="IS_TEST" Type="bit" Nullable="false" />
+    <Property Name="LIST_ORDER" Type="int" />
   </EntityType>
   <EntityType Name="Questions_Auto_Generate">
     <Key>

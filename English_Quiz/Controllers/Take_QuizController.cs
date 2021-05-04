@@ -197,7 +197,7 @@ namespace English_Quiz.Controllers
             }
             #endregion
             #region Listening
-            lstQuestion = db.Questions.Where(x => x.IS_LISTENING == true).ToList();
+            lstQuestion = db.Questions.Where(x => x.IS_LISTENING == true).OrderBy(x=>x.LIST_ORDER).ToList();
             List<Quiz_Listening> lstQuestionListening = db.Quiz_Listening.Where(x => x.QUIZ_ID == quizId).ToList();
             if (lstQuestionListening.Count > 0)
             {
@@ -256,7 +256,7 @@ namespace English_Quiz.Controllers
                             {
                                 readingByType.Add(readings[j]);
                                 int readingId = readings[j].READING_ID;
-                                lstQuestion = db.Questions.Where(x => x.READING_ID == readingId).ToList();
+                                lstQuestion = db.Questions.Where(x => x.READING_ID == readingId).OrderBy(x => x.LIST_ORDER).ToList();
                                 for (int m = 0; m < lstQuestion.Count; m++)
                                 {
                                     finalLstQuestion.Add(lstQuestion[m]);
@@ -287,7 +287,7 @@ namespace English_Quiz.Controllers
                             for (int j = 0; j < readingByType.Count; j++)
                             {
                                 int readingId = readingByType[j].READING_ID;
-                                lstQuestion = db.Questions.Where(x => x.READING_ID == readingId).ToList();
+                                lstQuestion = db.Questions.Where(x => x.READING_ID == readingId).OrderBy(x => x.LIST_ORDER).ToList();
                                 for (int m = 0; m < lstQuestion.Count; m++)
                                 {
                                     finalLstQuestion.Add(lstQuestion[m]);

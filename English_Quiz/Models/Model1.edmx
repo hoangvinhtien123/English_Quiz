@@ -111,6 +111,7 @@
           <Property Name="READING_ID" Type="int" />
           <Property Name="QUESTION_IMAGE" Type="nvarchar" MaxLength="100" />
           <Property Name="IS_TEST" Type="bit" Nullable="false" />
+          <Property Name="LIST_ORDER" Type="int" />
         </EntityType>
         <EntityType Name="Questions_Auto_Generate">
           <Key>
@@ -552,6 +553,7 @@
           <NavigationProperty Name="Reading" Relationship="English_QuizModel.FK_Questions_Reading" FromRole="Question" ToRole="Reading" />
           <Property Name="QUESTION_IMAGE" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="IS_TEST" Type="Boolean" Nullable="false" />
+          <Property Name="LIST_ORDER" Type="Int32" />
         </EntityType>
         <EntityType Name="Questions_Auto_Generate">
           <Key>
@@ -1021,6 +1023,7 @@
           <EntitySetMapping Name="Questions">
             <EntityTypeMapping TypeName="English_QuizModel.Question">
               <MappingFragment StoreEntitySet="Questions">
+                <ScalarProperty Name="LIST_ORDER" ColumnName="LIST_ORDER" />
                 <ScalarProperty Name="IS_TEST" ColumnName="IS_TEST" />
                 <ScalarProperty Name="QUESTION_IMAGE" ColumnName="QUESTION_IMAGE" />
                 <ScalarProperty Name="READING_ID" ColumnName="READING_ID" />

@@ -133,6 +133,7 @@ namespace English_Quiz.Controllers
             questionTbl.Columns.Add("QUESTION_IMAGE", typeof(string));
             questionTbl.Columns.Add("POINT", typeof(int));
             questionTbl.Columns.Add("READING_ID", typeof(int));
+            questionTbl.Columns.Add("LIST_ORDER", typeof(int));
             questionTbl.TableName = "Question";
             string path = string.Empty;
             foreach (var item in lstQuestion)
@@ -141,7 +142,7 @@ namespace English_Quiz.Controllers
                 {
                     path = "/Content/img/Question/" + item.QUESTION_IMAGE;
                 }
-                questionTbl.Rows.Add(item.QUESTION_ID, item.QUESTION_TEXT, path  , item.POINT, item.READING_ID);
+                questionTbl.Rows.Add(item.QUESTION_ID, item.QUESTION_TEXT, path, item.POINT, item.READING_ID, item.LIST_ORDER);
                 path = string.Empty;
             }
             ds.Tables.Add(questionTbl);
@@ -162,10 +163,11 @@ namespace English_Quiz.Controllers
             string questionId = (Request["questionId"] == null) ? string.Empty : Request["questionId"].ToString();
             string questionText = (Request["questionText"] == null) ? string.Empty : Request["questionText"].ToString();
             bool isNew = (Request["isNew"] == null) ? false : bool.Parse(Request["isNew"].ToString());
+            int listOrder = (Request["listOrder"] == null) ? 0 : int.Parse(Request["listOrder"].ToString());
             HttpPostedFileBase file = (Request.Files.Count == 0) ? null : Request.Files[0];
             string fileName = string.Empty;
             string filePath = string.Empty;
-            string path = String.Format("{0}", Server.MapPath("~/Content/img/Question")); 
+            string path = String.Format("{0}", Server.MapPath("~/Content/img/Question"));
             if (file != null)
             {
                 fileName = new FileInfo(file.FileName).Name;
@@ -188,6 +190,7 @@ namespace English_Quiz.Controllers
                 question.POINT = point;
                 question.IS_LISTENING = true;
                 question.QUESTION_IMAGE = fileName;
+                question.LIST_ORDER = listOrder;
                 db.Questions.Add(question);
                 db.SaveChanges();
                 if (filePath != string.Empty)
@@ -204,7 +207,15 @@ namespace English_Quiz.Controllers
                 newQuestion.QUESTION_TEXT = questionText;
                 newQuestion.POINT = point;
                 newQuestion.IS_LISTENING = true;
-                newQuestion.QUESTION_IMAGE = fileName;
+                newQuestion.LIST_ORDER = listOrder;
+                if (fileName != string.Empty)
+                {
+                    newQuestion.QUESTION_IMAGE = fileName;
+                }
+                else
+                {
+                    newQuestion.QUESTION_IMAGE = oldQuestion.QUESTION_IMAGE;
+                }
                 db.Entry(oldQuestion).CurrentValues.SetValues(newQuestion);
                 db.SaveChanges();
                 if (filePath != string.Empty)

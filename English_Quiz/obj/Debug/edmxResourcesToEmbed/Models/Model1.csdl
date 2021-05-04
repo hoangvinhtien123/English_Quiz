@@ -107,6 +107,7 @@
     <NavigationProperty Name="Reading" Relationship="English_QuizModel.FK_Questions_Reading" FromRole="Question" ToRole="Reading" />
     <Property Name="QUESTION_IMAGE" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="IS_TEST" Type="Boolean" Nullable="false" />
+    <Property Name="LIST_ORDER" Type="Int32" />
   </EntityType>
   <EntityType Name="Questions_Auto_Generate">
     <Key>

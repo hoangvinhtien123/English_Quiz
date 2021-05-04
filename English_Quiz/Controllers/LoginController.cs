@@ -28,9 +28,9 @@ namespace English_Quiz.Controllers
         public ActionResult CheckLogin(string username, string pwd, string remember)
         {
             User obj = new User();
-            obj = db.Users.First(x => x.USER_NAME == username);
+            obj = db.Users.FirstOrDefault(x => x.USER_NAME == username);
 
-            if (obj.USER_ID > 0)
+            if (obj!=null)
             {
                 if (checkPass(pwd, obj.PASSWORD))
                 { //Đăng nhập thành công
