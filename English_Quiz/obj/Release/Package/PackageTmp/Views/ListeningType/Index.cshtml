@@ -1,0 +1,107 @@
+﻿@model IEnumerable<English_Quiz.Models.Listening_Type>
+
+@{
+    ViewBag.Title = "Loại bài nghe";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Loại bài nghe</h2>
+
+<p style="margin-left:10px;">
+    <a class="btn btn-primary" href='@Url.Action("CreateListeningType","ListeningType")'> Thêm mới</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Tên loại (Tiếng việt)
+        </th>
+        <th>
+            Tên loại (Tiếng anh)
+        </th>
+        <th>
+            Mô tả(Tiếng việt)
+        </th>
+        <th>
+            Mô tả(Tiếng anh)
+        </th>
+        <th>
+            Sắp xếp
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td style="width:15%">
+                @Html.DisplayFor(modelItem => item.LISTENING_TYPE_NAME_VN)
+            </td>
+            <td style="width:15%">
+                @Html.DisplayFor(modelItem => item.LISTENING_TYPE_NAME_EN)
+            </td>
+            <td style="width:30%">
+                @Html.DisplayFor(modelItem => item.DESCRIPTION_VN)
+            </td>
+            <td style="width:15%">
+                @Html.DisplayFor(modelItem => item.DESCRIPTION_EN)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ORDER_BY)
+            </td>
+            <td>
+                <a href='@Url.Action("EditListeningType","ListeningType", new { id = item.LISTENING_TYPE_ID })' class="btn btn-info"><i class="fa fa-edit"></i></a>|
+                @*<a style="width:44px;" href="javascript:void(0)" class="btn btn-secondary"><i class="fa fa-info"></i></a>|*@
+                <a href="javascript:void(0)" onclick="deleteListeningType('@item.LISTENING_TYPE_ID')" class="btn btn-danger"><i class="fa fa-trash-alt"></i></a>
+            </td>
+        </tr>
+    }
+
+</table>
+@section scripts{
+    <script type="text/javascript">
+
+        const deleteListeningType = (id) => {
+            Swal.fire({
+                title: 'Bạn chắc chắn sẽ xóa?',
+                text: "Bạn sẽ không thể khôi phục bản ghi này!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Xóa!',
+                cancelButtonText: 'Đóng'
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        url: '@Url.Action("DeleteListeningType","ListeningType")' + `?id=${id}`,
+                        type: 'POST',
+                        success: function (data) {
+                            if (data.Success) {
+                               Swal.fire(
+                                    'Deleted!',
+                                    data.Message,
+                                    'success'
+                                )
+                                setTimeout(function () { location.reload(); }, 700);
+
+                            }
+                            else {
+                              Swal.fire(
+                                    "Can't Delete",
+                                    data.Message,
+                                    'error'
+                                )
+                            }
+                        },
+                         error: function (error) {
+                             alert('Lỗi ajax' + error)
+                        },
+                        cache: false,
+                        processData: false,
+                        contentType: false
+                    });
+                }
+            })
+        }
+    </script>
+}

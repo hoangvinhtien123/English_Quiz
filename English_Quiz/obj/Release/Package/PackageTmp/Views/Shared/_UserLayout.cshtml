@@ -10,14 +10,14 @@
     <div class="row">
         <div class="col-md-4">
             
-            <img src="@string.Format("{0}{1}", Url.Content("~/Content/img/User/"), user.ProfilImage)" class="img-bordered" style="width: 30%;" />
-            <span> <b>Welcome :</b> @user.FullName</span>
+            <img src="@string.Format("{0}{1}", Url.Content("~/Content/img/User/"), user.PROFILE_IMAGE)" class="img-bordered" style="width: 30%;" />
+            <span> <b>Welcome :</b> @user.FULL_NAME</span>
         </div>
         <div class="col-md-4" style="margin-top: 15px;">
             
-            @if (quizSelected != null && !string.IsNullOrEmpty(quizSelected[0].QuizName))
+            @if (quizSelected != null && !string.IsNullOrEmpty(quizSelected[0].QUIZ_NAME))
             {
-                <span> <b>Quiz Selected :</b> @quizSelected[0].QuizName</span>
+                <span> <b>Quiz Selected :</b> @quizSelected[0].QUIZ_NAME</span>
             }
             else
             {
@@ -27,6 +27,7 @@
         <div class="col-md-4" style="margin-top: 15px;">
             <span> <b>Date :</b> @DateTime.Now</span>
             <span style="margin-left:75px;"><a href="@Url.Action("History","Take_Quiz")">Lịch sử thi</a></span>
+            <span style="margin-left:252px;"><a href="@Url.Action("LogOut","Take_Quiz")">Đăng xuất</a></span>
         </div>
     </div>
 }

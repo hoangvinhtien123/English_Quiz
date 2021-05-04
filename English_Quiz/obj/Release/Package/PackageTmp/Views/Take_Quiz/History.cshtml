@@ -36,18 +36,24 @@
                 Mã đề
             </th>
             <th>
+                Tên đề
+            </th>
+            <th>
                 Điểm
             </th>
             <th>
                 Ngày thi
             </th>
-            
+
         </tr>
     
     @foreach (var item in Model) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Quiz_ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quiz_Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Point)

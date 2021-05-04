@@ -15,21 +15,21 @@
         <h4>Role</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.ROLE_ID)
 
         <div class="form-group">
             Tên vai trò
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Role_Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Role_Name, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.ROLE_NAME, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ROLE_NAME, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             Mô tả
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.DESCRIPTION, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DESCRIPTION, "", new { @class = "text-danger" })
             </div>
         </div>
 

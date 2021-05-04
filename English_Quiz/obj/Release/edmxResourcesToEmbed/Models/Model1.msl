@@ -1,6 +1,36 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="English_QuizModelStoreContainer" CdmEntityContainer="English_QuizEntities">
+    <EntitySetMapping Name="Answers">
+      <EntityTypeMapping TypeName="English_QuizModel.Answer">
+        <MappingFragment StoreEntitySet="Answer">
+          <ScalarProperty Name="ANSWER_ID" ColumnName="ANSWER_ID" />
+          <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+          <ScalarProperty Name="QUESTION_ID" ColumnName="QUESTION_ID" />
+          <ScalarProperty Name="IS_CORRECT" ColumnName="IS_CORRECT" />
+          <ScalarProperty Name="LIST_ORDER" ColumnName="LIST_ORDER" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Classes">
+      <EntityTypeMapping TypeName="English_QuizModel.Class">
+        <MappingFragment StoreEntitySet="Class">
+          <ScalarProperty Name="CLASS_ID" ColumnName="CLASS_ID" />
+          <ScalarProperty Name="CLASS_NAME" ColumnName="CLASS_NAME" />
+          <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EmployeeMasters">
+      <EntityTypeMapping TypeName="English_QuizModel.EmployeeMaster">
+        <MappingFragment StoreEntitySet="EmployeeMaster">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="PreFix" ColumnName="PreFix" />
+          <ScalarProperty Name="EmployeeNo" ColumnName="EmployeeNo" />
+          <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Functions">
       <EntityTypeMapping TypeName="English_QuizModel.Function">
         <MappingFragment StoreEntitySet="Function">
@@ -13,13 +43,27 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="History_Quiz">
-      <EntityTypeMapping TypeName="English_QuizModel.History_Quiz">
-        <MappingFragment StoreEntitySet="History_Quiz">
-          <ScalarProperty Name="Quiz_ID" ColumnName="Quiz_ID" />
-          <ScalarProperty Name="User_Name" ColumnName="User_Name" />
-          <ScalarProperty Name="Point" ColumnName="Point" />
-          <ScalarProperty Name="Date_Take_Quiz" ColumnName="Date_Take_Quiz" />
+    <EntitySetMapping Name="Listenings">
+      <EntityTypeMapping TypeName="English_QuizModel.Listening">
+        <MappingFragment StoreEntitySet="Listening">
+          <ScalarProperty Name="IS_TEST" ColumnName="IS_TEST" />
+          <ScalarProperty Name="LISTENING_ID" ColumnName="LISTENING_ID" />
+          <ScalarProperty Name="LISTENING_NAME_VN" ColumnName="LISTENING_NAME_VN" />
+          <ScalarProperty Name="LISTENING_NAME_EN" ColumnName="LISTENING_NAME_EN" />
+          <ScalarProperty Name="LISTENING_TYPE_ID" ColumnName="LISTENING_TYPE_ID" />
+          <ScalarProperty Name="LISTENING_FILE_NAME" ColumnName="LISTENING_FILE_NAME" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Listening_Type">
+      <EntityTypeMapping TypeName="English_QuizModel.Listening_Type">
+        <MappingFragment StoreEntitySet="Listening_Type">
+          <ScalarProperty Name="ORDER_BY" ColumnName="ORDER_BY" />
+          <ScalarProperty Name="LISTENING_TYPE_ID" ColumnName="LISTENING_TYPE_ID" />
+          <ScalarProperty Name="LISTENING_TYPE_NAME_VN" ColumnName="LISTENING_TYPE_NAME_VN" />
+          <ScalarProperty Name="LISTENING_TYPE_NAME_EN" ColumnName="LISTENING_TYPE_NAME_EN" />
+          <ScalarProperty Name="DESCRIPTION_VN" ColumnName="DESCRIPTION_VN" />
+          <ScalarProperty Name="DESCRIPTION_EN" ColumnName="DESCRIPTION_EN" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -36,35 +80,93 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Question_Type">
+      <EntityTypeMapping TypeName="English_QuizModel.Question_Type">
+        <MappingFragment StoreEntitySet="Question_Type">
+          <ScalarProperty Name="TYPE_NAME_EN" ColumnName="TYPE_NAME_EN" />
+          <ScalarProperty Name="TYPE_ID" ColumnName="TYPE_ID" />
+          <ScalarProperty Name="TYPE_NAME" ColumnName="TYPE_NAME" />
+          <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Questions">
       <EntityTypeMapping TypeName="English_QuizModel.Question">
         <MappingFragment StoreEntitySet="Questions">
-          <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
-          <ScalarProperty Name="QuestionText" ColumnName="QuestionText" />
-          <ScalarProperty Name="Option_1" ColumnName="Option_1" />
-          <ScalarProperty Name="Option_2" ColumnName="Option_2" />
-          <ScalarProperty Name="Option_3" ColumnName="Option_3" />
-          <ScalarProperty Name="Option_4" ColumnName="Option_4" />
-          <ScalarProperty Name="Answer" ColumnName="Answer" />
-          <ScalarProperty Name="Quiz_ID" ColumnName="Quiz_ID" />
-          <ScalarProperty Name="Point" ColumnName="Point" />
+          <ScalarProperty Name="IS_TEST" ColumnName="IS_TEST" />
+          <ScalarProperty Name="QUESTION_IMAGE" ColumnName="QUESTION_IMAGE" />
+          <ScalarProperty Name="READING_ID" ColumnName="READING_ID" />
+          <ScalarProperty Name="QUESTION_ID" ColumnName="QUESTION_ID" />
+          <ScalarProperty Name="QUESTION_TEXT" ColumnName="QUESTION_TEXT" />
+          <ScalarProperty Name="POINT" ColumnName="POINT" />
+          <ScalarProperty Name="TYPE_ID" ColumnName="TYPE_ID" />
+          <ScalarProperty Name="LISTENING_ID" ColumnName="LISTENING_ID" />
+          <ScalarProperty Name="IS_LISTENING" ColumnName="IS_LISTENING" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Questions_Auto_Generate">
+      <EntityTypeMapping TypeName="English_QuizModel.Questions_Auto_Generate">
+        <MappingFragment StoreEntitySet="Questions_Auto_Generate">
+          <ScalarProperty Name="PR_KEY" ColumnName="PR_KEY" />
+          <ScalarProperty Name="QUIZ_ID" ColumnName="QUIZ_ID" />
+          <ScalarProperty Name="TYPE_ID" ColumnName="TYPE_ID" />
+          <ScalarProperty Name="TOTAL_QUESTION" ColumnName="TOTAL_QUESTION" />
+          <ScalarProperty Name="POINT_EACH_QS" ColumnName="POINT_EACH_QS" />
+          <ScalarProperty Name="LIST_ORDER" ColumnName="LIST_ORDER" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Quizs">
       <EntityTypeMapping TypeName="English_QuizModel.Quiz">
         <MappingFragment StoreEntitySet="Quiz">
-          <ScalarProperty Name="QuizID" ColumnName="QuizID" />
-          <ScalarProperty Name="QuizName" ColumnName="QuizName" />
+          <ScalarProperty Name="IS_TEST" ColumnName="IS_TEST" />
+          <ScalarProperty Name="SOURCE_LINK" ColumnName="SOURCE_LINK" />
+          <ScalarProperty Name="SOURCE_DESCRIPTION" ColumnName="SOURCE_DESCRIPTION" />
+          <ScalarProperty Name="QUIZ_ID" ColumnName="QUIZ_ID" />
+          <ScalarProperty Name="QUIZ_NAME" ColumnName="QUIZ_NAME" />
+          <ScalarProperty Name="QUIZ_TYPE_ID" ColumnName="QUIZ_TYPE_ID" />
+          <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+          <ScalarProperty Name="TIME" ColumnName="TIME" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Quiz_Listening">
+      <EntityTypeMapping TypeName="English_QuizModel.Quiz_Listening">
+        <MappingFragment StoreEntitySet="Quiz_Listening">
+          <ScalarProperty Name="PR_KEY" ColumnName="PR_KEY" />
+          <ScalarProperty Name="QUIZ_ID" ColumnName="QUIZ_ID" />
+          <ScalarProperty Name="LISTENING_ID" ColumnName="LISTENING_ID" />
+          <ScalarProperty Name="ACTIVE" ColumnName="ACTIVE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Quiz_Questions">
+      <EntityTypeMapping TypeName="English_QuizModel.Quiz_Questions">
+        <MappingFragment StoreEntitySet="Quiz_Questions">
+          <ScalarProperty Name="QUIZ_ID" ColumnName="QUIZ_ID" />
+          <ScalarProperty Name="QUESTION_ID" ColumnName="QUESTION_ID" />
+          <ScalarProperty Name="ACTIVE" ColumnName="ACTIVE" />
+          <ScalarProperty Name="POINT" ColumnName="POINT" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Quiz_Type">
+      <EntityTypeMapping TypeName="English_QuizModel.Quiz_Type">
+        <MappingFragment StoreEntitySet="Quiz_Type">
+          <ScalarProperty Name="IS_TEST" ColumnName="IS_TEST" />
+          <ScalarProperty Name="QUIZ_TYPE_ID" ColumnName="QUIZ_TYPE_ID" />
+          <ScalarProperty Name="QUIZ_TYPE_NAME" ColumnName="QUIZ_TYPE_NAME" />
+          <ScalarProperty Name="QUIZ_TYPE_DESCRIPTION" ColumnName="QUIZ_TYPE_DESCRIPTION" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Roles">
       <EntityTypeMapping TypeName="English_QuizModel.Role">
         <MappingFragment StoreEntitySet="Role">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Role_Name" ColumnName="Role_Name" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="ROLE_ID" ColumnName="ROLE_ID" />
+          <ScalarProperty Name="ROLE_NAME" ColumnName="ROLE_NAME" />
+          <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -82,11 +184,59 @@
     <EntitySetMapping Name="Users">
       <EntityTypeMapping TypeName="English_QuizModel.User">
         <MappingFragment StoreEntitySet="Users">
-          <ScalarProperty Name="UserID" ColumnName="UserID" />
-          <ScalarProperty Name="FullName" ColumnName="FullName" />
-          <ScalarProperty Name="ProfilImage" ColumnName="ProfilImage" />
-          <ScalarProperty Name="Password" ColumnName="Password" />
-          <ScalarProperty Name="Role_Id" ColumnName="Role_Id" />
+          <ScalarProperty Name="USER_ID" ColumnName="USER_ID" />
+          <ScalarProperty Name="FULL_NAME" ColumnName="FULL_NAME" />
+          <ScalarProperty Name="PROFILE_IMAGE" ColumnName="PROFILE_IMAGE" />
+          <ScalarProperty Name="PASSWORD" ColumnName="PASSWORD" />
+          <ScalarProperty Name="ADDRESS" ColumnName="ADDRESS" />
+          <ScalarProperty Name="PHONE_NUMBER" ColumnName="PHONE_NUMBER" />
+          <ScalarProperty Name="ROLE_ID" ColumnName="ROLE_ID" />
+          <ScalarProperty Name="USER_NAME" ColumnName="USER_NAME" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Readings">
+      <EntityTypeMapping TypeName="English_QuizModel.Reading">
+        <MappingFragment StoreEntitySet="Reading">
+          <ScalarProperty Name="IS_TEST" ColumnName="IS_TEST" />
+          <ScalarProperty Name="IS_IMAGE" ColumnName="IS_IMAGE" />
+          <ScalarProperty Name="READING_IMAGE" ColumnName="READING_IMAGE" />
+          <ScalarProperty Name="READING_TYPE_ID" ColumnName="READING_TYPE_ID" />
+          <ScalarProperty Name="READING_TEXT" ColumnName="READING_TEXT" />
+          <ScalarProperty Name="READING_ID" ColumnName="READING_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Reading_Type">
+      <EntityTypeMapping TypeName="English_QuizModel.Reading_Type">
+        <MappingFragment StoreEntitySet="Reading_Type">
+          <ScalarProperty Name="READING_TYPE_NAME_EN" ColumnName="READING_TYPE_NAME_EN" />
+          <ScalarProperty Name="ACTIVE" ColumnName="ACTIVE" />
+          <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+          <ScalarProperty Name="READING_TYPE_NAME" ColumnName="READING_TYPE_NAME" />
+          <ScalarProperty Name="READING_TYPE_ID" ColumnName="READING_TYPE_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Quiz_Reading">
+      <EntityTypeMapping TypeName="English_QuizModel.Quiz_Reading">
+        <MappingFragment StoreEntitySet="Quiz_Reading">
+          <ScalarProperty Name="TOTAL_READING" ColumnName="TOTAL_READING" />
+          <ScalarProperty Name="READING_TYPE_ID" ColumnName="READING_TYPE_ID" />
+          <ScalarProperty Name="ACTIVE" ColumnName="ACTIVE" />
+          <ScalarProperty Name="QUIZ_ID" ColumnName="QUIZ_ID" />
+          <ScalarProperty Name="PR_KEY" ColumnName="PR_KEY" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="History_Quiz">
+      <EntityTypeMapping TypeName="English_QuizModel.History_Quiz">
+        <MappingFragment StoreEntitySet="History_Quiz">
+          <ScalarProperty Name="Quiz_Name" ColumnName="Quiz_Name" />
+          <ScalarProperty Name="Date_Take_Quiz" ColumnName="Date_Take_Quiz" />
+          <ScalarProperty Name="Point" ColumnName="Point" />
+          <ScalarProperty Name="User_Name" ColumnName="User_Name" />
+          <ScalarProperty Name="Quiz_ID" ColumnName="Quiz_ID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -3,7 +3,7 @@
     <a href="/" class="brand-link">
         <img src="~/Content/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
              style="opacity: .8">
-        <span class="brand-text font-weight-light">AdminLTE 3</span>
+        <span class="brand-text font-weight-light">Quản lý </span>
     </a>
 
     <!-- Sidebar -->
@@ -11,7 +11,14 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="~/Content/dist/img/avatar04.png" class="img-circle elevation-2" alt="User Image">
+                @if (@Session["Image"] != null && @Session["Image"].ToString() != string.Empty)
+                {
+                    <img src="~/Content/img/User/@Session["Image"]" style="height:2.2rem !important;width:3.1rem !important" class="img-circle elevation-2" alt="User Image">
+                }
+                else
+                {
+                    <img src="~/Content/dist/img/avatar04.png" style="height:2.2rem !important;width:3.1rem !important" class="img-circle elevation-2" alt="User Image">
+                }
             </div>
             <div class="info">
                 <a href="@Url.Action("Index","Dashboard")" class="d-block">@Session["UserName"]</a>
@@ -24,26 +31,83 @@
                 <!-- Add icons to the links using the .nav-icon class
                 with font-awesome or any other icon font library -->
                 <li class="nav-item has-treeview menu-open">
-                    <a href="#" class="nav-link active">
+                    <a href="@Url.Action("Index","Dashboard")" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
-                            Dashboard
-                            <i class="right fas fa-angle-left"></i>
+                            Trang chủ
                         </p>
                     </a>
-                </li>
-                <li class="nav-item has-treeview">
-                    <a href='@Url.Action("Quizz","Quizz")' class="nav-link">
-                        <i class="nav-icon fas fa-copy"></i>
-                        <p>
-                            Nhóm câu hỏi
-                        </p>
-                    </a>
-                    
                 </li>
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-chart-pie"></i>
+                        <p>
+                            Quản lý đề thi
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href='@Url.Action("Quizz","Quizz")' class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Đề thi
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href='@Url.Action("Index","QuizType")' class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Loại đề
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href='@Url.Action("Index","Question")' class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Câu hỏi
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href='@Url.Action("Index","QuestionType")' class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Loại câu hỏi
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href='@Url.Action("Index","Listening")' class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Bài nghe
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href='@Url.Action("Index","ListeningType")' class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                   Loại bài nghe
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href='@Url.Action("Index","Reading")' class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Bài đọc
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-users"></i>
                         <p>
                             Người dùng
                             <i class="right fas fa-angle-left"></i>
@@ -57,11 +121,11 @@
                             </a>
                         </li>
                         @*<li class="nav-item">
-                            <a href='@Url.Action("Create","Employees")' class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Thêm mới User</p>
-                            </a>
-                        </li>*@
+                                <a href='@Url.Action("Create","Employees")' class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Thêm mới User</p>
+                                </a>
+                            </li>*@
                     </ul>
                 </li>
                 <li class="nav-item has-treeview">

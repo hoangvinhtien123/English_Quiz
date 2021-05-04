@@ -1,5 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="English_QuizModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Answer">
+    <Key>
+      <PropertyRef Name="ANSWER_ID" />
+    </Key>
+    <Property Name="ANSWER_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DESCRIPTION" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="QUESTION_ID" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="IS_CORRECT" Type="Boolean" />
+    <Property Name="LIST_ORDER" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Class">
+    <Key>
+      <PropertyRef Name="CLASS_ID" />
+    </Key>
+    <Property Name="CLASS_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CLASS_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DESCRIPTION" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="EmployeeMaster">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PreFix" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="EmployeeNo" Type="String" MaxLength="57" FixedLength="false" Unicode="false" annotation:StoreGeneratedPattern="Computed" />
+    <Property Name="EmployeeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
   <EntityType Name="Function">
     <Key>
       <PropertyRef Name="Id" />
@@ -10,17 +37,33 @@
     <Property Name="Form_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="Module" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="OrderNumber" Type="Int32" />
+    <NavigationProperty Name="Permissions" Relationship="Self.FK_Permission_Role" FromRole="Function" ToRole="Permission" />
   </EntityType>
-  <EntityType Name="History_Quiz">
+  <EntityType Name="Listening">
     <Key>
-      <PropertyRef Name="Quiz_ID" />
-      <PropertyRef Name="User_Name" />
-      <PropertyRef Name="Point" />
+      <PropertyRef Name="LISTENING_ID" />
     </Key>
-    <Property Name="Quiz_ID" Type="Int32" Nullable="false" />
-    <Property Name="User_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="Point" Type="Double" Nullable="false" />
-    <Property Name="Date_Take_Quiz" Type="DateTime" Precision="0" />
+    <Property Name="LISTENING_ID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="LISTENING_NAME_VN" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="LISTENING_NAME_EN" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="LISTENING_TYPE_ID" Type="Int32" />
+    <Property Name="LISTENING_FILE_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Listening_Type" Relationship="Self.FK_Listening_Listening_Type" FromRole="Listening" ToRole="Listening_Type" />
+    <NavigationProperty Name="Questions" Relationship="Self.FK_Questions_Listening" FromRole="Listening" ToRole="Questions" />
+    <NavigationProperty Name="Quiz_Listening" Relationship="Self.FK_Quiz_Listening_Listening" FromRole="Listening" ToRole="Quiz_Listening" />
+    <Property Name="IS_TEST" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Listening_Type">
+    <Key>
+      <PropertyRef Name="LISTENING_TYPE_ID" />
+    </Key>
+    <Property Name="LISTENING_TYPE_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LISTENING_TYPE_NAME_VN" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="LISTENING_TYPE_NAME_EN" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="DESCRIPTION_VN" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="DESCRIPTION_EN" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Listenings" Relationship="Self.FK_Listening_Listening_Type" FromRole="Listening_Type" ToRole="Listening" />
+    <Property Name="ORDER_BY" Type="Int32" />
   </EntityType>
   <EntityType Name="Permission">
     <Key>
@@ -33,35 +76,106 @@
     <Property Name="Is_Add" Type="Boolean" />
     <Property Name="Is_Edit" Type="Boolean" />
     <Property Name="Is_Delete" Type="Boolean" />
+    <NavigationProperty Name="Function" Relationship="Self.FK_Permission_Role" FromRole="Permission" ToRole="Function" />
+    <NavigationProperty Name="Role" Relationship="Self.FK_Permission_Role_Id" FromRole="Permission" ToRole="Role" />
+  </EntityType>
+  <EntityType Name="Question_Type">
+    <Key>
+      <PropertyRef Name="TYPE_ID" />
+    </Key>
+    <Property Name="TYPE_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TYPE_NAME" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="DESCRIPTION" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Questions_Auto_Generate" Relationship="Self.FK_Questions_Auto_Generate_Type" FromRole="Question_Type" ToRole="Questions_Auto_Generate" />
+    <NavigationProperty Name="Questions" Relationship="Self.FK_Questions_Type" FromRole="Question_Type" ToRole="Questions" />
+    <Property Name="TYPE_NAME_EN" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="Question">
     <Key>
-      <PropertyRef Name="QuestionID" />
+      <PropertyRef Name="QUESTION_ID" />
     </Key>
-    <Property Name="QuestionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="QuestionText" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="Option_1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="Option_2" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="Option_3" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="Option_4" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="Answer" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-    <Property Name="Quiz_ID" Type="Int32" />
-    <Property Name="Point" Type="Double" />
+    <Property Name="QUESTION_ID" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="QUESTION_TEXT" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="POINT" Type="Double" />
+    <Property Name="TYPE_ID" Type="Int32" />
+    <Property Name="LISTENING_ID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="IS_LISTENING" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Listening" Relationship="Self.FK_Questions_Listening" FromRole="Questions" ToRole="Listening" />
+    <NavigationProperty Name="Question_Type" Relationship="Self.FK_Questions_Type" FromRole="Questions" ToRole="Question_Type" />
+    <NavigationProperty Name="Quiz_Questions" Relationship="Self.FK_Quiz_Questions_Questions" FromRole="Questions" ToRole="Quiz_Questions" />
+    <Property Name="READING_ID" Type="Int32" />
+    <NavigationProperty Name="Reading" Relationship="English_QuizModel.FK_Questions_Reading" FromRole="Question" ToRole="Reading" />
+    <Property Name="QUESTION_IMAGE" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="IS_TEST" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Questions_Auto_Generate">
+    <Key>
+      <PropertyRef Name="PR_KEY" />
+    </Key>
+    <Property Name="PR_KEY" Type="Guid" Nullable="false" />
+    <Property Name="QUIZ_ID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="TYPE_ID" Type="Int32" />
+    <Property Name="TOTAL_QUESTION" Type="Int32" />
+    <Property Name="POINT_EACH_QS" Type="Double" />
+    <Property Name="LIST_ORDER" Type="Int32" />
+    <NavigationProperty Name="Question_Type" Relationship="Self.FK_Questions_Auto_Generate_Type" FromRole="Questions_Auto_Generate" ToRole="Question_Type" />
   </EntityType>
   <EntityType Name="Quiz">
     <Key>
-      <PropertyRef Name="QuizID" />
+      <PropertyRef Name="QUIZ_ID" />
     </Key>
-    <Property Name="QuizID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="QuizName" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+    <Property Name="QUIZ_ID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="QUIZ_NAME" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+    <Property Name="QUIZ_TYPE_ID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="DESCRIPTION" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="TIME" Type="Int32" />
+    <NavigationProperty Name="Quiz_Questions" Relationship="Self.FK_Quiz_Questions_Quiz" FromRole="Quiz" ToRole="Quiz_Questions" />
+    <NavigationProperty Name="Quiz_Type" Relationship="Self.FK_Quiz_Quiz_Type" FromRole="Quiz" ToRole="Quiz_Type" />
+    <Property Name="SOURCE_DESCRIPTION" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="SOURCE_LINK" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="IS_TEST" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Quiz_Listening">
+    <Key>
+      <PropertyRef Name="PR_KEY" />
+    </Key>
+    <Property Name="PR_KEY" Type="Guid" Nullable="false" />
+    <Property Name="QUIZ_ID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="LISTENING_ID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="ACTIVE" Type="Boolean" />
+    <NavigationProperty Name="Listening" Relationship="Self.FK_Quiz_Listening_Listening" FromRole="Quiz_Listening" ToRole="Listening" />
+  </EntityType>
+  <EntityType Name="Quiz_Questions">
+    <Key>
+      <PropertyRef Name="QUIZ_ID" />
+      <PropertyRef Name="QUESTION_ID" />
+    </Key>
+    <Property Name="QUIZ_ID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="QUESTION_ID" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ACTIVE" Type="Boolean" Nullable="false" />
+    <Property Name="POINT" Type="Double" />
+    <NavigationProperty Name="Question" Relationship="Self.FK_Quiz_Questions_Questions" FromRole="Quiz_Questions" ToRole="Questions" />
+    <NavigationProperty Name="Quiz" Relationship="Self.FK_Quiz_Questions_Quiz" FromRole="Quiz_Questions" ToRole="Quiz" />
+  </EntityType>
+  <EntityType Name="Quiz_Type">
+    <Key>
+      <PropertyRef Name="QUIZ_TYPE_ID" />
+    </Key>
+    <Property Name="QUIZ_TYPE_ID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="QUIZ_TYPE_NAME" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="QUIZ_TYPE_DESCRIPTION" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Quizs" Relationship="Self.FK_Quiz_Quiz_Type" FromRole="Quiz_Type" ToRole="Quiz" />
+    <Property Name="IS_TEST" Type="Boolean" Nullable="false" />
   </EntityType>
   <EntityType Name="Role">
     <Key>
-      <PropertyRef Name="Id" />
+      <PropertyRef Name="ROLE_ID" />
     </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Role_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-    <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="ROLE_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ROLE_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="DESCRIPTION" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Permissions" Relationship="Self.FK_Permission_Role_Id" FromRole="Role" ToRole="Permission" />
+    <NavigationProperty Name="Users" Relationship="Self.FK_Users_Role" FromRole="Role" ToRole="Users" />
   </EntityType>
   <EntityType Name="sysdiagram">
     <Key>
@@ -75,22 +189,293 @@
   </EntityType>
   <EntityType Name="User">
     <Key>
-      <PropertyRef Name="UserID" />
+      <PropertyRef Name="USER_ID" />
     </Key>
-    <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="FullName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="ProfilImage" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="Password" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-    <Property Name="Role_Id" Type="Int32" />
+    <Property Name="USER_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FULL_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="PROFILE_IMAGE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="PASSWORD" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="ADDRESS" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="PHONE_NUMBER" Type="Int32" />
+    <Property Name="ROLE_ID" Type="Int32" />
+    <Property Name="USER_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Role" Relationship="Self.FK_Users_Role" FromRole="Users" ToRole="Role" />
   </EntityType>
+  <Association Name="FK_Permission_Role">
+    <End Role="Function" Type="Self.Function" Multiplicity="0..1" />
+    <End Role="Permission" Type="Self.Permission" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Function">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Permission">
+        <PropertyRef Name="Function_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Listening_Listening_Type">
+    <End Role="Listening_Type" Type="Self.Listening_Type" Multiplicity="0..1" />
+    <End Role="Listening" Type="Self.Listening" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Listening_Type">
+        <PropertyRef Name="LISTENING_TYPE_ID" />
+      </Principal>
+      <Dependent Role="Listening">
+        <PropertyRef Name="LISTENING_TYPE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Questions_Listening">
+    <End Role="Listening" Type="Self.Listening" Multiplicity="0..1" />
+    <End Role="Questions" Type="Self.Question" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Listening">
+        <PropertyRef Name="LISTENING_ID" />
+      </Principal>
+      <Dependent Role="Questions">
+        <PropertyRef Name="LISTENING_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Quiz_Listening_Listening">
+    <End Role="Listening" Type="Self.Listening" Multiplicity="0..1" />
+    <End Role="Quiz_Listening" Type="Self.Quiz_Listening" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Listening">
+        <PropertyRef Name="LISTENING_ID" />
+      </Principal>
+      <Dependent Role="Quiz_Listening">
+        <PropertyRef Name="LISTENING_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Permission_Role_Id">
+    <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+    <End Role="Permission" Type="Self.Permission" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="ROLE_ID" />
+      </Principal>
+      <Dependent Role="Permission">
+        <PropertyRef Name="Role_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Questions_Auto_Generate_Type">
+    <End Role="Question_Type" Type="Self.Question_Type" Multiplicity="0..1" />
+    <End Role="Questions_Auto_Generate" Type="Self.Questions_Auto_Generate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Question_Type">
+        <PropertyRef Name="TYPE_ID" />
+      </Principal>
+      <Dependent Role="Questions_Auto_Generate">
+        <PropertyRef Name="TYPE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Questions_Type">
+    <End Role="Question_Type" Type="Self.Question_Type" Multiplicity="0..1" />
+    <End Role="Questions" Type="Self.Question" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Question_Type">
+        <PropertyRef Name="TYPE_ID" />
+      </Principal>
+      <Dependent Role="Questions">
+        <PropertyRef Name="TYPE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Quiz_Questions_Questions">
+    <End Role="Questions" Type="Self.Question" Multiplicity="1" />
+    <End Role="Quiz_Questions" Type="Self.Quiz_Questions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Questions">
+        <PropertyRef Name="QUESTION_ID" />
+      </Principal>
+      <Dependent Role="Quiz_Questions">
+        <PropertyRef Name="QUESTION_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Quiz_Questions_Quiz">
+    <End Role="Quiz" Type="Self.Quiz" Multiplicity="1" />
+    <End Role="Quiz_Questions" Type="Self.Quiz_Questions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Quiz">
+        <PropertyRef Name="QUIZ_ID" />
+      </Principal>
+      <Dependent Role="Quiz_Questions">
+        <PropertyRef Name="QUIZ_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Quiz_Quiz_Type">
+    <End Role="Quiz_Type" Type="Self.Quiz_Type" Multiplicity="0..1" />
+    <End Role="Quiz" Type="Self.Quiz" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Quiz_Type">
+        <PropertyRef Name="QUIZ_TYPE_ID" />
+      </Principal>
+      <Dependent Role="Quiz">
+        <PropertyRef Name="QUIZ_TYPE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Users_Role">
+    <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+    <End Role="Users" Type="Self.User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="ROLE_ID" />
+      </Principal>
+      <Dependent Role="Users">
+        <PropertyRef Name="ROLE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="English_QuizEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Answers" EntityType="Self.Answer" />
+    <EntitySet Name="Classes" EntityType="Self.Class" />
+    <EntitySet Name="EmployeeMasters" EntityType="Self.EmployeeMaster" />
     <EntitySet Name="Functions" EntityType="Self.Function" />
-    <EntitySet Name="History_Quiz" EntityType="Self.History_Quiz" />
+    <EntitySet Name="Listenings" EntityType="Self.Listening" />
+    <EntitySet Name="Listening_Type" EntityType="Self.Listening_Type" />
     <EntitySet Name="Permissions" EntityType="Self.Permission" />
+    <EntitySet Name="Question_Type" EntityType="Self.Question_Type" />
     <EntitySet Name="Questions" EntityType="Self.Question" />
+    <EntitySet Name="Questions_Auto_Generate" EntityType="Self.Questions_Auto_Generate" />
     <EntitySet Name="Quizs" EntityType="Self.Quiz" />
+    <EntitySet Name="Quiz_Listening" EntityType="Self.Quiz_Listening" />
+    <EntitySet Name="Quiz_Questions" EntityType="Self.Quiz_Questions" />
+    <EntitySet Name="Quiz_Type" EntityType="Self.Quiz_Type" />
     <EntitySet Name="Roles" EntityType="Self.Role" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
     <EntitySet Name="Users" EntityType="Self.User" />
+    <AssociationSet Name="FK_Permission_Role" Association="Self.FK_Permission_Role">
+      <End Role="Function" EntitySet="Functions" />
+      <End Role="Permission" EntitySet="Permissions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Listening_Listening_Type" Association="Self.FK_Listening_Listening_Type">
+      <End Role="Listening_Type" EntitySet="Listening_Type" />
+      <End Role="Listening" EntitySet="Listenings" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Questions_Listening" Association="Self.FK_Questions_Listening">
+      <End Role="Listening" EntitySet="Listenings" />
+      <End Role="Questions" EntitySet="Questions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Quiz_Listening_Listening" Association="Self.FK_Quiz_Listening_Listening">
+      <End Role="Listening" EntitySet="Listenings" />
+      <End Role="Quiz_Listening" EntitySet="Quiz_Listening" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Permission_Role_Id" Association="Self.FK_Permission_Role_Id">
+      <End Role="Role" EntitySet="Roles" />
+      <End Role="Permission" EntitySet="Permissions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Questions_Auto_Generate_Type" Association="Self.FK_Questions_Auto_Generate_Type">
+      <End Role="Question_Type" EntitySet="Question_Type" />
+      <End Role="Questions_Auto_Generate" EntitySet="Questions_Auto_Generate" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Questions_Type" Association="Self.FK_Questions_Type">
+      <End Role="Question_Type" EntitySet="Question_Type" />
+      <End Role="Questions" EntitySet="Questions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Quiz_Questions_Questions" Association="Self.FK_Quiz_Questions_Questions">
+      <End Role="Questions" EntitySet="Questions" />
+      <End Role="Quiz_Questions" EntitySet="Quiz_Questions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Quiz_Questions_Quiz" Association="Self.FK_Quiz_Questions_Quiz">
+      <End Role="Quiz" EntitySet="Quizs" />
+      <End Role="Quiz_Questions" EntitySet="Quiz_Questions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Quiz_Quiz_Type" Association="Self.FK_Quiz_Quiz_Type">
+      <End Role="Quiz_Type" EntitySet="Quiz_Type" />
+      <End Role="Quiz" EntitySet="Quizs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Users_Role" Association="Self.FK_Users_Role">
+      <End Role="Role" EntitySet="Roles" />
+      <End Role="Users" EntitySet="Users" />
+    </AssociationSet>
+    <EntitySet Name="Readings" EntityType="English_QuizModel.Reading" />
+    <AssociationSet Name="FK_Questions_Reading" Association="English_QuizModel.FK_Questions_Reading">
+      <End Role="Reading" EntitySet="Readings" />
+      <End Role="Question" EntitySet="Questions" />
+    </AssociationSet>
+    <EntitySet Name="Reading_Type" EntityType="English_QuizModel.Reading_Type" />
+    <AssociationSet Name="FK_Reading_Reading_Type" Association="English_QuizModel.FK_Reading_Reading_Type">
+      <End Role="Reading_Type" EntitySet="Reading_Type" />
+      <End Role="Reading" EntitySet="Readings" />
+    </AssociationSet>
+    <EntitySet Name="Quiz_Reading" EntityType="English_QuizModel.Quiz_Reading" />
+    <EntitySet Name="History_Quiz" EntityType="English_QuizModel.History_Quiz" />
   </EntityContainer>
+  <EntityType Name="Reading">
+    <Key>
+      <PropertyRef Name="READING_ID" />
+    </Key>
+    <Property Name="READING_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="READING_TEXT" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Questions" Relationship="English_QuizModel.FK_Questions_Reading" FromRole="Reading" ToRole="Question" />
+    <Property Name="READING_TYPE_ID" Type="Int32" />
+    <NavigationProperty Name="Reading_Type" Relationship="English_QuizModel.FK_Reading_Reading_Type" FromRole="Reading" ToRole="Reading_Type" />
+    <Property Name="READING_IMAGE" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="IS_IMAGE" Type="Boolean" Nullable="false" />
+    <Property Name="IS_TEST" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Questions_Reading">
+    <End Type="English_QuizModel.Reading" Role="Reading" Multiplicity="0..1" />
+    <End Type="English_QuizModel.Question" Role="Question" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Reading">
+        <PropertyRef Name="READING_ID" />
+      </Principal>
+      <Dependent Role="Question">
+        <PropertyRef Name="READING_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Reading_Type">
+    <Key>
+      <PropertyRef Name="READING_TYPE_ID" />
+    </Key>
+    <Property Name="READING_TYPE_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="READING_TYPE_NAME" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="DESCRIPTION" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="ACTIVE" Type="Boolean" />
+    <NavigationProperty Name="Readings" Relationship="English_QuizModel.FK_Reading_Reading_Type" FromRole="Reading_Type" ToRole="Reading" />
+    <Property Name="READING_TYPE_NAME_EN" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <Association Name="FK_Reading_Reading_Type">
+    <End Type="English_QuizModel.Reading_Type" Role="Reading_Type" Multiplicity="0..1" />
+    <End Type="English_QuizModel.Reading" Role="Reading" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Reading_Type">
+        <PropertyRef Name="READING_TYPE_ID" />
+      </Principal>
+      <Dependent Role="Reading">
+        <PropertyRef Name="READING_TYPE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Quiz_Reading">
+    <Key>
+      <PropertyRef Name="PR_KEY" />
+    </Key>
+    <Property Name="PR_KEY" Type="Guid" Nullable="false" />
+    <Property Name="QUIZ_ID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="ACTIVE" Type="Boolean" />
+    <Property Name="READING_TYPE_ID" Type="Int32" />
+    <Property Name="TOTAL_READING" Type="Int32" />
+  </EntityType>
+  <EntityType Name="History_Quiz">
+    <Key>
+      <PropertyRef Name="Quiz_ID" />
+      <PropertyRef Name="User_Name" />
+      <PropertyRef Name="Point" />
+    </Key>
+    <Property Name="Quiz_ID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="User_Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Point" Type="Double" Nullable="false" />
+    <Property Name="Date_Take_Quiz" Type="DateTime" Precision="0" />
+    <Property Name="Quiz_Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+  </EntityType>
 </Schema>

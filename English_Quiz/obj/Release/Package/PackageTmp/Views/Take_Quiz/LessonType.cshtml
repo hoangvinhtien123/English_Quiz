@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "Chọn bộ luyện tập";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+    <section class="page-section bg-primary">
+        <div class="container text-center">
+            <h2 class="mb-4">Các bài luyện tập</h2>
+            <hr class="divider light my-4" />
+            <div class="row">
+                @if (Model != null)
+                {
+                    int count = 0;
+                    foreach (var quizType in Model)
+                    {
+
+                        <div class="col-lg-3 col-md-6 text-center align-self-center">
+                            <div class="mt-5">
+                                <i class="fas fa-book" style="font-size:48px"></i>
+                                <h3 class="h4 mb-2"> <a style="color:black" href='@Url.Action("SelectLesson","Take_Quiz", new{ QuizTypeId = quizType.QUIZ_TYPE_ID})'>@quizType.QUIZ_TYPE_NAME</a></h3>
+                                <p class="text-white mb-0">@quizType.QUIZ_TYPE_DESCRIPTION</p>
+                            </div>
+                        </div>
+                        count++;
+                    }
+                }
+            </div>
+        </div>
+    </section>

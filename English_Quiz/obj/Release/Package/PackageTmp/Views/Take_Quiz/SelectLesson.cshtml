@@ -1,0 +1,105 @@
+﻿
+@{
+    ViewBag.Title = " Bài luyện tập";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    English_Quiz.Models.User user = Session["USER_QUIZZ_SESSION"] as English_Quiz.Models.User;
+}
+
+<section class="page-section bg-primary" id="services">
+    <div class="container">
+        <h2 class="text-center text-white mt-0">Các bài luyện tập</h2>
+        <hr class="divider light my-4" />
+        <div class="row">
+            @if (Model != null)
+            {
+                int count = 0;
+                foreach (var quiz in Model)
+                {
+
+                    <div class="col-lg-3 col-md-6 text-center">
+                        <div class="mt-5">
+                            <i class="fas fa-book" style="font-size:48px"></i>
+                            <h3 class="h4 mb-2"> <a onclick="setOpenModal('@quiz.QUIZ_ID')" style="color:black" href='@Url.Action("QuizTest","Take_Quiz", new{ quizId = quiz.QUIZ_ID})'>@quiz.QUIZ_NAME</a></h3>
+                            <p class="text-white mb-0">@quiz.DESCRIPTION</p>
+                            @*<a class="btn btn-light btn-xl js-scroll-trigger" href="">Tham gia</a>*@
+                            @if (user != null)
+                            {
+                                <button type="button" onclick="loadHistoryQuiz('@quiz.QUIZ_ID')" id="SubmitQuiz" class="btn btn-light btn-xl js-scroll-trigger">Lịch sử làm bài </button>
+                                <button style="display:none;" type="button" class="btn btn-info btn-lg" id="openModal" data-toggle="modal" data-target="#modalHistoryQuiz">Open Modal</button>
+                            }
+                        </div>
+                    </div>
+                    count++;
+                }
+            }
+
+        </div>
+    </div>
+</section>
+
+<div class="modal fade" id="modalHistoryQuiz" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Lịch sử làm bài</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body" id="contentHistoryQuiz">
+
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        function setOpenModal(id) {
+            localStorage.setItem('openModal', id);
+        }
+        function loadHistoryQuiz(quizId) {
+            $.post("/Take_Quiz/loadHistoryQuiz", {
+                quizId: quizId
+            }, function (e) {
+
+                if (e != null) {
+                    initTableHistoryQuiz(e.QuizHistory);
+                    //$('#modalHistoryQuiz').modal('show');
+                    $("#openModal").click();
+                }
+            }, "json")
+        }
+        function initTableHistoryQuiz(HistoryQuiz) {
+            var html = `<table class="table" style="margin-top:10px;">
+                                            <tr>
+                                                <th>
+                                                   Tên đề thi
+                                                </th>
+                                                <th>
+                                                    Tài khoản người dùng
+                                                </th>
+                                                <th>
+                                                   Điểm
+                                                </th>
+                                                <th> Ngày làm
+                                                </th>
+                                                <th></th>
+                                            </tr>`;
+            if (HistoryQuiz) {
+                for (var i = 0; i < HistoryQuiz.length; i++) {
+                    var date = new Date(HistoryQuiz[i].Date_Take_Quiz);
+                    var day = date.getDate();
+                    var month = date.getMonth() + 1;
+                    var year = date.getFullYear();
+                    var newDate = day + "/" + month + "/" + year;
+                    html += ` <tr> <td>` + HistoryQuiz[i].Quiz_Name + ` </td>
+                                             <td>` + HistoryQuiz[i].User_Name + ` </td>
+                                             <td>`+ HistoryQuiz[i].Point + ` </td>
+                                             <td>`+ newDate + ` </td> </tr>`
+                }
+            }
+            html += `</table>`
+            $("#contentHistoryQuiz").html(html);
+        }
+    </script>
+
+}

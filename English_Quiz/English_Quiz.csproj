@@ -251,6 +251,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\audio\01_Track 1.mp3" />
+    <Content Include="Content\audio\02_Track 2.mp3" />
+    <Content Include="Content\audio\03_Track 3.mp3" />
+    <Content Include="Content\audio\04_Track 4.mp3" />
+    <Content Include="Content\audio\06_Track 6.mp3" />
+    <Content Include="Content\audio\ETS01-picture.mp3" />
+    <Content Include="Content\audio\ETS02-picture.mp3" />
     <Content Include="Content\audio\TEST 01.mp3" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -326,10 +332,28 @@
     <Content Include="Content\img\MainLayoutImg\img\portfolio\thumbnails\4.jpg" />
     <Content Include="Content\img\MainLayoutImg\img\portfolio\thumbnails\5.jpg" />
     <Content Include="Content\img\MainLayoutImg\img\portfolio\thumbnails\6.jpg" />
+    <Content Include="Content\img\Question\ETS02-1.png" />
+    <Content Include="Content\img\Question\ETS02-2.png" />
+    <Content Include="Content\img\Question\ETS02-3.png" />
+    <Content Include="Content\img\Question\ETS02-4.png" />
+    <Content Include="Content\img\Question\ETS02-5.png" />
+    <Content Include="Content\img\Question\ETS02-6.png" />
+    <Content Include="Content\img\Question\img1.png" />
+    <Content Include="Content\img\Question\img2.png" />
+    <Content Include="Content\img\Question\img3.png" />
+    <Content Include="Content\img\Question\img4.png" />
+    <Content Include="Content\img\Question\img5.png" />
+    <Content Include="Content\img\Question\img6.png" />
+    <Content Include="Content\img\Reading\reading_1.png" />
+    <Content Include="Content\img\Reading\reading_2.png" />
+    <Content Include="Content\img\Reading\reading_3.png" />
+    <Content Include="Content\img\Reading\reading_4.png" />
     <Content Include="Content\img\User\1MAU.PNG" />
     <Content Include="Content\img\User\31363261_2037624456512750_409576404993179648_n.jpg" />
     <Content Include="Content\img\User\48363042_1006510356216413_386487339414716416_n.png" />
     <Content Include="Content\img\User\4ZGtXHj.png" />
+    <Content Include="Content\img\User\69693197_204237870565207_1533791636683751424_n.jpg" />
+    <Content Include="Content\img\User\71258586_789158131503720_6905162322147278848_n.jpg" />
     <Content Include="Content\img\User\default_user_image.png" />
     <Content Include="Content\img\User\mina2.jpg" />
     <Content Include="Content\img\User\mina5.jpg" />
@@ -2058,7 +2082,9 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\EnglishQuizHoangVinhTien - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\HocTiengAnh - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -2134,8 +2160,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\img\Question\" />
-    <Folder Include="Content\img\Reading\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

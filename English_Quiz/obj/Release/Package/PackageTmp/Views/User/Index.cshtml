@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<English_Quiz.Models.User>
 
 @{
-    ViewBag.Title = "User";
+    ViewBag.Title = "Người dùng";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -19,7 +19,7 @@
             Ảnh
         </th>
         <th>
-            Mã vai trò
+           Vai trò
         </th>
         <th></th>
     </tr>
@@ -28,18 +28,18 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.FullName)
+                @Html.DisplayFor(modelItem => item.FULL_NAME)
             </td>
             <td>
-                <img id="img" alt="User Image" src="~/Content/img/User/@item.ProfilImage" style="height:100px;width:150px" />
+                <img id="img" alt="User Image" src="~/Content/img/User/@item.PROFILE_IMAGE" style="height:100px;width:150px" />
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Role_Id)
+                @Html.DisplayFor(modelItem => item.Role.ROLE_NAME)
             </td>
             <td>
-                <a href='@Url.Action("EditUser","User", new{ UserId = item.UserID})' class="btn btn-info"><i class="fas fa-edit"></i></a>
+                <a href='@Url.Action("EditUser","User", new{ UserId = item.USER_ID})' class="btn btn-info"><i class="fas fa-edit"></i></a>
                 |
-                <a href="javascript:void(0)" onclick="deleteUser(@item.UserID)" class="btn btn-danger"><i class="far fa-trash-alt"></i></a>
+                <a href="javascript:void(0)" onclick="deleteUser(@item.USER_ID)" class="btn btn-danger"><i class="far fa-trash-alt"></i></a>
             </td>
         </tr>
     }
@@ -55,7 +55,8 @@
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Xóa!'
+                confirmButtonText: 'Xóa!',
+                cancelButtonText: 'Đóng'
             }).then((result) => {
                 if (result.value) {
                     $.ajax({
@@ -65,17 +66,17 @@
                             if (data.Success) {
                                Swal.fire(
                                     'Deleted!',
-                                    'Xóa người dùng thành công',
+                                    data.Message,
                                     'success'
                                 )
-                                setTimeout(function () { location.reload(); }, 1500);
-                                
+                                setTimeout(function () { location.reload(); }, 700);
+
                             }
                             else {
                               Swal.fire(
-                                    'Deleted!',
-                                    'Xóa người dùng thành công',
-                                    'danger'
+                                    "Can't Delete",
+                                    data.Message,
+                                    'error'
                                 )
                             }
                         },

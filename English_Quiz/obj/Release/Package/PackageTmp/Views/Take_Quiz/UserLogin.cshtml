@@ -1,21 +1,30 @@
 ﻿@model English_Quiz.Models.User
 @{
     ViewBag.Title = "UserLogin";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
+<section class="page-section bg-primary">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="panel panel-default" >
+                <div class="panel-heading">Đăng nhập</div>
+                <div class="panel-body">
+                    @using (Html.BeginForm("UserLogin", "Take_Quiz", FormMethod.Post))
+                    {
+                        @Html.EditorFor(c => c.USER_NAME, new { htmlAttributes = new { @class = "form-control", @placeholder = "Tên đăng nhập", @style = "width:100%;" } })<br />
+                        @Html.EditorFor(c => c.PASSWORD, new { htmlAttributes = new { @class = "form-control", @placeholder = "Mật khẩu", @style = "width:100%;", @type = "password" } })<br />
 
-<div class="panel panel-default" style="width: 37%; margin: 20% 32%;">
-    <div class="panel-heading">Let's Begin  ^_^</div>
-    <div class="panel-body">
-        @using (Html.BeginForm("UserLogin", "Take_Quiz", FormMethod.Post))
-        {
-            @Html.EditorFor(c => c.FullName, new { htmlAttributes = new { @class = "form-control", @placeholder = "FullName", @style = "width:100%; margin-left: 56px;" } })<br />
-            @Html.EditorFor(c => c.Password, new { htmlAttributes = new { @class = "form-control", @placeholder = "Password", @style = "width:100%; margin-left: 56px;",@type="password" } })<br />
-            
-            <button type="submit" id="Enter" class="btn btn-info btn-lg" style="width:100%;"><span class="glyphicon glyphicon-user"></span>   Enter</button>
-        }
+                        <button type="submit" id="Enter" class="btn btn-light btn-xl js-scroll-trigger" style="width:100%;"><span class="glyphicon glyphicon-user"></span>   Đăng nhập</button>
+                    }
+                </div>
+                @if (ViewBag.Msg != null)
+                {
+                    <div class="well well-sm well-danger"> @ViewBag.Msg </div>
+                }
+
+            </div>
+        </div>
     </div>
-    @if (ViewBag.Msg != null)
-    {
-        <div class="well well-sm well-danger"> @ViewBag.Msg </div>
-    }
-</div>
+    
+</section>
+

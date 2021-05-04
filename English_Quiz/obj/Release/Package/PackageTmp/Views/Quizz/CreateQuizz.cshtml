@@ -1,27 +1,82 @@
 ﻿@model English_Quiz.Models.Quiz
 
 @{
-    ViewBag.Title = "CreateQuizz";
+    ViewBag.Title = "Thêm mới đề";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <h2>Thêm mới</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(model => model.QuizName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label class="control-label col-md-2">  Mã đề</label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.QuizName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.QuizName, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.QUIZ_ID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.QUIZ_ID, "", new { @class = "text-danger" })
             </div>
         </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">  Tên đề</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.QUIZ_NAME, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.QUIZ_NAME, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                <label class="control-label col-md-2">Đề test</label>
+                @Html.CheckBoxFor(model => model.IS_TEST, new { htmlAttributes = new { @class = "form-control" }, id = "cbIsTest" })
+                @Html.ValidationMessageFor(model => model.IS_TEST, "", new { @class = "text-danger" })
 
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2"> Thời gian (phút)</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TIME, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TIME, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2"> Mô tả</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DESCRIPTION, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DESCRIPTION, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Loại đề</label>
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.QUIZ_TYPE_ID, (SelectList)ViewBag.listType, "--Chọn--", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.QUIZ_TYPE_ID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Thông tin nguồn đề</label>
+            <div class="col-md-10">
+                @Html.TextAreaFor(Model => Model.SOURCE_DESCRIPTION, new { Class = "form-control", Style = "width:100%" })
+                @Html.ValidationMessageFor(model => model.SOURCE_DESCRIPTION, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Đường dẫn </label>
+            <div class="col-md-10">
+                @Html.EditorFor(Model => Model.SOURCE_LINK, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SOURCE_LINK, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <label class="control-label col-md-2">Danh sách nhóm câu hỏi</label>
+        <div class="col-md-10" id="jsGridQuestion"></div>
+        <label class="control-label col-md-2">Danh sách bài nghe</label>
+        <div class="col-md-10" id="jsGridListening"></div>
+        <label class="control-label col-md-2">Danh sách bài đọc</label>
+        <div class="col-md-10" id="jsGridReading"></div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Thêm mới" class="btn btn-default" />
@@ -33,3 +88,288 @@
 <div>
     @Html.ActionLink("Trở lại", "Quizz")
 </div>
+@section scripts{
+    <script type="text/javascript">
+        var questionType = [];
+        var listening = [];
+        var reading = [];
+        const loadDataQuestionType = (id) => {
+            $.post("/Quizz/getQuestionTypeByQuizId", {
+                id: id
+            }, function (e) {
+                if (e) {
+                    questionType = e;
+                }
+                $("#jsGridQuestion").jsGrid({
+                    width: "100%",
+                    height: "400px",
+                    autoload: true,
+                    controller: {
+                        insertItem: function (filter) {
+                            insertQuestion(filter)
+                        },
+                        updateItem: function (filter) {
+                            updateQuestion(filter)
+                        },
+                        deleteItem: function (filter) {
+                            deleteQuestion(filter)
+                        }
+                    },
+                    onItemInserting: function (args) {
+                        checkBeforeInsert(args);
+                    },
+                    deleteConfirm: "Bạn có chắc chắn muốn xóa không?",
+                    invalidMessage: "Lỗi",
+                    noDataContent: "Không có dữ liệu",
+                    data: questionType.Questions,
+                    inserting: true,
+                    editing: true,
+                    sorting: true,
+                    paging: true,
+                    fields: [
+                        {
+                            name: "TYPE_ID", title: "Nhóm câu hỏi", type: "select", width: 150, items: questionType.QuestionTypes, valueField: "TYPE_ID", textField: "TYPE_NAME", validate: {
+                                validator: "required",
+                                message: function (value, item) {
+                                    return "Cần chọn loại câu hỏi";
+                                },
+                            }
+                        },
+                        { name: "PR_KEY", visible: false },
+                        { name: "LIST_ORDER", title: "Sắp xếp", type: "number", width: 25 },
+                        { name: "TOTAL_QUESTION", type: "number", width: 20, title: "Số lượng câu hỏi" },
+                        { type: "control" }
+                    ]
+                });
+            }, "json")
+
+        }
+
+        function checkBeforeInsert(args) {
+            let quiz_id = $("#QUIZ_ID").val();
+            if (quiz_id == "" || quiz_id == null || quiz_id == undefined) {
+                args.cancel = true;
+                alert("Cần nhập mã đề");
+            }
+        }
+        function insertQuestion(filter) {
+            let quiz_id = $("#QUIZ_ID").val();
+            return $.post("/Quizz/AddTypeQuestion", {
+                type: filter.TYPE_ID,
+                list_order: filter.LIST_ORDER,
+                total_question: filter.TOTAL_QUESTION,
+                quiz_id: quiz_id
+            }, function (e) {
+                loadDataQuestionType(quiz_id)
+            }, "json")
+        }
+        function updateQuestion(filter) {
+            let quiz_id = $("#QUIZ_ID").val();
+            return $.post("/Quizz/UpdateTypeQuestion", {
+                pr_key: filter.PR_KEY,
+                type: filter.TYPE_ID,
+                list_order: filter.LIST_ORDER,
+                total_question: filter.TOTAL_QUESTION,
+                quiz_id: quiz_id
+            }, function (e) {
+
+            }, "json")
+        }
+        function deleteQuestion(filter) {
+            let quiz_id = $("#QUIZ_ID").val();
+            return $.post("/Quizz/DeleteTypeQuestion", {
+                type: filter.TYPE_ID,
+                quiz_id: quiz_id
+            }, function (e) {
+
+            }, "json")
+        }
+
+        const initGridListening = (data, isTest) => {
+            $("#jsGridListening").jsGrid({
+                width: "100%",
+                height: "400px",
+                autoload: true,
+                controller: {
+                    insertItem: function (filter) {
+                        insertListening(filter)
+                    },
+                    updateItem: function (filter) {
+                        updateListening(filter)
+                    },
+                    deleteItem: function (filter) {
+                        deleteListening(filter)
+                    }
+                },
+                onItemInserting: function (args) {
+                    checkBeforeInsert(args);
+                },
+                deleteConfirm: "Bạn có chắc chắn muốn xóa không?",
+                invalidMessage: "Lỗi",
+                noDataContent: "Không có dữ liệu",
+                data: data.Quiz_Listening,
+                inserting: true,
+                editing: true,
+                sorting: true,
+                paging: true,
+                fields: [
+                    {
+                        name: "LISTENING_ID", title: "Bài nghe", type: "select", width: 150, items: (isTest == true) ? data.Listening : data.ListeningPractice, valueField: "LISTENING_ID", textField: "LISTENING_NAME_VN", validate: {
+                            validator: "required",
+                            message: function (value, item) {
+                                return "Cần bài nghe";
+                            },
+                        }
+                    },
+                    { name: "PR_KEY", visible: false },
+                   
+                    { name: "ACTIVE", type: "checkbox", width: 20, title: "Hoạt động", sorting: false },
+                    { type: "control" }
+                ]
+            });
+        }
+        const loadListening = (id) => {
+            $.post("/Quizz/getListeningById", {
+                id: id
+            }, function (e) {
+                if (e) {
+                    listening = e;
+                }
+                initGridListening(listening, false);
+            }, "json");
+        }
+
+        function insertListening(filter) {
+            let quiz_id = $("#QUIZ_ID").val();
+            return $.post("/Quizz/AddListening", {
+                listening_id: filter.LISTENING_ID,
+                quiz_id: quiz_id,
+                active: filter.ACTIVE
+            }, function (e) {
+                loadListening(quiz_id)
+            }, "json")
+        }
+        function updateListening(filter) {
+            let quiz_id = $("#QUIZ_ID").val();
+            return $.post("/Quizz/UpdateListening", {
+                pr_key: filter.PR_KEY,
+                listening_id: filter.LISTENING_ID,
+                quiz_id: quiz_id,
+                active: filter.ACTIVE
+            }, function (e) {
+
+            }, "json")
+        }
+        function deleteListening(filter) {
+            let quiz_id = $("#QUIZ_ID").val();
+            return $.post("/Quizz/DeleteListening", {
+                listening_id: filter.LISTENING_ID,
+                quiz_id: quiz_id
+            }, function (e) {
+
+            }, "json")
+        }
+
+        const initGridReading = (data) => {
+            $("#jsGridReading").jsGrid({
+                width: "100%",
+                height: "400px",
+                autoload: true,
+                controller: {
+                    insertItem: function (filter) {
+                        insertReading(filter)
+                    },
+                    updateItem: function (filter) {
+                        updateReading(filter)
+                    },
+                    deleteItem: function (filter) {
+                        deleteReading(filter)
+                    }
+                },
+                onItemInserting: function (args) {
+                    checkBeforeInsert(args);
+                },
+                deleteConfirm: "Bạn có chắc chắn muốn xóa không?",
+                invalidMessage: "Lỗi",
+                noDataContent: "Không có dữ liệu",
+                data: data.QuizReading,
+                inserting: true,
+                editing: true,
+                sorting: true,
+                paging: true,
+                fields: [
+                    {
+                        name: "READING_TYPE_ID", title: "Loại bài đọc", type: "select", width: 150, items: data.ReadingType, valueField: "READING_TYPE_ID", textField: "READING_TYPE_NAME", validate: {
+                            validator: "required",
+                            message: function (value, item) {
+                                return "Cần bài nghe";
+                            },
+                        }
+                    },
+                    { name: "PR_KEY", visible: false },
+                     { name: "TOTAL_READING", type: "number", width: 20, title: "Số lượng câu hỏi", min:0 },
+                    { name: "ACTIVE", type: "checkbox", width: 20, title: "Hoạt động", sorting: false },
+                    { type: "control" }
+                ]
+            });
+        }
+        const loadReading = (id) => {
+            $.post("/Quizz/getReadingById", {
+                id: id
+            }, function (e) {
+                if (e) {
+                    reading = e;
+                }
+                initGridReading(reading);
+            }, "json");
+        }
+
+        function insertReading(filter) {
+            let quiz_id = $("#QUIZ_ID").val();
+            return $.post("/Quizz/AddReading", {
+                reading_type_id: filter.READING_TYPE_ID,
+                quiz_id: quiz_id,
+                total_reading: filter.TOTAL_READING,
+                active: filter.ACTIVE
+            }, function (e) {
+                loadListening(quiz_id)
+            }, "json")
+        }
+        function updateReading(filter) {
+            let quiz_id = $("#QUIZ_ID").val();
+            return $.post("/Quizz/UpdateReading", {
+                reading_type_id: filter.READING_TYPE_ID,
+                quiz_id: quiz_id,
+                total_reading: filter.TOTAL_READING,
+                active: filter.ACTIVE,
+                pr_key: filter.PR_KEY
+            }, function (e) {
+
+            }, "json")
+        }
+        function deleteReading(filter) {
+            let quiz_id = $("#QUIZ_ID").val();
+            return $.post("/Quizz/DeleteReading", {
+                reading_type_id: filter.READING_TYPE_ID,
+                quiz_id: quiz_id,
+                pr_key: filter.PR_KEY
+            }, function (e) {
+
+            }, "json")
+        }
+        $(document).ready(function () {
+            loadDataQuestionType('0');
+            loadListening('0');
+            loadReading('0');
+            $("#cbIsTest").change(function (e) {
+                if ($("#cbIsTest")[0].checked == true) {
+                    initGridListening(listening, true);
+                }
+                else {
+                    initGridListening(listening, false);
+                }
+            })
+        })
+    </script>
+}
+

@@ -1,0 +1,37 @@
+﻿@model IList<English_Quiz.Models.Quiz_Type>
+@{
+    ViewBag.Title = "Chọn bộ đề kiểm tra";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<!-- Services-->
+<section class="page-section bg-primary" id="services">
+    <div class="container">
+        <h2 class="text-center text-white mt-0">Các bộ đề</h2>
+        <hr class="divider light my-4" />
+        <div class="row">
+            @if (Model != null)
+            {
+                int count = 0;
+                foreach (var quizType in Model)
+                {
+
+                    <div class="col-lg-3 col-md-6 text-center align-self-center">
+                        <div class="mt-5">
+                            <i class="fas fa-book" style="font-size:48px"></i>
+                            <h3 class="h4 mb-2"> <a style="color:black" href='@Url.Action("SelectQuiz","Take_Quiz", new{ QuizTypeId = quizType.QUIZ_TYPE_ID})'>@quizType.QUIZ_TYPE_NAME</a></h3>
+                            <p class="text-white mb-0">@quizType.QUIZ_TYPE_DESCRIPTION</p>
+                            
+                        </div>
+                    </div>
+                    count++;
+                }
+            }
+
+        </div>
+        <hr class="divider light my-4" />
+        <div class="col-lg-12 text-center">
+            <h3 class="text-center text-white mt-0">Nếu các bạn đã làm bài kiểm tra hoặc đã biết rõ trình độ, các bạn có thể tham gia luyện tập cùng các bộ đề phù hợp theo yêu cầu</h3>
+            <a class="btn btn-light btn-xl js-scroll-trigger" href="@Url.Action("LessonType","Take_Quiz")">Tham gia</a>
+        </div>
+    </div>
+</section>
