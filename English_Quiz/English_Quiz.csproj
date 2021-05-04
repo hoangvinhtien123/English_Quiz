@@ -2117,7 +2117,6 @@
     <Content Include="Views\Shared\_NavbarPartial.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\User\CreateUser.cshtml" />
-    <Content Include="Views\User\EditUser.cshtml" />
     <Content Include="Views\Quizz\Quizz.cshtml" />
     <Content Include="Views\Quizz\CreateQuizz.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
@@ -2157,6 +2156,8 @@
     <Content Include="Views\ListeningType\CreateListeningType.cshtml" />
     <Content Include="Views\ListeningType\EditListeningType.cshtml" />
     <Content Include="Views\Take_Quiz\SelectLesson.cshtml" />
+    <Content Include="Views\Take_Quiz\UserRegister.cshtml" />
+    <Content Include="Views\User\EditUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

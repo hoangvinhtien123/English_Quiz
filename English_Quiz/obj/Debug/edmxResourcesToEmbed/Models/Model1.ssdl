@@ -214,13 +214,14 @@
       <PropertyRef Name="USER_ID" />
     </Key>
     <Property Name="USER_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="FULL_NAME" Type="varchar" MaxLength="50" />
+    <Property Name="FULL_NAME" Type="nvarchar" MaxLength="50" />
     <Property Name="PROFILE_IMAGE" Type="varchar" MaxLength="50" />
     <Property Name="PASSWORD" Type="varchar" MaxLength="250" />
     <Property Name="ADDRESS" Type="nvarchar" MaxLength="100" />
     <Property Name="PHONE_NUMBER" Type="int" />
     <Property Name="ROLE_ID" Type="int" />
     <Property Name="USER_NAME" Type="varchar" MaxLength="50" />
+    <Property Name="IS_MANAGE" Type="bit" Nullable="false" />
   </EntityType>
   <Association Name="FK_Listening_Listening_Type">
     <End Role="Listening_Type" Type="Self.Listening_Type" Multiplicity="0..1" />

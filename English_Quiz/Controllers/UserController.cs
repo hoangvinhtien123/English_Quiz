@@ -72,7 +72,7 @@ namespace English_Quiz.Controllers
                 user.PASSWORD = toMD5.MD5Hash(user.PASSWORD);
                 db.Entry(oldUser).CurrentValues.SetValues(user);
                 db.SaveChanges();
-                return View("index");
+                return RedirectToAction("index");
             }
             return null;
         }

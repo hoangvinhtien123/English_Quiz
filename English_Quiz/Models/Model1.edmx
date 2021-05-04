@@ -219,13 +219,14 @@
             <PropertyRef Name="USER_ID" />
           </Key>
           <Property Name="USER_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="FULL_NAME" Type="varchar" MaxLength="50" />
+          <Property Name="FULL_NAME" Type="nvarchar" MaxLength="50" />
           <Property Name="PROFILE_IMAGE" Type="varchar" MaxLength="50" />
           <Property Name="PASSWORD" Type="varchar" MaxLength="250" />
           <Property Name="ADDRESS" Type="nvarchar" MaxLength="100" />
           <Property Name="PHONE_NUMBER" Type="int" />
           <Property Name="ROLE_ID" Type="int" />
           <Property Name="USER_NAME" Type="varchar" MaxLength="50" />
+          <Property Name="IS_MANAGE" Type="bit" Nullable="false" />
         </EntityType>
         <Association Name="FK_Listening_Listening_Type">
           <End Role="Listening_Type" Type="Self.Listening_Type" Multiplicity="0..1" />
@@ -639,7 +640,7 @@
             <PropertyRef Name="USER_ID" />
           </Key>
           <Property Name="USER_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FULL_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FULL_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="PROFILE_IMAGE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="PASSWORD" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="ADDRESS" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
@@ -647,6 +648,7 @@
           <Property Name="ROLE_ID" Type="Int32" />
           <Property Name="USER_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Role" Relationship="Self.FK_Users_Role" FromRole="Users" ToRole="Role" />
+          <Property Name="IS_MANAGE" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK_Permission_Role">
           <End Role="Function" Type="Self.Function" Multiplicity="0..1" />
@@ -1115,6 +1117,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="English_QuizModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="IS_MANAGE" ColumnName="IS_MANAGE" />
                 <ScalarProperty Name="USER_ID" ColumnName="USER_ID" />
                 <ScalarProperty Name="FULL_NAME" ColumnName="FULL_NAME" />
                 <ScalarProperty Name="PROFILE_IMAGE" ColumnName="PROFILE_IMAGE" />

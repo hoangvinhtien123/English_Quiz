@@ -16,15 +16,21 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            Tên 
+            Tên
             <div class="col-md-10">
                 @Html.EditorFor(model => model.FULL_NAME, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.FULL_NAME, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
-           Ảnh 
+            Tên đăng nhập
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.USER_NAME, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.USER_NAME, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            Ảnh
             <div class="col-md-10">
                 <img id="img" alt="User Image" style="height:300px;width:350px" />
                 <input type='file' id="fUpload" name="fUpload" />
@@ -39,7 +45,13 @@
                 @Html.ValidationMessageFor(model => model.PASSWORD, "", new { @class = "text-danger" })
             </div>
         </div>
-
+        <div class="form-group">
+            Quản lý
+            <div class="col-md-10">
+                @Html.CheckBoxFor(model => model.IS_MANAGE, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.IS_MANAGE, "", new { @class = "text-danger" })
+            </div>
+        </div>
         <div class="form-group">
             Vai trò
             <div class="col-md-10">

@@ -22,6 +22,7 @@ namespace English_Quiz.Models
         public Nullable<int> PHONE_NUMBER { get; set; }
         public Nullable<int> ROLE_ID { get; set; }
         public string USER_NAME { get; set; }
+        public bool IS_MANAGE { get; set; }
     
         public virtual Role Role { get; set; }
     }

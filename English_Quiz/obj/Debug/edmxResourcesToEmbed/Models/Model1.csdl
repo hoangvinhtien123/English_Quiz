@@ -193,7 +193,7 @@
       <PropertyRef Name="USER_ID" />
     </Key>
     <Property Name="USER_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="FULL_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="FULL_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="PROFILE_IMAGE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="PASSWORD" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
     <Property Name="ADDRESS" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
@@ -201,6 +201,7 @@
     <Property Name="ROLE_ID" Type="Int32" />
     <Property Name="USER_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="Role" Relationship="Self.FK_Users_Role" FromRole="Users" ToRole="Role" />
+    <Property Name="IS_MANAGE" Type="Boolean" Nullable="false" />
   </EntityType>
   <Association Name="FK_Permission_Role">
     <End Role="Function" Type="Self.Function" Multiplicity="0..1" />

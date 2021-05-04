@@ -185,6 +185,7 @@
     <EntitySetMapping Name="Users">
       <EntityTypeMapping TypeName="English_QuizModel.User">
         <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="IS_MANAGE" ColumnName="IS_MANAGE" />
           <ScalarProperty Name="USER_ID" ColumnName="USER_ID" />
           <ScalarProperty Name="FULL_NAME" ColumnName="FULL_NAME" />
           <ScalarProperty Name="PROFILE_IMAGE" ColumnName="PROFILE_IMAGE" />

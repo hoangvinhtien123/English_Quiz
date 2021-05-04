@@ -22,7 +22,7 @@ namespace English_Quiz.Controllers
         {
             return View();
         }
-        
+
         public ActionResult LessonType()
         {
             return View(db.Quiz_Type.Where(x => x.IS_TEST == false).ToList());
@@ -65,6 +65,38 @@ namespace English_Quiz.Controllers
             }
             return View();
         }
+        public ActionResult UserRegister()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult UserRegister(User user)
+        {
+            if(user.FULL_NAME == null || user.USER_NAME == null || user.PASSWORD == null)
+            {
+                ViewBag.msg = "Cần nhập đầy đủ thông tin trước khi đăng ký";
+                return View();
+            }
+            User existUser = db.Users.FirstOrDefault(x => x.USER_NAME == user.USER_NAME);
+            if (existUser != null)
+            {
+                ViewBag.msg = "Tên đăng nhập đã tồn tại";
+                return View();
+            }
+            user.PASSWORD = toMD5.MD5Hash(user.PASSWORD);
+            user.IS_MANAGE = false;
+            db.Users.Add(user);
+            db.SaveChanges();
+            ViewBag.msg = "Đăng ký tài khoản thành công";
+            User newUser = new User();
+            return View(newUser);
+        }
+        public ActionResult LogOut()
+        {
+            Session[ConstantData.USER_QUIZZ_SESSION] = null;
+            return RedirectToAction("UserLogin");
+        }
+
         public ActionResult QuizType()
         {
             return View(db.Quiz_Type.Where(x => x.IS_TEST == true).ToList());
@@ -78,7 +110,7 @@ namespace English_Quiz.Controllers
             }
             else
             {
-                return View(db.Quizs.Where(x=>x.IS_TEST==true).ToList());
+                return View(db.Quizs.Where(x => x.IS_TEST == true).ToList());
             }
             //if (Session[ConstantData.USER_QUIZZ_SESSION] == null)
             //{
@@ -156,7 +188,7 @@ namespace English_Quiz.Controllers
                     List<int> lstNumberRandom = new List<int>();
                     int number_question = Convert.ToInt32(total_question_per_type);
                     total += number_question;
-                    if(data.IS_TEST == true)
+                    if (data.IS_TEST == true)
                     {
                         lstQuestion = db.Questions.Where(x => x.TYPE_ID == type_id && x.IS_TEST == true).ToList();
                     }
@@ -197,7 +229,7 @@ namespace English_Quiz.Controllers
             }
             #endregion
             #region Listening
-            lstQuestion = db.Questions.Where(x => x.IS_LISTENING == true).OrderBy(x=>x.LIST_ORDER).ToList();
+            lstQuestion = db.Questions.Where(x => x.IS_LISTENING == true).OrderBy(x => x.LIST_ORDER).ToList();
             List<Quiz_Listening> lstQuestionListening = db.Quiz_Listening.Where(x => x.QUIZ_ID == quizId).ToList();
             if (lstQuestionListening.Count > 0)
             {
@@ -233,7 +265,7 @@ namespace English_Quiz.Controllers
                 ViewData["ReadingType"] = db.Reading_Type.ToList();
                 for (int i = 0; i < quizReading.Count; i++)
                 {
-                    
+
                     total = 0;
                     int? readingType = quizReading[i].READING_TYPE_ID;
                     int? totalReading = quizReading[i].TOTAL_READING;
@@ -309,7 +341,7 @@ namespace English_Quiz.Controllers
             Quiz quizzSelected = (Quiz)Session["QuizzSelected"];
 
             List<Question> question = db.Questions.SqlQuery(@"select * from Questions").ToList();
-            if (quizzSelected != null )
+            if (quizzSelected != null)
             {
 
                 var list = db.Quiz_Questions.Where(x => x.QUIZ_ID == quizzSelected.QUIZ_ID);
@@ -375,12 +407,12 @@ namespace English_Quiz.Controllers
                     quizHistoryTbl.Columns.Add("Date_Take_Quiz", typeof(DateTime));
                     foreach (var item in quiz_history)
                     {
-                        
+
                         quizHistoryTbl.Rows.Add(item.Quiz_ID, item.User_Name, item.Point, item.Quiz_Name, item.Date_Take_Quiz.Value);
                     }
                     ds.Tables.Add(quizHistoryTbl);
                 }
-                
+
             }
             return JsonConvert.SerializeObject(ds);
         }
@@ -388,11 +420,7 @@ namespace English_Quiz.Controllers
         {
             return new FilePathResult(filePath, "audio/wav");
         }
-        public ActionResult LogOut()
-        {
-            Session[ConstantData.USER_QUIZZ_SESSION] = null;
-            return RedirectToAction("UserLogin");
-        }
+
         #endregion
     }
 }
