@@ -69,7 +69,7 @@
             }, "json")
         }
         function initTableHistoryQuiz(HistoryQuiz) {
-            var html = `<table class="table" style="margin-top:10px;">
+            var html = `<table class="table" style="margin-top:10px; text-align:center;">
                                     <tr>
                                         <th>
                                            Tên đề thi
@@ -80,6 +80,7 @@
                                         <th>
                                            Điểm
                                         </th>
+                                        <th> Đánh giá </th>
                                         <th> Ngày làm
                                         </th>
                                         <th></th>
@@ -94,6 +95,7 @@
                     html += ` <tr> <td>` + HistoryQuiz[i].Quiz_Name + ` </td>
                                      <td>` + HistoryQuiz[i].User_Name + ` </td>
                                      <td>`+ HistoryQuiz[i].Point + ` </td>
+                                     <td>`+ HistoryQuiz[i].Evaluate + ` </td>
                                      <td>`+ newDate + ` </td> </tr>`
                 }
             }

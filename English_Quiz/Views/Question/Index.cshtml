@@ -13,7 +13,7 @@
     <div class="form-group row">
         <label class="control-label col-md-2" style="font-size:16px;">Loại câu hỏi </label>
         <div class="col-md-4">
-            @Html.DropDownList("ddlQuestionType", (SelectList)ViewBag.ddlQuestionType, "--- Chọn vai trò ---", new { @class = "form-control", @name = "ddlQuestionType", @onchange = "submitQuestionType()" })
+            @Html.DropDownList("ddlQuestionType", (SelectList)ViewBag.ddlQuestionType, "--- Chọn loại câu hỏi ---", new { @class = "form-control", @name = "ddlQuestionType", @onchange = "submitQuestionType()" })
         </div>
     </div>
 }

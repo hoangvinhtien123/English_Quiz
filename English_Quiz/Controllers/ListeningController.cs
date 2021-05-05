@@ -125,7 +125,7 @@ namespace English_Quiz.Controllers
         public string getQuestionByListeningId()
         {
             string listeningId = (Request["listeningId"] == null) ? string.Empty : Request["listeningId"].ToString();
-            List<Question> lstQuestion = db.Questions.Where(x => x.LISTENING_ID == listeningId && x.IS_LISTENING == true).ToList();
+            List<Question> lstQuestion = db.Questions.Where(x => x.LISTENING_ID == listeningId).ToList();
             DataSet ds = new DataSet();
             DataTable questionTbl = new DataTable();
             questionTbl.Columns.Add("QUESTION_ID", typeof(string));
@@ -188,7 +188,6 @@ namespace English_Quiz.Controllers
                 question.LISTENING_ID = listeningId;
                 question.QUESTION_TEXT = questionText;
                 question.POINT = point;
-                question.IS_LISTENING = true;
                 question.QUESTION_IMAGE = fileName;
                 question.LIST_ORDER = listOrder;
                 db.Questions.Add(question);
@@ -206,7 +205,6 @@ namespace English_Quiz.Controllers
                 newQuestion.LISTENING_ID = listeningId;
                 newQuestion.QUESTION_TEXT = questionText;
                 newQuestion.POINT = point;
-                newQuestion.IS_LISTENING = true;
                 newQuestion.LIST_ORDER = listOrder;
                 if (fileName != string.Empty)
                 {

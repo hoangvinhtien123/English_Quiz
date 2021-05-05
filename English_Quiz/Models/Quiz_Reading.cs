@@ -16,8 +16,10 @@ namespace English_Quiz.Models
     {
         public System.Guid PR_KEY { get; set; }
         public string QUIZ_ID { get; set; }
-        public Nullable<bool> ACTIVE { get; set; }
         public Nullable<int> READING_TYPE_ID { get; set; }
         public Nullable<int> TOTAL_READING { get; set; }
+        public Nullable<bool> ACTIVE { get; set; }
+    
+        public virtual Reading_Type Reading_Type { get; set; }
     }
 }

@@ -110,12 +110,11 @@ namespace English_Quiz.Controllers
             questions.Columns.Add("QUIZ_ID", typeof(string));
             questions.Columns.Add("TYPE_ID", typeof(int));
             questions.Columns.Add("LIST_ORDER", typeof(int));
-            questions.Columns.Add("POINT_EACH_QS", typeof(int));
             questions.Columns.Add("TOTAL_QUESTION", typeof(int));
             questions.TableName = "Questions";
             for (int i = 0; i < auto_Generate.Count; i++)
             {
-                questions.Rows.Add(auto_Generate[i].PR_KEY, auto_Generate[i].QUIZ_ID, auto_Generate[i].TYPE_ID, auto_Generate[i].LIST_ORDER, auto_Generate[i].POINT_EACH_QS, auto_Generate[i].TOTAL_QUESTION);
+                questions.Rows.Add(auto_Generate[i].PR_KEY, auto_Generate[i].QUIZ_ID, auto_Generate[i].TYPE_ID, auto_Generate[i].LIST_ORDER, auto_Generate[i].TOTAL_QUESTION);
             }
             ds.Tables.Add(questions);
 
@@ -140,7 +139,6 @@ namespace English_Quiz.Controllers
             int list_order = (Request["list_order"] == null) ? 0 : int.Parse(Request["list_order"].ToString());
             int total_question = (Request["total_question"] == null) ? 0 : int.Parse(Request["total_question"].ToString());
             Questions_Auto_Generate auto_Generate = new Questions_Auto_Generate();
-            auto_Generate.POINT_EACH_QS = 0;
             auto_Generate.PR_KEY = Guid.NewGuid();
             auto_Generate.LIST_ORDER = list_order;
             auto_Generate.QUIZ_ID = quiz_id;
@@ -159,7 +157,6 @@ namespace English_Quiz.Controllers
             int total_question = (Request["total_question"] == null) ? 0 : int.Parse(Request["total_question"].ToString());
             Questions_Auto_Generate oldGenerate = db.Questions_Auto_Generate.FirstOrDefault(x => x.PR_KEY == pr_key);
             Questions_Auto_Generate newGenerate = new Questions_Auto_Generate();
-            newGenerate.POINT_EACH_QS = 0;
             newGenerate.PR_KEY = oldGenerate.PR_KEY;
             newGenerate.LIST_ORDER = list_order;
             newGenerate.QUIZ_ID = quiz_id;

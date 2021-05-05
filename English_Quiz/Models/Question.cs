@@ -25,7 +25,6 @@ namespace English_Quiz.Models
         public Nullable<double> POINT { get; set; }
         public Nullable<int> TYPE_ID { get; set; }
         public string LISTENING_ID { get; set; }
-        public bool IS_LISTENING { get; set; }
         public Nullable<int> READING_ID { get; set; }
         public string QUESTION_IMAGE { get; set; }
         public bool IS_TEST { get; set; }
@@ -33,8 +32,8 @@ namespace English_Quiz.Models
     
         public virtual Listening Listening { get; set; }
         public virtual Question_Type Question_Type { get; set; }
+        public virtual Reading Reading { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Quiz_Questions> Quiz_Questions { get; set; }
-        public virtual Reading Reading { get; set; }
     }
 }

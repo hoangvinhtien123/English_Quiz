@@ -101,6 +101,12 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="control-label col-md-2">Sắp xếp</label>
+                    <div class="col-md-10">
+                        <input type="number" min="1" class="form-control" id="LIST_ORDER" />
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="control-label col-md-2">Ảnh</label>
                     <div class="col-md-10">
                         <img id="img" alt="Question Image" style="height:300px;width:350px" />
@@ -180,6 +186,9 @@
                                 <th>
                                    Điểm
                                 </th>
+                                <th>
+                                    Sắp xếp
+                                </th>
                                 <th></th>
                             </tr>
 
@@ -189,10 +198,11 @@
                             listQuestion += `<tr>
                                 <td>` + question[i].QUESTION_ID +  `</td>
                                 <td>` + question[i].QUESTION_TEXT +  `</td>
-                                <td>` + question[i].POINT +  `</td>
+                                <td>` + question[i].POINT + `</td>
+                                <td>` + question[i].LIST_ORDER +  `</td>
                                 <td>
 
-                                    <a class="btn btn-info" onclick="editListeningQuestion('`+ id + `', '` + question[i].QUESTION_ID + `', '` + question[i].QUESTION_TEXT + `','` + question[i].POINT +`','`+question[i].QUESTION_IMAGE+`')"> <i class="fas fa-edit"> </i> </a>
+                                    <a class="btn btn-info" onclick="editListeningQuestion('`+ id + `', '` + question[i].QUESTION_ID + `', '` + question[i].QUESTION_TEXT + `','` + question[i].POINT +`','`+question[i].QUESTION_IMAGE+`','`+question[i].LIST_ORDER+`')"> <i class="fas fa-edit"> </i> </a>
                                     <a class="btn btn-danger" onclick="deleteListeningQuestion('`+question[i].QUESTION_ID+`', '`+id+`')"> <i class="fas fa-trash-alt"> </i></a>
                                 </td>
                                 </tr>`
@@ -217,20 +227,21 @@
             $("#QUESTION_ID").val(newQuestionId);
             $("#QUESTION_TEXT").val("");
             $("#POINT").val("");
+            $("#LIST_ORDER").val("");
             is_new = true;
             $("#img").attr("src", "");
             loadJsGrid();
         }
-        const editListeningQuestion = (id , question_id,question_text,point,image) => {
+        const editListeningQuestion = (id , question_id,question_text,point,image,list_order) => {
             $('#modalQuestionDetail').modal('show');
             $("#LISTENING_ID").val(id);
             $("#QUESTION_ID").val(question_id);
             $("#QUESTION_TEXT").val(question_text);
             $("#POINT").val(point);
+            $("#LIST_ORDER").val(list_order);
             is_new = false;
             $("#img").attr("src", image);
-
-
+            files = "";
             loadJsGrid();
         }
         const saveReadingQuestion = () => {
@@ -238,6 +249,7 @@
             let question_id = $("#QUESTION_ID").val();
             let question_text = $("#QUESTION_TEXT").val();
             let point = $("#POINT").val();
+            let list_order = $("#LIST_ORDER").val();
             var formData = new FormData();
             if (files != "") {
                 formData.append("files", files, files.name);
@@ -247,6 +259,7 @@
             formData.append("questionText", question_text);
             formData.append("point", point);
             formData.append("isNew", is_new);
+            formData.append("listOrder", list_order);
             $.ajax({
                 type: 'POST',
                 data: formData,

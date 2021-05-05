@@ -25,7 +25,7 @@
         <div class="form-group" id="Reading_Text">
             <label class="control-label col-md-2">  Câu hỏi bài đọc</label>
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.READING_TEXT, new { @class = "form-control", @style = "width:100%;height:300px;" })
+                @Html.TextAreaFor(model => model.READING_TEXT, new { @class = "form-control", @style = "width:100%;height:300px;", @id = "txtAreaReading" })
                 @Html.ValidationMessageFor(model => model.READING_TEXT, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -82,6 +82,16 @@
         $("#fUpload").change(function () {
             readURL(this);
         });
+        ClassicEditor
+            .create(document.querySelector('#txtAreaReading'), {
+                // toolbar: [ 'heading', '|', 'bold', 'italic', 'link' ]
+            })
+            .then(editor => {
+                window.editor = editor;
+            })
+            .catch(err => {
+                console.error(err.stack);
+            });
         $("#cbIsImage").change(function (e) {
             if ($("#cbIsImage")[0].checked == true) {
                 $("#Reading_Text").attr('style', 'display:none !important')

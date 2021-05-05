@@ -1,6 +1,6 @@
 ﻿@model English_Quiz.Models.User
 @{
-    ViewBag.Title = "UserLogin";
+    ViewBag.Title = "Đăng nhập";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 }
 <section class="page-section bg-primary">
@@ -13,7 +13,7 @@
                     {
                         @Html.EditorFor(c => c.USER_NAME, new { htmlAttributes = new { @class = "form-control", @placeholder = "Tên đăng nhập", @style = "width:100%;" } })<br />
                         @Html.EditorFor(c => c.PASSWORD, new { htmlAttributes = new { @class = "form-control", @placeholder = "Mật khẩu", @style = "width:100%;", @type = "password" } })<br />
-
+                        <a style="color:black" href="@Url.Action("UserRegister","Take_Quiz")">Chưa có tài khoản? Đăng ký ngay</a>
                         <button type="submit" id="Enter" class="btn btn-light btn-xl js-scroll-trigger" style="width:100%;"><span class="glyphicon glyphicon-user"></span>   Đăng nhập</button>
                     }
                 </div>

@@ -72,7 +72,7 @@ namespace English_Quiz.Controllers
         [HttpPost]
         public ActionResult UserRegister(User user)
         {
-            if(user.FULL_NAME == null || user.USER_NAME == null || user.PASSWORD == null)
+            if (user.FULL_NAME == null || user.USER_NAME == null || user.PASSWORD == null)
             {
                 ViewBag.msg = "Cần nhập đầy đủ thông tin trước khi đăng ký";
                 return View();
@@ -167,6 +167,7 @@ namespace English_Quiz.Controllers
             Quiz data = db.Quizs.Where(p => p.QUIZ_ID == quizId).FirstOrDefault();
             List<Question> lstQuestion = new List<Question>();
             List<Question> finalLstQuestion = new List<Question>();
+            string listFinalQuestions = "(";
             Random r = new Random();
             int total = 0;
             if (data != null)
@@ -201,6 +202,7 @@ namespace English_Quiz.Controllers
                         for (int j = 0; j < lstQuestion.Count; j++)
                         {
                             finalLstQuestion.Add(lstQuestion[j]);
+                            listFinalQuestions += "'" + lstQuestion[j].QUESTION_ID + "',";
                         }
                     }
                     else
@@ -210,6 +212,7 @@ namespace English_Quiz.Controllers
                         for (int j = 0; j < number_question; j++)
                         {
                             finalLstQuestion.Add(lstQuestion[random]);
+                            listFinalQuestions += "'" + lstQuestion[random].QUESTION_ID + "',";
                             lstNumberRandom.Add(random);
                             while (lstNumberRandom.Contains(random) && finalLstQuestion.Count < total)
                             {
@@ -229,7 +232,7 @@ namespace English_Quiz.Controllers
             }
             #endregion
             #region Listening
-            lstQuestion = db.Questions.Where(x => x.IS_LISTENING == true).OrderBy(x => x.LIST_ORDER).ToList();
+            lstQuestion = db.Questions.Where(x => x.LISTENING_ID != null).OrderBy(x => x.LIST_ORDER).ToList();
             List<Quiz_Listening> lstQuestionListening = db.Quiz_Listening.Where(x => x.QUIZ_ID == quizId).ToList();
             if (lstQuestionListening.Count > 0)
             {
@@ -248,6 +251,7 @@ namespace English_Quiz.Controllers
                                 if (lstQuestion[j].LISTENING_ID == quiz_Listening.LISTENING_ID)
                                 {
                                     finalLstQuestion.Add(lstQuestion[j]);
+                                    listFinalQuestions += "'" + lstQuestion[j].QUESTION_ID + "',";
                                 }
                             }
                         }
@@ -261,12 +265,12 @@ namespace English_Quiz.Controllers
             List<Reading> readings = new List<Reading>();
             if (quizReading.Count > 0)
             {
+                total = 0;
                 List<Reading> readingByType = new List<Reading>();
                 ViewData["ReadingType"] = db.Reading_Type.ToList();
                 for (int i = 0; i < quizReading.Count; i++)
                 {
 
-                    total = 0;
                     int? readingType = quizReading[i].READING_TYPE_ID;
                     int? totalReading = quizReading[i].TOTAL_READING;
                     if (readingType != null && totalReading != null)
@@ -286,12 +290,17 @@ namespace English_Quiz.Controllers
                         {
                             for (int j = 0; j < readings.Count; j++)
                             {
+                                if (readings[j].READING_TEXT != null && readings[j].READING_TEXT != string.Empty)
+                                {
+                                    readings[j].READING_TEXT = HttpUtility.HtmlDecode(readings[j].READING_TEXT);
+                                }
                                 readingByType.Add(readings[j]);
                                 int readingId = readings[j].READING_ID;
                                 lstQuestion = db.Questions.Where(x => x.READING_ID == readingId).OrderBy(x => x.LIST_ORDER).ToList();
                                 for (int m = 0; m < lstQuestion.Count; m++)
                                 {
                                     finalLstQuestion.Add(lstQuestion[m]);
+                                    listFinalQuestions += "'" + lstQuestion[m].QUESTION_ID + "',";
                                 }
                             }
                         }
@@ -318,11 +327,16 @@ namespace English_Quiz.Controllers
                             }
                             for (int j = 0; j < readingByType.Count; j++)
                             {
+                                if (readingByType[j].READING_TEXT != null && readingByType[j].READING_TEXT != string.Empty)
+                                {
+                                    readingByType[j].READING_TEXT = HttpUtility.HtmlEncode(readingByType[j].READING_TEXT);
+                                }
                                 int readingId = readingByType[j].READING_ID;
                                 lstQuestion = db.Questions.Where(x => x.READING_ID == readingId).OrderBy(x => x.LIST_ORDER).ToList();
                                 for (int m = 0; m < lstQuestion.Count; m++)
                                 {
                                     finalLstQuestion.Add(lstQuestion[m]);
+                                    listFinalQuestions += "'" + lstQuestion[m].QUESTION_ID + "',";
                                 }
                             }
                         }
@@ -330,9 +344,9 @@ namespace English_Quiz.Controllers
                 }
                 ViewData["Reading"] = readingByType;
             }
-
+            listFinalQuestions += "'')";
             #endregion
-            ViewData["Answer"] = db.Answers.SqlQuery(@"select * from Answer ORDER BY LIST_ORDER ASC").ToList();
+            ViewData["Answer"] = db.Answers.SqlQuery($"select * from Answer where QUESTION_ID in {listFinalQuestions}  ORDER BY LIST_ORDER ASC").ToList();
 
             return View(finalLstQuestion);
         }
@@ -364,28 +378,40 @@ namespace English_Quiz.Controllers
             }
             return JsonConvert.SerializeObject(list_question);
         }
-        public void Quiz_History()
+        public string Quiz_History()
         {
             User user = (User)Session[ConstantData.USER_QUIZZ_SESSION];
+            Quiz quizzSelected = (Quiz)Session["QuizzSelected"];
+            string quiz_id = quizzSelected.QUIZ_ID;
+            float point = (Request["point"] == null) ? 0 : float.Parse(Request["point"].ToString());
+            History_Quiz quiz_history = null;
+            Evaluate evaluate = db.Evaluates.SqlQuery($"select * from Evaluate where FROM_POINT<={point} and TO_POINT >={point}").FirstOrDefault();
+            
             if (user != null)
             {
-                Quiz quizzSelected = (Quiz)Session["QuizzSelected"];
-                string quiz_id = quizzSelected.QUIZ_ID;
-                float point = (Request["point"] == null) ? 0 : float.Parse(Request["point"].ToString());
-                History_Quiz quiz_history = db.History_Quiz.Where(x => x.Quiz_ID == quiz_id && x.User_Name == user.FULL_NAME).FirstOrDefault();
-                if (quiz_history == null)
+                quiz_history = new History_Quiz();
+                quiz_history.Quiz_ID = quizzSelected.QUIZ_ID;
+                quiz_history.Quiz_Name = quizzSelected.QUIZ_NAME;
+                quiz_history.User_Name = user.USER_NAME;
+                quiz_history.Point = point;
+                quiz_history.Date_Take_Quiz = DateTime.Today;
+                quiz_history.PR_KEY = Guid.NewGuid();
+                if (evaluate != null)
                 {
-                    quiz_history = new History_Quiz();
-                    quiz_history.Quiz_ID = quizzSelected.QUIZ_ID;
-                    quiz_history.Quiz_Name = quizzSelected.QUIZ_NAME;
-                    quiz_history.User_Name = user.USER_NAME;
-                    quiz_history.Point = point;
-                    quiz_history.Date_Take_Quiz = DateTime.Now;
-                    db.History_Quiz.Add(quiz_history);
-                    db.SaveChanges();
+                    quiz_history.EVALUATE_ID = evaluate.EVALUATE_ID;
                 }
-            }
+                db.History_Quiz.Add(quiz_history);
+                db.SaveChanges();
 
+            }
+            if (evaluate != null)
+            {
+                return JsonConvert.SerializeObject(evaluate.EVALUATE_DESCRIPTION);
+            }
+            else
+            {
+                return JsonConvert.SerializeObject("Chưa có đánh giá cho thang điểm này");
+            }
         }
 
         public string loadHistoryQuiz()
@@ -404,11 +430,12 @@ namespace English_Quiz.Controllers
                     quizHistoryTbl.Columns.Add("User_Name", typeof(string));
                     quizHistoryTbl.Columns.Add("Point", typeof(int));
                     quizHistoryTbl.Columns.Add("Quiz_Name", typeof(string));
+                    quizHistoryTbl.Columns.Add("Evaluate", typeof(string));
                     quizHistoryTbl.Columns.Add("Date_Take_Quiz", typeof(DateTime));
                     foreach (var item in quiz_history)
                     {
 
-                        quizHistoryTbl.Rows.Add(item.Quiz_ID, item.User_Name, item.Point, item.Quiz_Name, item.Date_Take_Quiz.Value);
+                        quizHistoryTbl.Rows.Add(item.Quiz_ID, item.User_Name, item.Point, item.Quiz_Name, item.Evaluate.EVALUATE_DESCRIPTION, item.Date_Take_Quiz.Value);
                     }
                     ds.Tables.Add(quizHistoryTbl);
                 }

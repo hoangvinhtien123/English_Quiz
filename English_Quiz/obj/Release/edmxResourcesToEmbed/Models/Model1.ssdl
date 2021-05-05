@@ -40,11 +40,10 @@
   </EntityType>
   <EntityType Name="History_Quiz">
     <Key>
-      <PropertyRef Name="Quiz_ID" />
-      <PropertyRef Name="User_Name" />
-      <PropertyRef Name="Point" />
+      <PropertyRef Name="PR_KEY" />
     </Key>
-    <Property Name="Quiz_ID" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="PR_KEY" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Quiz_ID" Type="nvarchar" MaxLength="20" Nullable="false" />
     <Property Name="User_Name" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="Point" Type="float" Nullable="false" />
     <Property Name="Date_Take_Quiz" Type="date" />
@@ -91,7 +90,7 @@
     <Property Name="TYPE_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="TYPE_NAME" Type="nvarchar" MaxLength="250" />
     <Property Name="TYPE_NAME_EN" Type="nvarchar" MaxLength="250" />
-    <Property Name="DESCRIPTION" Type="nvarchar" MaxLength="50" />
+    <Property Name="DESCRIPTION" Type="nvarchar" MaxLength="250" />
   </EntityType>
   <EntityType Name="Questions">
     <Key>
@@ -102,10 +101,10 @@
     <Property Name="POINT" Type="float" />
     <Property Name="TYPE_ID" Type="int" />
     <Property Name="LISTENING_ID" Type="nvarchar" MaxLength="20" />
-    <Property Name="IS_LISTENING" Type="bit" Nullable="false" />
     <Property Name="READING_ID" Type="int" />
     <Property Name="QUESTION_IMAGE" Type="nvarchar" MaxLength="100" />
     <Property Name="IS_TEST" Type="bit" Nullable="false" />
+    <Property Name="LIST_ORDER" Type="int" />
   </EntityType>
   <EntityType Name="Questions_Auto_Generate">
     <Key>
@@ -115,7 +114,6 @@
     <Property Name="QUIZ_ID" Type="nvarchar" MaxLength="20" />
     <Property Name="TYPE_ID" Type="int" />
     <Property Name="TOTAL_QUESTION" Type="int" />
-    <Property Name="POINT_EACH_QS" Type="float" />
     <Property Name="LIST_ORDER" Type="int" />
   </EntityType>
   <EntityType Name="Quiz">
@@ -213,13 +211,14 @@
       <PropertyRef Name="USER_ID" />
     </Key>
     <Property Name="USER_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="FULL_NAME" Type="varchar" MaxLength="50" />
+    <Property Name="FULL_NAME" Type="nvarchar" MaxLength="50" />
     <Property Name="PROFILE_IMAGE" Type="varchar" MaxLength="50" />
     <Property Name="PASSWORD" Type="varchar" MaxLength="250" />
     <Property Name="ADDRESS" Type="nvarchar" MaxLength="100" />
     <Property Name="PHONE_NUMBER" Type="int" />
     <Property Name="ROLE_ID" Type="int" />
     <Property Name="USER_NAME" Type="varchar" MaxLength="50" />
+    <Property Name="IS_MANAGE" Type="bit" Nullable="false" />
   </EntityType>
   <Association Name="FK_Listening_Listening_Type">
     <End Role="Listening_Type" Type="Self.Listening_Type" Multiplicity="0..1" />
@@ -341,6 +340,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Quiz_Quiz_Type">
+    <End Role="Quiz_Type" Type="Self.Quiz_Type" Multiplicity="0..1" />
+    <End Role="Quiz" Type="Self.Quiz" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Quiz_Type">
+        <PropertyRef Name="QUIZ_TYPE_ID" />
+      </Principal>
+      <Dependent Role="Quiz">
+        <PropertyRef Name="QUIZ_TYPE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Quiz_Reading_Reading_Type">
+    <End Role="Reading_Type" Type="Self.Reading_Type" Multiplicity="0..1" />
+    <End Role="Quiz_Reading" Type="Self.Quiz_Reading" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Reading_Type">
+        <PropertyRef Name="READING_TYPE_ID" />
+      </Principal>
+      <Dependent Role="Quiz_Reading">
+        <PropertyRef Name="READING_TYPE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Reading_Reading_Type">
     <End Role="Reading_Type" Type="Self.Reading_Type" Multiplicity="0..1" />
     <End Role="Reading" Type="Self.Reading" Multiplicity="*" />
@@ -426,6 +449,14 @@
     <AssociationSet Name="FK_Quiz_Questions_Quiz" Association="Self.FK_Quiz_Questions_Quiz">
       <End Role="Quiz" EntitySet="Quiz" />
       <End Role="Quiz_Questions" EntitySet="Quiz_Questions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Quiz_Quiz_Type" Association="Self.FK_Quiz_Quiz_Type">
+      <End Role="Quiz_Type" EntitySet="Quiz_Type" />
+      <End Role="Quiz" EntitySet="Quiz" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Quiz_Reading_Reading_Type" Association="Self.FK_Quiz_Reading_Reading_Type">
+      <End Role="Reading_Type" EntitySet="Reading_Type" />
+      <End Role="Quiz_Reading" EntitySet="Quiz_Reading" />
     </AssociationSet>
     <AssociationSet Name="FK_Reading_Reading_Type" Association="Self.FK_Reading_Reading_Type">
       <End Role="Reading_Type" EntitySet="Reading_Type" />

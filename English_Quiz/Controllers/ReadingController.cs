@@ -15,6 +15,7 @@ namespace English_Quiz.Controllers
         [CheckPermission(PermissionName = "QuanLyCauHoi", Action = ConstantCommon.Action.View)]
         public ActionResult Index()
         {
+            
             return View(db.Readings.ToList());
         }
         [CheckPermission(PermissionName = "QuanLyCauHoi", Action = ConstantCommon.Action.Add)]
@@ -24,6 +25,7 @@ namespace English_Quiz.Controllers
             return View();
         }
         [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
         [HttpPost]
         public ActionResult CreateReading(Reading reading , HttpPostedFileBase fUpload)
         {
@@ -48,6 +50,7 @@ namespace English_Quiz.Controllers
             return View(db.Readings.FirstOrDefault(x => x.READING_ID == id));
         }
         [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
         [HttpPost]
         public ActionResult EditReading(int id, Reading reading , HttpPostedFileBase fUpload)
         {
@@ -117,7 +120,7 @@ namespace English_Quiz.Controllers
         public string getQuestionByReadingId()
         {
             int readingId = (Request["readingId"] == null) ? 0 : int.Parse(Request["readingId"].ToString());
-            List<Question> lstQuestion = db.Questions.Where(x => x.READING_ID == readingId && x.IS_LISTENING == false).ToList();
+            List<Question> lstQuestion = db.Questions.Where(x => x.READING_ID == readingId && x.LISTENING_ID == null).ToList();
             DataSet ds = new DataSet();
             DataTable questionTbl = new DataTable();
             questionTbl.Columns.Add("QUESTION_ID", typeof(string));
@@ -156,7 +159,6 @@ namespace English_Quiz.Controllers
                 question.READING_ID = readingId;
                 question.QUESTION_TEXT = questionText;
                 question.POINT = point;
-                question.IS_LISTENING = false;
                 question.LIST_ORDER = listOrder;
                 db.Questions.Add(question);
                 db.SaveChanges();
@@ -169,7 +171,6 @@ namespace English_Quiz.Controllers
                 newQuestion.READING_ID = readingId;
                 newQuestion.QUESTION_TEXT = questionText;
                 newQuestion.POINT = point;
-                newQuestion.IS_LISTENING = false;
                 newQuestion.LIST_ORDER = listOrder;
                 db.Entry(oldQuestion).CurrentValues.SetValues(newQuestion);
                 db.SaveChanges();

@@ -20,10 +20,10 @@ namespace English_Quiz.Controllers
             ViewBag.ddlQuestionType = new SelectList(lstQuestionType, "TYPE_ID", "TYPE_NAME");
             if (ddlQuestionType==null)
             {
-                return View(db.Questions.Where(x => x.IS_LISTENING == false && x.READING_ID == null).ToList().OrderBy(x => x.TYPE_ID));
+                return View(db.Questions.Where(x => x.LISTENING_ID == null && x.READING_ID == null).ToList().OrderBy(x => x.TYPE_ID));
             }
             int? questionType = ddlQuestionType;
-            return View(db.Questions.Where(x => x.IS_LISTENING == false && x.READING_ID == null && x.TYPE_ID==questionType).ToList().OrderBy(x => x.TYPE_ID));
+            return View(db.Questions.Where(x => x.LISTENING_ID == null && x.READING_ID == null && x.TYPE_ID==questionType).ToList().OrderBy(x => x.TYPE_ID));
         }
         [CheckPermission(PermissionName = "QuanLyCauHoi", Action = ConstantCommon.Action.Add)]
         public ActionResult CreateQuestion()

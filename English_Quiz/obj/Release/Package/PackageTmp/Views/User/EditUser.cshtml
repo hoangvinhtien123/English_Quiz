@@ -7,7 +7,7 @@
 
 <h2>Sửa người dùng</h2>
 
-@using (Html.BeginForm("EditUser", "User", FormMethod.Post, new { encType = "multipart/form-data" }))
+@using (Html.BeginForm("EditUser", "User", new { UserId = Model.USER_ID  } ,FormMethod.Post, new { encType = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
@@ -17,32 +17,44 @@
         @Html.HiddenFor(model => model.USER_ID)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.FULL_NAME, htmlAttributes: new { @class = "control-label col-md-2" })
+            Tên đầy đủ
             <div class="col-md-10">
                 @Html.EditorFor(model => model.FULL_NAME, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.FULL_NAME, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
-            @Html.LabelFor(model => model.PROFILE_IMAGE, htmlAttributes: new { @class = "control-label col-md-2" })
+            Tên đăng nhập
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.USER_NAME, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.USER_NAME, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            Ảnh
             <div class="col-md-10">
                 <img id="img" src="~/Content/img/User/@Model.PROFILE_IMAGE" alt="User Image" style="height:300px;width:350px" />
-                <input type='file'  id="fUpload" name="fUpload" />
+                <input type='file' id="fUpload" name="fUpload" />
                 @Html.ValidationMessageFor(model => model.PROFILE_IMAGE, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.PASSWORD, htmlAttributes: new { @class = "control-label col-md-2" })
+            Mật khẩu
             <div class="col-md-10">
                 @Html.EditorFor(model => model.PASSWORD, new { htmlAttributes = new { @class = "form-control", @type = "password" } })
                 @Html.ValidationMessageFor(model => model.PASSWORD, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
-            @Html.LabelFor(model => model.ROLE_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+            Quản lý
+            <div class="col-md-10">
+                @Html.CheckBoxFor(model => model.IS_MANAGE, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.IS_MANAGE, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            Vai trò
             <div class="col-md-10">
                 @Html.DropDownListFor(model => model.ROLE_ID, (SelectList)ViewBag.ListRole, "--Select--", new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.ROLE_ID, "", new { @class = "text-danger" })

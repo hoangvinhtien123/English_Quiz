@@ -1,0 +1,102 @@
+﻿@model IEnumerable<English_Quiz.Models.Reading_Type>
+
+@{
+    ViewBag.Title = "Loại bài đọc";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Loại bài đọc</h2>
+
+<p style="margin-left:10px;">
+    <a class="btn btn-primary" href='@Url.Action("CreateReadingType","ReadingType")'> Thêm mới</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Tên loại bài đọc
+        </th>
+        <th>
+            Tên loại bài đọc (Tiếng anh)
+        </th>
+        <th>
+            Mô tả
+        </th>
+        <th>
+            Hoạt động
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.READING_TYPE_NAME)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.READING_TYPE_NAME_EN)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DESCRIPTION)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ACTIVE)
+            </td>
+            <td>
+                <a href='@Url.Action("EditReadingType","ReadingType", new{ readingTypeId = item.READING_TYPE_ID})' class="btn btn-info"><i class="fas fa-edit"></i></a>
+                |
+                <a href="javascript:void(0)" onclick="deleteReadingType(@item.READING_TYPE_ID)" class="btn btn-danger"><i class="far fa-trash-alt"></i></a>
+                |
+            </td>
+        </tr>
+    }
+
+</table>
+@section scripts{
+    <script type="text/javascript">
+
+        const deleteReadingType = (id) => {
+            Swal.fire({
+                title: 'Bạn chắc chắn sẽ xóa?',
+                text: "Bạn sẽ không thể khôi phục bản ghi này!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Xóa!',
+                cancelButtonText: 'Đóng'
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        url: '@Url.Action("DeleteReadingType","ReadingType")' + `?id=${id}`,
+                        type: 'POST',
+                        success: function (data) {
+                            if (data.Success) {
+                               Swal.fire(
+                                    'Deleted!',
+                                    data.Message,
+                                    'success'
+                                )
+                                setTimeout(function () { location.reload(); }, 700);
+
+                            }
+                            else {
+                              Swal.fire(
+                                    "Can't Delete",
+                                    data.Message,
+                                    'error'
+                                )
+                            }
+                        },
+                         error: function (error) {
+                             alert('Lỗi ajax' + error)
+                        },
+                        cache: false,
+                        processData: false,
+                        contentType: false
+                    });
+                }
+            })
+        }
+    </script>
+}

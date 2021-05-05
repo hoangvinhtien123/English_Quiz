@@ -18,7 +18,6 @@ namespace English_Quiz.Models
         public string QUIZ_ID { get; set; }
         public Nullable<int> TYPE_ID { get; set; }
         public Nullable<int> TOTAL_QUESTION { get; set; }
-        public Nullable<double> POINT_EACH_QS { get; set; }
         public Nullable<int> LIST_ORDER { get; set; }
     
         public virtual Question_Type Question_Type { get; set; }

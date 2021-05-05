@@ -1,0 +1,39 @@
+﻿@model English_Quiz.Models.User
+@{
+    ViewBag.Title = "Đăng ký";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+<section class="page-section bg-primary">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="panel panel-default">
+                <div class="panel-heading">Đăng ký</div>
+                <div class="panel-body">
+                    @using (Html.BeginForm("UserRegister", "Take_Quiz", FormMethod.Post))
+                    {
+                        @Html.EditorFor(c => c.FULL_NAME, new { htmlAttributes = new { @class = "form-control", @placeholder = "Tên người dùng", @style = "width:100%;" } })<br />
+                        @Html.EditorFor(c => c.USER_NAME, new { htmlAttributes = new { @class = "form-control", @placeholder = "Tên đăng nhập", @style = "width:100%;" } })<br />
+                        @Html.EditorFor(c => c.PASSWORD, new { htmlAttributes = new { @class = "form-control", @placeholder = "Mật khẩu", @style = "width:100%;", @type = "password" } })<br />
+                        @Html.EditorFor(c => c.ADDRESS, new { htmlAttributes = new { @class = "form-control", @placeholder = "Địa chỉ", @style = "width:100%;" } })<br />
+                        @Html.EditorFor(c => c.PHONE_NUMBER, new { htmlAttributes = new { @class = "form-control", @placeholder = "Số điện thoại", @style = "width:100%;", @type = "tel", @pattern = "(84|0[3|5|7|8|9])+([0-9]{8})" } })<br />
+
+                        <button type="submit" id="Enter" class="btn btn-light btn-xl js-scroll-trigger" style="width:100%;"><span class="glyphicon glyphicon-user"></span>   Đăng ký</button>
+                    }
+                </div>
+                @if (ViewBag.Msg != null)
+                {
+                    <div class="well well-sm well-danger"> @ViewBag.Msg </div>
+                }
+
+            </div>
+        </div>
+    </div>
+
+</section>
+
+@section Scripts{
+    <script>
+        
+    </script>
+
+}
