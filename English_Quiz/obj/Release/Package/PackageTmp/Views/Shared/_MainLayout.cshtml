@@ -40,6 +40,7 @@
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="@Url.Action("AboutUs","Take_Quiz")">Về chúng tôi</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="@Url.Action("QuizType","Take_Quiz")">Kiểm tra trình độ</a></li>
                     <li class="nav-item"><a class="nav-link js-scroll-trigger" href="@Url.Action("LessonType","Take_Quiz")">Bài luyện tập</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="@Url.Action("TipType","Take_Quiz")">Mẹo thi</a></li>
                 </ul>
                 <ul class="navbar-nav ml-auto my-2 my-lg-0">
                     @if (user == null)
@@ -88,7 +89,7 @@
     <!-- Messenger Plugin chat Code -->
     <div id="fb-root"></div>
     <script>
-        
+
         window.fbAsyncInit = function () {
             FB.init({
                 xfbml: true,
@@ -105,7 +106,7 @@
         }(document, 'script', 'facebook-jssdk'));
 
     </script>
-    
+
     <!-- Your Plugin chat code -->
     <div class="fb-customerchat"
          attribution="page_inbox"
@@ -122,7 +123,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js" type="text/javascript" crossorigin="anonymous"></script>
-
+    <script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/classic/ckeditor.js"></script>
     <script src="~/Content/js/Main_scripts.js"></script>
 </body>
 @Scripts.Render("~/bundles/jquery")

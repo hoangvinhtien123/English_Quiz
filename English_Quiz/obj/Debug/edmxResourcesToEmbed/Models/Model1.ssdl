@@ -216,6 +216,25 @@
     <Property Name="version" Type="int" />
     <Property Name="definition" Type="varbinary(max)" />
   </EntityType>
+  <EntityType Name="Tip">
+    <Key>
+      <PropertyRef Name="TIP_ID" />
+    </Key>
+    <Property Name="TIP_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TIP_NAME" Type="nvarchar" MaxLength="100" />
+    <Property Name="TIP_CONTENT" Type="nvarchar(max)" />
+    <Property Name="ACTIVE" Type="bit" Nullable="false" />
+    <Property Name="TIP_TYPE_ID" Type="int" />
+  </EntityType>
+  <EntityType Name="Tip_Type">
+    <Key>
+      <PropertyRef Name="TIP_TYPE_ID" />
+    </Key>
+    <Property Name="TIP_TYPE_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TIP_TYPE_NAME" Type="nvarchar" MaxLength="100" />
+    <Property Name="DESCRIPTION" Type="nvarchar" MaxLength="250" />
+    <Property Name="ACTIVE" Type="bit" Nullable="false" />
+  </EntityType>
   <EntityType Name="Users">
     <Key>
       <PropertyRef Name="USER_ID" />
@@ -398,6 +417,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Tip_Tip_Type">
+    <End Role="Tip_Type" Type="Self.Tip_Type" Multiplicity="0..1" />
+    <End Role="Tip" Type="Self.Tip" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tip_Type">
+        <PropertyRef Name="TIP_TYPE_ID" />
+      </Principal>
+      <Dependent Role="Tip">
+        <PropertyRef Name="TIP_TYPE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Users_Role">
     <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
     <End Role="Users" Type="Self.Users" Multiplicity="*" />
@@ -432,6 +463,8 @@
     <EntitySet Name="Reading_Type" EntityType="Self.Reading_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tip" EntityType="Self.Tip" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tip_Type" EntityType="Self.Tip_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_History_Quiz_Evaluate" Association="Self.FK_History_Quiz_Evaluate">
       <End Role="Evaluate" EntitySet="Evaluate" />
@@ -488,6 +521,10 @@
     <AssociationSet Name="FK_Reading_Reading_Type" Association="Self.FK_Reading_Reading_Type">
       <End Role="Reading_Type" EntitySet="Reading_Type" />
       <End Role="Reading" EntitySet="Reading" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tip_Tip_Type" Association="Self.FK_Tip_Tip_Type">
+      <End Role="Tip_Type" EntitySet="Tip_Type" />
+      <End Role="Tip" EntitySet="Tip" />
     </AssociationSet>
     <AssociationSet Name="FK_Users_Role" Association="Self.FK_Users_Role">
       <End Role="Role" EntitySet="Role" />

@@ -52,8 +52,9 @@ namespace English_Quiz.Controllers
         }
         public JsonResult DeleteListeningType(int id)
         {
+            Function function = db.Functions.FirstOrDefault(x => string.Compare(x.Form_Name, "QuanLyCauHoi", true) == 0);
             int role = int.Parse(Session["Role"].ToString());
-            Permission permission = db.Permissions.FirstOrDefault(x => x.Role_Id == role);
+            Permission permission = db.Permissions.FirstOrDefault(x => x.Role_Id == role && x.Function_Id == function.Id);
             if (permission.Is_Delete == true)
             {
                 try

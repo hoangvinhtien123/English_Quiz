@@ -47,5 +47,7 @@ namespace English_Quiz.Models
         public virtual DbSet<History_Quiz> History_Quiz { get; set; }
         public virtual DbSet<Questions_Auto_Generate> Questions_Auto_Generate { get; set; }
         public virtual DbSet<Evaluate> Evaluates { get; set; }
+        public virtual DbSet<Tip> Tips { get; set; }
+        public virtual DbSet<Tip_Type> Tip_Type { get; set; }
     }
 }

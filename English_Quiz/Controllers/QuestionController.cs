@@ -7,23 +7,34 @@ using System.Dynamic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
+using PagedList;
 namespace English_Quiz.Controllers
 {
     public class QuestionController : BaseController
     {
         English_QuizEntities db = new English_QuizEntities();
         [CheckPermission(PermissionName = "QuanLyCauHoi", Action = ConstantCommon.Action.View)]
-        public ActionResult Index(int? ddlQuestionType)
+        public ActionResult Index(int? ddlQuestionType , int? page)
         {
             var lstQuestionType = db.Question_Type.ToList();
             ViewBag.ddlQuestionType = new SelectList(lstQuestionType, "TYPE_ID", "TYPE_NAME");
+            if (page == null) page = 1;
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+           
             if (ddlQuestionType==null)
             {
-                return View(db.Questions.Where(x => x.LISTENING_ID == null && x.READING_ID == null).ToList().OrderBy(x => x.TYPE_ID));
+                var listQuestion = db.Questions.Where(x => x.LISTENING_ID == null && x.READING_ID == null).ToList().OrderBy(x => x.TYPE_ID);
+                return View(listQuestion.ToPagedList(pageNumber, pageSize));
             }
-            int? questionType = ddlQuestionType;
-            return View(db.Questions.Where(x => x.LISTENING_ID == null && x.READING_ID == null && x.TYPE_ID==questionType).ToList().OrderBy(x => x.TYPE_ID));
+            else
+            {
+                int? questionType = ddlQuestionType;
+                ViewBag.questionType = questionType;
+                var question = db.Questions.Where(x => x.LISTENING_ID == null && x.READING_ID == null && x.TYPE_ID == questionType).ToList().OrderBy(x => x.TYPE_ID);
+                return View(question.ToPagedList(pageNumber, pageSize));
+            }
+           
         }
         [CheckPermission(PermissionName = "QuanLyCauHoi", Action = ConstantCommon.Action.Add)]
         public ActionResult CreateQuestion()
@@ -35,6 +46,15 @@ namespace English_Quiz.Controllers
             int totalQuestion = db.Questions.ToList().Count + 1;
             string questionId = "TOEIC" + totalQuestion;
             question.QUESTION_ID = questionId;
+            List<Answer> ans = db.Answers.Where(x => x.QUESTION_ID == questionId).ToList();
+            if(ans!=null && ans.Count > 0)
+            {
+                for (int i = 0; i < ans.Count; i++)
+                {
+                    db.Answers.Remove(ans[i]);
+                }
+                db.SaveChanges();
+            }
             return View(question);
         }
         [ValidateAntiForgeryToken]
@@ -135,8 +155,9 @@ namespace English_Quiz.Controllers
         }
         public JsonResult DeleteQuestion(string id)
         {
+            Function function = db.Functions.FirstOrDefault(x => string.Compare(x.Form_Name, "QuanLyCauHoi", true) == 0);
             int role = int.Parse(Session["Role"].ToString());
-            Permission permission = db.Permissions.FirstOrDefault(x => x.Role_Id == role);
+            Permission permission = db.Permissions.FirstOrDefault(x => x.Role_Id == role && x.Function_Id == function.Id);
             if (permission.Is_Delete == true)
             {
                 try

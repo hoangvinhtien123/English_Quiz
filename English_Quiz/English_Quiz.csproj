@@ -62,6 +62,12 @@
       <HintPath>..\..\..\..\Desktop\ASP.NET\blog-mvc5\KQT.Web\framework\HashPassword.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -152,6 +158,8 @@
     <Compile Include="Controllers\ReadingTypeController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\Take_QuizController.cs" />
+    <Compile Include="Controllers\TipController.cs" />
+    <Compile Include="Controllers\TipTypeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -245,6 +253,12 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagram.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tip.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tip_Type.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\toMD5.cs" />
@@ -372,6 +386,7 @@
     <Content Include="Content\js\jqBootstrapValidation.js" />
     <Content Include="Content\js\Main_scripts.js" />
     <Content Include="Content\mail\contact_me.php" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="Content\plugins\bootstrap-colorpicker\css\bootstrap-colorpicker.css" />
     <Content Include="Content\plugins\bootstrap-colorpicker\css\bootstrap-colorpicker.min.css" />
     <Content Include="Content\plugins\bootstrap-colorpicker\js\bootstrap-colorpicker.js" />
@@ -2165,9 +2180,15 @@
     <Content Include="Views\ReadingType\Index.cshtml" />
     <Content Include="Views\ReadingType\CreateReadingType.cshtml" />
     <Content Include="Views\ReadingType\EditReadingType.cshtml" />
+    <Content Include="Views\Tip\Index.cshtml" />
+    <Content Include="Views\Tip\CreateTip.cshtml" />
+    <Content Include="Views\Tip\EditTip.cshtml" />
+    <Content Include="Views\Take_Quiz\TipType.cshtml" />
+    <Content Include="Views\Take_Quiz\ListTip.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\TipType\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

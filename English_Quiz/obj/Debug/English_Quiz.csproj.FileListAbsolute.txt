@@ -238,3 +238,7 @@ E:\Đồ án\English_Quiz\English_Quiz\bin\Newtonsoft.Json.xml
 E:\Đồ án\English_Quiz\English_Quiz\bin\Antlr3.Runtime.pdb
 E:\Đồ án\English_Quiz\English_Quiz\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 E:\Đồ án\English_Quiz\English_Quiz\obj\Debug\English_Quiz.csproj.CopyComplete
+E:\Đồ án\English_Quiz\English_Quiz\bin\PagedList.dll
+E:\Đồ án\English_Quiz\English_Quiz\bin\PagedList.Mvc.dll
+E:\Đồ án\English_Quiz\English_Quiz\bin\PagedList.xml
+E:\Đồ án\English_Quiz\English_Quiz\bin\PagedList.Mvc.xml

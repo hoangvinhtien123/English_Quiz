@@ -1,0 +1,109 @@
+﻿@model IEnumerable<English_Quiz.Models.Tip>
+
+@{
+    ViewBag.Title = "Mẹo thi";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+    <style>
+        #tip_content {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 500px;
+        }
+    </style>
+<h2>Mẹo thi</h2>
+
+<p style="margin-left:10px;">
+    <a class="btn btn-primary" href='@Url.Action("CreateTip","Tip")'> Thêm mới</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Tên mẹo
+        </th>
+        <th>
+            Thông tin
+        </th>
+        <th>
+            Hoạt động
+        </th>
+        <th>
+            Loại mẹo
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TIP_NAME)
+            </td>
+            <td id="tip_content">
+                @Html.DisplayFor(modelItem => item.TIP_CONTENT)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ACTIVE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tip_Type.TIP_TYPE_NAME)
+            </td>
+            <td>
+                <a href='@Url.Action("EditTip","Tip", new{ id = item.TIP_ID})' class="btn btn-info"><i class="fas fa-edit"></i></a>
+                |
+                <a href="javascript:void(0)" onclick="deleteTip(@item.TIP_ID)" class="btn btn-danger"><i class="far fa-trash-alt"></i></a>
+                |
+            </td>
+        </tr>
+    }
+
+</table>
+@section scripts{
+    <script type="text/javascript">
+
+        const deleteTip = (id) => {
+            Swal.fire({
+                title: 'Bạn chắc chắn sẽ xóa?',
+                text: "Bạn sẽ không thể khôi phục bản ghi này!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Xóa!',
+                cancelButtonText: 'Đóng'
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        url: '@Url.Action("DeleteTip","Tip")' + `?id=${id}`,
+                        type: 'POST',
+                        success: function (data) {
+                            if (data.Success) {
+                               Swal.fire(
+                                    'Deleted!',
+                                    data.Message,
+                                    'success'
+                                )
+                                setTimeout(function () { location.reload(); }, 700);
+
+                            }
+                            else {
+                              Swal.fire(
+                                    "Can't Delete",
+                                    data.Message,
+                                    'error'
+                                )
+                            }
+                        },
+                         error: function (error) {
+                             alert('Lỗi ajax' + error)
+                        },
+                        cache: false,
+                        processData: false,
+                        contentType: false
+                    });
+                }
+            })
+        }
+    </script>
+}

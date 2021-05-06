@@ -1,5 +1,5 @@
-﻿@model IEnumerable<English_Quiz.Models.Listening>
-
+﻿@model PagedList.IPagedList<English_Quiz.Models.Listening>
+@using PagedList.Mvc;
 @{
     ViewBag.Title = "Bài nghe";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
@@ -10,6 +10,15 @@
 <p style="margin-left:10px;">
     <a class="btn btn-primary" href='@Url.Action("CreateListening","Listening")'> Thêm mới</a>
 </p>
+@using (Html.BeginForm("Index", "Listening", FormMethod.Post, new { @id = "listeningTypeSubmit" }))
+{
+    <div class="form-group row">
+        <label class="control-label col-md-2" style="font-size:16px;">Loại bài nghe </label>
+        <div class="col-md-4">
+            @Html.DropDownList("ddlListeningType", (SelectList)ViewBag.ddlListeningType, "--- Chọn loại bài nghe ---", new { @class = "form-control", @name = "ddlListeningType", @onchange = "submitListeningType()" })
+        </div>
+    </div>
+}
 <table class="table">
     <tr>
         <th>
@@ -58,6 +67,11 @@
     }
 
 </table>
+<br />
+Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page = page, ddlListeningType = ViewBag.listeningType }))
 <div class="modal fade" id="modalListQuestion" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
 
@@ -126,6 +140,9 @@
 </div>
 @section scripts{
     <script type="text/javascript">
+        function submitListeningType() {
+        $("#listeningTypeSubmit").submit();
+    }
         var is_new = false;
         var questionIdNow = "";
         var files = "";

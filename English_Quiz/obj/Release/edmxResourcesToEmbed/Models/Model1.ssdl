@@ -27,6 +27,15 @@
     <Property Name="EmployeeNo" Type="varchar" MaxLength="57" StoreGeneratedPattern="Computed" />
     <Property Name="EmployeeName" Type="varchar" MaxLength="50" />
   </EntityType>
+  <EntityType Name="Evaluate">
+    <Key>
+      <PropertyRef Name="EVALUATE_ID" />
+    </Key>
+    <Property Name="EVALUATE_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EVALUATE_DESCRIPTION" Type="nvarchar" MaxLength="300" />
+    <Property Name="FROM_POINT" Type="int" />
+    <Property Name="TO_POINT" Type="int" />
+  </EntityType>
   <EntityType Name="Function">
     <Key>
       <PropertyRef Name="Id" />
@@ -48,6 +57,7 @@
     <Property Name="Point" Type="float" Nullable="false" />
     <Property Name="Date_Take_Quiz" Type="date" />
     <Property Name="Quiz_Name" Type="nvarchar" MaxLength="250" />
+    <Property Name="EVALUATE_ID" Type="int" />
   </EntityType>
   <EntityType Name="Listening">
     <Key>
@@ -186,7 +196,7 @@
     <Property Name="READING_TYPE_NAME" Type="nvarchar" MaxLength="250" />
     <Property Name="READING_TYPE_NAME_EN" Type="nvarchar" MaxLength="250" />
     <Property Name="DESCRIPTION" Type="nvarchar" MaxLength="250" />
-    <Property Name="ACTIVE" Type="bit" />
+    <Property Name="ACTIVE" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Role">
     <Key>
@@ -206,6 +216,25 @@
     <Property Name="version" Type="int" />
     <Property Name="definition" Type="varbinary(max)" />
   </EntityType>
+  <EntityType Name="Tip">
+    <Key>
+      <PropertyRef Name="TIP_ID" />
+    </Key>
+    <Property Name="TIP_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TIP_NAME" Type="nvarchar" MaxLength="100" />
+    <Property Name="TIP_CONTENT" Type="nvarchar(max)" />
+    <Property Name="ACTIVE" Type="bit" Nullable="false" />
+    <Property Name="TIP_TYPE_ID" Type="int" />
+  </EntityType>
+  <EntityType Name="Tip_Type">
+    <Key>
+      <PropertyRef Name="TIP_TYPE_ID" />
+    </Key>
+    <Property Name="TIP_TYPE_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TIP_TYPE_NAME" Type="nvarchar" MaxLength="100" />
+    <Property Name="DESCRIPTION" Type="nvarchar" MaxLength="250" />
+    <Property Name="ACTIVE" Type="bit" Nullable="false" />
+  </EntityType>
   <EntityType Name="Users">
     <Key>
       <PropertyRef Name="USER_ID" />
@@ -217,9 +246,21 @@
     <Property Name="ADDRESS" Type="nvarchar" MaxLength="100" />
     <Property Name="PHONE_NUMBER" Type="int" />
     <Property Name="ROLE_ID" Type="int" />
-    <Property Name="USER_NAME" Type="varchar" MaxLength="50" />
+    <Property Name="USER_NAME" Type="nvarchar" MaxLength="50" />
     <Property Name="IS_MANAGE" Type="bit" Nullable="false" />
   </EntityType>
+  <Association Name="FK_History_Quiz_Evaluate">
+    <End Role="Evaluate" Type="Self.Evaluate" Multiplicity="0..1" />
+    <End Role="History_Quiz" Type="Self.History_Quiz" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Evaluate">
+        <PropertyRef Name="EVALUATE_ID" />
+      </Principal>
+      <Dependent Role="History_Quiz">
+        <PropertyRef Name="EVALUATE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Listening_Listening_Type">
     <End Role="Listening_Type" Type="Self.Listening_Type" Multiplicity="0..1" />
     <End Role="Listening" Type="Self.Listening" Multiplicity="*" />
@@ -376,6 +417,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Tip_Tip_Type">
+    <End Role="Tip_Type" Type="Self.Tip_Type" Multiplicity="0..1" />
+    <End Role="Tip" Type="Self.Tip" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tip_Type">
+        <PropertyRef Name="TIP_TYPE_ID" />
+      </Principal>
+      <Dependent Role="Tip">
+        <PropertyRef Name="TIP_TYPE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Users_Role">
     <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
     <End Role="Users" Type="Self.Users" Multiplicity="*" />
@@ -392,6 +445,7 @@
     <EntitySet Name="Answer" EntityType="Self.Answer" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Class" EntityType="Self.Class" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="EmployeeMaster" EntityType="Self.EmployeeMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Evaluate" EntityType="Self.Evaluate" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Function" EntityType="Self.Function" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="History_Quiz" EntityType="Self.History_Quiz" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Listening" EntityType="Self.Listening" Schema="dbo" store:Type="Tables" />
@@ -409,7 +463,13 @@
     <EntitySet Name="Reading_Type" EntityType="Self.Reading_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tip" EntityType="Self.Tip" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tip_Type" EntityType="Self.Tip_Type" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_History_Quiz_Evaluate" Association="Self.FK_History_Quiz_Evaluate">
+      <End Role="Evaluate" EntitySet="Evaluate" />
+      <End Role="History_Quiz" EntitySet="History_Quiz" />
+    </AssociationSet>
     <AssociationSet Name="FK_Listening_Listening_Type" Association="Self.FK_Listening_Listening_Type">
       <End Role="Listening_Type" EntitySet="Listening_Type" />
       <End Role="Listening" EntitySet="Listening" />
@@ -461,6 +521,10 @@
     <AssociationSet Name="FK_Reading_Reading_Type" Association="Self.FK_Reading_Reading_Type">
       <End Role="Reading_Type" EntitySet="Reading_Type" />
       <End Role="Reading" EntitySet="Reading" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Tip_Tip_Type" Association="Self.FK_Tip_Tip_Type">
+      <End Role="Tip_Type" EntitySet="Tip_Type" />
+      <End Role="Tip" EntitySet="Tip" />
     </AssociationSet>
     <AssociationSet Name="FK_Users_Role" Association="Self.FK_Users_Role">
       <End Role="Role" EntitySet="Role" />

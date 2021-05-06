@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
 
 namespace English_Quiz.Controllers
 {
@@ -13,10 +14,25 @@ namespace English_Quiz.Controllers
     {
         English_QuizEntities db = new English_QuizEntities();
         [CheckPermission(PermissionName = "QuanLyCauHoi", Action = ConstantCommon.Action.View)]
-        public ActionResult Index()
+        public ActionResult Index(int? ddlReadingType , int? page)
         {
-            
-            return View(db.Readings.ToList());
+            var lstReadingType = db.Reading_Type.ToList();
+            ViewBag.ddlReadingType = new SelectList(lstReadingType, "READING_TYPE_ID", "READING_TYPE_NAME");
+            if (page == null) page = 1;
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+            if (ddlReadingType == null)
+            {
+                var listReading = db.Readings.ToList().OrderBy(x => x.READING_ID);
+                return View(listReading.ToPagedList(pageNumber, pageSize));
+            }
+            else
+            {
+                int? readingType = ddlReadingType;
+                ViewBag.readingType = readingType;
+                var reading = db.Readings.Where(x=>x.READING_TYPE_ID == readingType).ToList().OrderBy(x => x.READING_ID);
+                return View(reading.ToPagedList(pageNumber, pageSize));
+            }
         }
         [CheckPermission(PermissionName = "QuanLyCauHoi", Action = ConstantCommon.Action.Add)]
         public ActionResult CreateReading()
@@ -74,8 +90,9 @@ namespace English_Quiz.Controllers
         }
         public JsonResult DeleteReading(int id)
         {
+            Function function = db.Functions.FirstOrDefault(x => string.Compare(x.Form_Name, "QuanLyCauHoi", true) == 0);
             int role = int.Parse(Session["Role"].ToString());
-            Permission permission = db.Permissions.FirstOrDefault(x => x.Role_Id == role);
+            Permission permission = db.Permissions.FirstOrDefault(x => x.Role_Id == role && x.Function_Id == function.Id);
             if (permission.Is_Delete == true)
             {
                 try
@@ -141,6 +158,16 @@ namespace English_Quiz.Controllers
             countQuestion.Rows.Add(questionId);
             countQuestion.TableName = "NewQuestionId";
             ds.Tables.Add(countQuestion);
+
+            List<Answer> ans = db.Answers.Where(x => x.QUESTION_ID == questionId).ToList();
+            if (ans != null && ans.Count > 0)
+            {
+                for (int i = 0; i < ans.Count; i++)
+                {
+                    db.Answers.Remove(ans[i]);
+                }
+                db.SaveChanges();
+            }
             return JsonConvert.SerializeObject(ds); 
         }
 

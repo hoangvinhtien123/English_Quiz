@@ -1,0 +1,78 @@
+﻿@model English_Quiz.Models.Tip
+
+@{
+    ViewBag.Title = "Thêm mới mẹo thi";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Thêm mới mẹo thi</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Mẹo thi</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <label class="control-label col-md-2">Tên mẹo</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TIP_NAME, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TIP_NAME, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Thông tin</label>
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.TIP_CONTENT, new { @class = "form-control", @style = "width:100%;height:300px;", @id = "txtAreaTipContent" })
+                @Html.ValidationMessageFor(model => model.TIP_CONTENT, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Hoạt động</label>
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.CheckBoxFor(model => model.ACTIVE)
+                    @Html.ValidationMessageFor(model => model.ACTIVE, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">  Loại</label>
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.TIP_TYPE_ID, (SelectList)ViewBag.ListType, "--Chọn--", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TIP_TYPE_ID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Thêm mới" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Trở lại", "Index")
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        ClassicEditor
+            .create(document.querySelector('#txtAreaTipContent'), {
+                // toolbar: [ 'heading', '|', 'bold', 'italic', 'link' ]
+            })
+            .then(editor => {
+                window.editor = editor;
+            })
+            .catch(err => {
+                console.error(err.stack);
+            });
+       
+    </script>
+}

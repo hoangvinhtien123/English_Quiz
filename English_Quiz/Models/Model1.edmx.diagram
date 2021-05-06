@@ -42,7 +42,10 @@
         <AssociationConnector Association="English_QuizModel.FK_Questions_Auto_Generate_Type" />
         <EntityTypeShape EntityType="English_QuizModel.Evaluate" Width="1.5" PointX="8.125" PointY="19" />
         <AssociationConnector Association="English_QuizModel.FK_History_Quiz_Evaluate" />
-      </Diagram>
+        <EntityTypeShape EntityType="English_QuizModel.Tip" Width="1.5" PointX="14.625" PointY="0.875" />
+        <EntityTypeShape EntityType="English_QuizModel.Tip_Type" Width="1.5" PointX="12.375" PointY="1" />
+        <AssociationConnector Association="English_QuizModel.FK_Tip_Tip_Type" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

@@ -1,0 +1,100 @@
+﻿
+@{
+    ViewBag.Title = "Mẹo thi";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    int totalTip = Model.Count;
+    int count = 0;
+}
+<style>
+    a {
+        color: black;
+        border-radius:5px;
+        margin-top:5px;
+    }
+</style>
+
+<section class="page-section bg-primary">
+    <div class="container-xl text-center">
+        <h2 class="mb-4">@ViewBag.TipTypeName</h2>
+        <hr class="divider light my-4" />
+        <div class="row">
+            @if (Model != null)
+            {
+                
+
+                <div class="nav flex-column nav-tabs" style="border-bottom:0px;" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    @foreach (var tip in Model)
+                    {
+                        if (count == 0)
+                        {
+                            <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#tip_@tip.TIP_ID" role="tab" aria-controls="v-pills-home" aria-selected="true">@tip.TIP_NAME</a>
+                            count++;
+                        }
+                        else
+                        {
+                            <a class="nav-link" id="v-pills-home-tab" data-toggle="pill" href="#tip_@tip.TIP_ID" role="tab" aria-controls="v-pills-home" aria-selected="true">@tip.TIP_NAME</a>
+                            count++;
+                        }
+
+                    }
+                
+                </div>
+                count = 0;
+                <div class="BlockQ" style="border: 1px solid #bdbdbd; width: 75%; border-radius: 10px; background-color: #f0ffff; padding: 8px;">
+                    <div class="tab-content">
+                        
+                        @foreach (var tip in Model)
+                        {
+                            if (count == 0)
+                            {
+                                <div class="tab-pane fade show active" id="tip_@tip.TIP_ID" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                                    <textarea id="textArea_@tip.TIP_ID">
+                                    @Html.Raw(tip.TIP_CONTENT)
+                                </textarea>
+                                </div>
+
+
+                                count++;
+                            }
+                            else
+                            {
+
+                                <div class="tab-pane fade " id="tip_@tip.TIP_ID" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                                    <textarea id="textArea_@tip.TIP_ID">
+                                    @Html.Raw(tip.TIP_CONTENT)
+                                </textarea>
+                                </div>
+
+                                count++;
+                            }
+                        }
+                    </div>
+
+
+                </div>
+            }
+
+        </div>
+    </div>
+</section>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        var totalEditor = @totalTip;
+        for (var i = 1; i <= totalEditor; i++) {
+            ClassicEditor
+            .create(document.querySelector('#textArea_'+i), {
+                toolbar: ['']
+            })
+            .then(editor => {
+                window.editor = editor;
+                editor.isReadOnly = true;
+            })
+            .catch(err => {
+                console.error(err.stack);
+            });
+        }
+
+
+    </script>
+}

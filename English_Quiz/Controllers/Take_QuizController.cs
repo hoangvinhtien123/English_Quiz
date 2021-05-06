@@ -449,5 +449,16 @@ namespace English_Quiz.Controllers
         }
 
         #endregion
+
+        public ActionResult TipType()
+        {
+            return View(db.Tip_Type.ToList());
+        }
+        public ActionResult ListTip(int tipTypeId)
+        {
+            Tip_Type tipType = db.Tip_Type.FirstOrDefault(x => x.TIP_TYPE_ID == tipTypeId);
+            ViewBag.TipTypeName = tipType.TIP_TYPE_NAME;
+            return View(db.Tips.Where(x=>x.TIP_TYPE_ID == tipTypeId).ToList());
+        }
     }
 }

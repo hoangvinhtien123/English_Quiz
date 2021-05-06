@@ -221,6 +221,7 @@
     <EntitySetMapping Name="History_Quiz">
       <EntityTypeMapping TypeName="English_QuizModel.History_Quiz">
         <MappingFragment StoreEntitySet="History_Quiz">
+          <ScalarProperty Name="EVALUATE_ID" ColumnName="EVALUATE_ID" />
           <ScalarProperty Name="Quiz_Name" ColumnName="Quiz_Name" />
           <ScalarProperty Name="Date_Take_Quiz" ColumnName="Date_Take_Quiz" />
           <ScalarProperty Name="Point" ColumnName="Point" />
@@ -238,6 +239,37 @@
           <ScalarProperty Name="TYPE_ID" ColumnName="TYPE_ID" />
           <ScalarProperty Name="QUIZ_ID" ColumnName="QUIZ_ID" />
           <ScalarProperty Name="PR_KEY" ColumnName="PR_KEY" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Evaluates">
+      <EntityTypeMapping TypeName="English_QuizModel.Evaluate">
+        <MappingFragment StoreEntitySet="Evaluate">
+          <ScalarProperty Name="TO_POINT" ColumnName="TO_POINT" />
+          <ScalarProperty Name="FROM_POINT" ColumnName="FROM_POINT" />
+          <ScalarProperty Name="EVALUATE_DESCRIPTION" ColumnName="EVALUATE_DESCRIPTION" />
+          <ScalarProperty Name="EVALUATE_ID" ColumnName="EVALUATE_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tips">
+      <EntityTypeMapping TypeName="English_QuizModel.Tip">
+        <MappingFragment StoreEntitySet="Tip">
+          <ScalarProperty Name="TIP_TYPE_ID" ColumnName="TIP_TYPE_ID" />
+          <ScalarProperty Name="ACTIVE" ColumnName="ACTIVE" />
+          <ScalarProperty Name="TIP_CONTENT" ColumnName="TIP_CONTENT" />
+          <ScalarProperty Name="TIP_NAME" ColumnName="TIP_NAME" />
+          <ScalarProperty Name="TIP_ID" ColumnName="TIP_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tip_Type">
+      <EntityTypeMapping TypeName="English_QuizModel.Tip_Type">
+        <MappingFragment StoreEntitySet="Tip_Type">
+          <ScalarProperty Name="ACTIVE" ColumnName="ACTIVE" />
+          <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+          <ScalarProperty Name="TIP_TYPE_NAME" ColumnName="TIP_TYPE_NAME" />
+          <ScalarProperty Name="TIP_TYPE_ID" ColumnName="TIP_TYPE_ID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

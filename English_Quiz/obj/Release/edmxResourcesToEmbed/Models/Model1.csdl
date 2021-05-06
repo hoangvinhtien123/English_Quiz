@@ -187,7 +187,7 @@
     <Property Name="READING_TYPE_NAME" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="READING_TYPE_NAME_EN" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
     <Property Name="DESCRIPTION" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-    <Property Name="ACTIVE" Type="Boolean" />
+    <Property Name="ACTIVE" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="Quiz_Reading" Relationship="Self.FK_Quiz_Reading_Reading_Type" FromRole="Reading_Type" ToRole="Quiz_Reading" />
     <NavigationProperty Name="Readings" Relationship="Self.FK_Reading_Reading_Type" FromRole="Reading_Type" ToRole="Reading" />
   </EntityType>
@@ -222,7 +222,7 @@
     <Property Name="ADDRESS" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="PHONE_NUMBER" Type="Int32" />
     <Property Name="ROLE_ID" Type="Int32" />
-    <Property Name="USER_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="USER_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="IS_MANAGE" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="Role" Relationship="Self.FK_Users_Role" FromRole="Users" ToRole="Role" />
   </EntityType>
@@ -460,6 +460,17 @@
       <End Role="Question_Type" EntitySet="Question_Type" />
       <End Role="Questions_Auto_Generate" EntitySet="Questions_Auto_Generate" />
     </AssociationSet>
+    <EntitySet Name="Evaluates" EntityType="English_QuizModel.Evaluate" />
+    <AssociationSet Name="FK_History_Quiz_Evaluate" Association="English_QuizModel.FK_History_Quiz_Evaluate">
+      <End Role="Evaluate" EntitySet="Evaluates" />
+      <End Role="History_Quiz" EntitySet="History_Quiz" />
+    </AssociationSet>
+    <EntitySet Name="Tips" EntityType="English_QuizModel.Tip" />
+    <EntitySet Name="Tip_Type" EntityType="English_QuizModel.Tip_Type" />
+    <AssociationSet Name="FK_Tip_Tip_Type" Association="English_QuizModel.FK_Tip_Tip_Type">
+      <End Role="Tip_Type" EntitySet="Tip_Type" />
+      <End Role="Tip" EntitySet="Tips" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="History_Quiz">
     <Key>
@@ -471,6 +482,8 @@
     <Property Name="Point" Type="Double" Nullable="false" />
     <Property Name="Date_Take_Quiz" Type="DateTime" Precision="0" />
     <Property Name="Quiz_Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="EVALUATE_ID" Type="Int32" />
+    <NavigationProperty Name="Evaluate" Relationship="English_QuizModel.FK_History_Quiz_Evaluate" FromRole="History_Quiz" ToRole="Evaluate" />
   </EntityType>
   <EntityType Name="Questions_Auto_Generate">
     <Key>
@@ -492,6 +505,61 @@
       </Principal>
       <Dependent Role="Questions_Auto_Generate">
         <PropertyRef Name="TYPE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Evaluate">
+    <Key>
+      <PropertyRef Name="EVALUATE_ID" />
+    </Key>
+    <Property Name="EVALUATE_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EVALUATE_DESCRIPTION" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+    <Property Name="FROM_POINT" Type="Int32" />
+    <Property Name="TO_POINT" Type="Int32" />
+    <NavigationProperty Name="History_Quiz" Relationship="English_QuizModel.FK_History_Quiz_Evaluate" FromRole="Evaluate" ToRole="History_Quiz" />
+  </EntityType>
+  <Association Name="FK_History_Quiz_Evaluate">
+    <End Type="English_QuizModel.Evaluate" Role="Evaluate" Multiplicity="0..1" />
+    <End Type="English_QuizModel.History_Quiz" Role="History_Quiz" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Evaluate">
+        <PropertyRef Name="EVALUATE_ID" />
+      </Principal>
+      <Dependent Role="History_Quiz">
+        <PropertyRef Name="EVALUATE_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Tip">
+    <Key>
+      <PropertyRef Name="TIP_ID" />
+    </Key>
+    <Property Name="TIP_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TIP_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="TIP_CONTENT" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ACTIVE" Type="Boolean" Nullable="false" />
+    <Property Name="TIP_TYPE_ID" Type="Int32" />
+    <NavigationProperty Name="Tip_Type" Relationship="English_QuizModel.FK_Tip_Tip_Type" FromRole="Tip" ToRole="Tip_Type" />
+  </EntityType>
+  <EntityType Name="Tip_Type">
+    <Key>
+      <PropertyRef Name="TIP_TYPE_ID" />
+    </Key>
+    <Property Name="TIP_TYPE_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TIP_TYPE_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="DESCRIPTION" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+    <Property Name="ACTIVE" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Tips" Relationship="English_QuizModel.FK_Tip_Tip_Type" FromRole="Tip_Type" ToRole="Tip" />
+  </EntityType>
+  <Association Name="FK_Tip_Tip_Type">
+    <End Type="English_QuizModel.Tip_Type" Role="Tip_Type" Multiplicity="0..1" />
+    <End Type="English_QuizModel.Tip" Role="Tip" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tip_Type">
+        <PropertyRef Name="TIP_TYPE_ID" />
+      </Principal>
+      <Dependent Role="Tip">
+        <PropertyRef Name="TIP_TYPE_ID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

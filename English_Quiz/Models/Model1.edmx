@@ -221,6 +221,25 @@
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
+        <EntityType Name="Tip">
+          <Key>
+            <PropertyRef Name="TIP_ID" />
+          </Key>
+          <Property Name="TIP_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TIP_NAME" Type="nvarchar" MaxLength="100" />
+          <Property Name="TIP_CONTENT" Type="nvarchar(max)" />
+          <Property Name="ACTIVE" Type="bit" Nullable="false" />
+          <Property Name="TIP_TYPE_ID" Type="int" />
+        </EntityType>
+        <EntityType Name="Tip_Type">
+          <Key>
+            <PropertyRef Name="TIP_TYPE_ID" />
+          </Key>
+          <Property Name="TIP_TYPE_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TIP_TYPE_NAME" Type="nvarchar" MaxLength="100" />
+          <Property Name="DESCRIPTION" Type="nvarchar" MaxLength="250" />
+          <Property Name="ACTIVE" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Users">
           <Key>
             <PropertyRef Name="USER_ID" />
@@ -403,6 +422,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Tip_Tip_Type">
+          <End Role="Tip_Type" Type="Self.Tip_Type" Multiplicity="0..1" />
+          <End Role="Tip" Type="Self.Tip" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tip_Type">
+              <PropertyRef Name="TIP_TYPE_ID" />
+            </Principal>
+            <Dependent Role="Tip">
+              <PropertyRef Name="TIP_TYPE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Users_Role">
           <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
           <End Role="Users" Type="Self.Users" Multiplicity="*" />
@@ -437,6 +468,8 @@
           <EntitySet Name="Reading_Type" EntityType="Self.Reading_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tip" EntityType="Self.Tip" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tip_Type" EntityType="Self.Tip_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_History_Quiz_Evaluate" Association="Self.FK_History_Quiz_Evaluate">
             <End Role="Evaluate" EntitySet="Evaluate" />
@@ -493,6 +526,10 @@
           <AssociationSet Name="FK_Reading_Reading_Type" Association="Self.FK_Reading_Reading_Type">
             <End Role="Reading_Type" EntitySet="Reading_Type" />
             <End Role="Reading" EntitySet="Reading" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tip_Tip_Type" Association="Self.FK_Tip_Tip_Type">
+            <End Role="Tip_Type" EntitySet="Tip_Type" />
+            <End Role="Tip" EntitySet="Tip" />
           </AssociationSet>
           <AssociationSet Name="FK_Users_Role" Association="Self.FK_Users_Role">
             <End Role="Role" EntitySet="Role" />
@@ -968,7 +1005,13 @@
             <End Role="Evaluate" EntitySet="Evaluates" />
             <End Role="History_Quiz" EntitySet="History_Quiz" />
           </AssociationSet>
-        </EntityContainer>
+          <EntitySet Name="Tips" EntityType="English_QuizModel.Tip" />
+          <EntitySet Name="Tip_Type" EntityType="English_QuizModel.Tip_Type" />
+          <AssociationSet Name="FK_Tip_Tip_Type" Association="English_QuizModel.FK_Tip_Tip_Type">
+            <End Role="Tip_Type" EntitySet="Tip_Type" />
+            <End Role="Tip" EntitySet="Tips" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="History_Quiz">
           <Key>
             <PropertyRef Name="PR_KEY" />
@@ -1027,7 +1070,40 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <EntityType Name="Tip">
+          <Key>
+            <PropertyRef Name="TIP_ID" />
+          </Key>
+          <Property Name="TIP_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TIP_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="TIP_CONTENT" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ACTIVE" Type="Boolean" Nullable="false" />
+          <Property Name="TIP_TYPE_ID" Type="Int32" />
+          <NavigationProperty Name="Tip_Type" Relationship="English_QuizModel.FK_Tip_Tip_Type" FromRole="Tip" ToRole="Tip_Type" />
+        </EntityType>
+        <EntityType Name="Tip_Type">
+          <Key>
+            <PropertyRef Name="TIP_TYPE_ID" />
+          </Key>
+          <Property Name="TIP_TYPE_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TIP_TYPE_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DESCRIPTION" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ACTIVE" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Tips" Relationship="English_QuizModel.FK_Tip_Tip_Type" FromRole="Tip_Type" ToRole="Tip" />
+        </EntityType>
+        <Association Name="FK_Tip_Tip_Type">
+          <End Type="English_QuizModel.Tip_Type" Role="Tip_Type" Multiplicity="0..1" />
+          <End Type="English_QuizModel.Tip" Role="Tip" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tip_Type">
+              <PropertyRef Name="TIP_TYPE_ID" />
+            </Principal>
+            <Dependent Role="Tip">
+              <PropertyRef Name="TIP_TYPE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -1284,7 +1360,28 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-        </EntityContainerMapping>
+          <EntitySetMapping Name="Tips">
+            <EntityTypeMapping TypeName="English_QuizModel.Tip">
+              <MappingFragment StoreEntitySet="Tip">
+                <ScalarProperty Name="TIP_TYPE_ID" ColumnName="TIP_TYPE_ID" />
+                <ScalarProperty Name="ACTIVE" ColumnName="ACTIVE" />
+                <ScalarProperty Name="TIP_CONTENT" ColumnName="TIP_CONTENT" />
+                <ScalarProperty Name="TIP_NAME" ColumnName="TIP_NAME" />
+                <ScalarProperty Name="TIP_ID" ColumnName="TIP_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tip_Type">
+            <EntityTypeMapping TypeName="English_QuizModel.Tip_Type">
+              <MappingFragment StoreEntitySet="Tip_Type">
+                <ScalarProperty Name="ACTIVE" ColumnName="ACTIVE" />
+                <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+                <ScalarProperty Name="TIP_TYPE_NAME" ColumnName="TIP_TYPE_NAME" />
+                <ScalarProperty Name="TIP_TYPE_ID" ColumnName="TIP_TYPE_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

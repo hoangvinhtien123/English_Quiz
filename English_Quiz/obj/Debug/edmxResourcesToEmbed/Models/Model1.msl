@@ -252,5 +252,26 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Tips">
+      <EntityTypeMapping TypeName="English_QuizModel.Tip">
+        <MappingFragment StoreEntitySet="Tip">
+          <ScalarProperty Name="TIP_TYPE_ID" ColumnName="TIP_TYPE_ID" />
+          <ScalarProperty Name="ACTIVE" ColumnName="ACTIVE" />
+          <ScalarProperty Name="TIP_CONTENT" ColumnName="TIP_CONTENT" />
+          <ScalarProperty Name="TIP_NAME" ColumnName="TIP_NAME" />
+          <ScalarProperty Name="TIP_ID" ColumnName="TIP_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tip_Type">
+      <EntityTypeMapping TypeName="English_QuizModel.Tip_Type">
+        <MappingFragment StoreEntitySet="Tip_Type">
+          <ScalarProperty Name="ACTIVE" ColumnName="ACTIVE" />
+          <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+          <ScalarProperty Name="TIP_TYPE_NAME" ColumnName="TIP_TYPE_NAME" />
+          <ScalarProperty Name="TIP_TYPE_ID" ColumnName="TIP_TYPE_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

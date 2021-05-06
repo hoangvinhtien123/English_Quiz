@@ -8,7 +8,7 @@ using HashPassword;
 using Newtonsoft.Json;
 using English_Quiz.DTO;
 using System.Data;
-
+using PagedList;
 namespace English_Quiz.Controllers
 {
     public class QuizzController : BaseController
@@ -22,9 +22,25 @@ namespace English_Quiz.Controllers
         // GET: Quizz
         #region Quản lý bộ đề
         [CheckPermission(PermissionName = "QuanLyCauHoi", Action = ConstantCommon.Action.View)]
-        public ActionResult Quizz()
+        public ActionResult Quizz(string ddlQuizType, int? page)
         {
-            return View(db.Quizs.ToList());
+            var lstQuizType = db.Quiz_Type.ToList();
+            ViewBag.ddlQuizType = new SelectList(lstQuizType, "QUIZ_TYPE_ID", "QUIZ_TYPE_NAME");
+            if (page == null) page = 1;
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+            if ( ddlQuizType == string.Empty)
+            {
+                var listQuiz = db.Quizs.ToList().OrderBy(x => x.QUIZ_ID);
+                return View(listQuiz.ToPagedList(pageNumber, pageSize));
+            }
+            else
+            {
+                string quizType = ddlQuizType;
+                ViewBag.quizType = quizType;
+                var quiz = db.Quizs.Where(x => x.QUIZ_TYPE_ID == quizType).ToList().OrderBy(x => x.QUIZ_ID);
+                return View(quiz.ToPagedList(pageNumber, pageSize));
+            }
         }
         [CheckPermission(PermissionName = "QuanLyCauHoi", Action = ConstantCommon.Action.Add)]
         [HttpGet]
@@ -70,31 +86,47 @@ namespace English_Quiz.Controllers
         [CheckPermission(PermissionName = "QuanLyCauHoi", Action = ConstantCommon.Action.Delete)]
         public JsonResult delete(string id)
         {
-            try
+            Function function = db.Functions.FirstOrDefault(x => string.Compare(x.Form_Name, "QuanLyCauHoi", true) == 0);
+            int role = int.Parse(Session["Role"].ToString());
+            Permission permission = db.Permissions.FirstOrDefault(x => x.Role_Id == role && x.Function_Id == function.Id);
+            if (permission.Is_Delete == true)
             {
-                var data = db.Quizs.FirstOrDefault(x => x.QUIZ_ID == id);
-                if (data == null)
+                try
+                {
+
+                    var data = db.Quizs.FirstOrDefault(x => x.QUIZ_ID == id);
+
+                    if (data == null)
+                    {
+                        return Json(new
+                        {
+                            Success = false,
+                            Message = "Không tìm thấy đối tượng cần xóa."
+                        }, JsonRequestBehavior.AllowGet);
+                    }
+                    db.Quizs.Remove(data);
+                    db.SaveChanges();
+                    return Json(new
+                    {
+                        Success = true,
+                        Message = "Xóa thành công"
+                    }, JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception e)
                 {
                     return Json(new
                     {
                         Success = false,
-                        Message = "Không tìm thấy đối tượng cần xóa."
+                        Message = "Không thể xóa đối tượng này. Vì sẽ ảnh hưởng đến dữ liệu khác." + e.Message
                     }, JsonRequestBehavior.AllowGet);
                 }
-                db.Quizs.Remove(data);
-                db.SaveChanges();
-                return Json(new
-                {
-                    Success = true,
-                    Message = "Xóa thành công"
-                }, JsonRequestBehavior.AllowGet);
             }
-            catch (Exception e)
+            else
             {
                 return Json(new
                 {
                     Success = false,
-                    Message = "Không thể xóa đối tượng này. Vì sẽ ảnh hưởng đến dữ liệu khác." + e.Message
+                    Message = "Không có quyền xóa !"
                 }, JsonRequestBehavior.AllowGet);
             }
         }
