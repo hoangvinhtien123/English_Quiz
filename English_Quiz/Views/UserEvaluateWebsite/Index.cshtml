@@ -1,0 +1,141 @@
+﻿@model IEnumerable<English_Quiz.Models.User_Evaluate_Website>
+
+@{
+    ViewBag.Title = "Danh sách thông tin đánh giá";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Danh sách thông tin đánh giá</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Tên người đánh giá
+        </th>
+        <th>
+            Ngành nghề người đánh giá
+        </th>
+        <th>
+            Nội dung
+        </th>
+        <th>
+            Hoạt động
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.USER_NAME_EVALUATE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.USER_JOB)
+            </td>
+            <td style="width:35%">
+                @Html.DisplayFor(modelItem => item.USER_CONTENT_EVALUATE)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ACTIVE)
+            </td>
+            <td>
+                <a href="javascript:void(0)" onclick="approvedReview('@item.PR_KEY')" class="btn btn-primary"><i class="fas fa-check"></i></a>
+                |
+                <a href="javascript:void(0)" onclick="unActiveReview('@item.PR_KEY')" class="btn btn-danger"><i class="fas fa-times"></i></a>
+            </td>
+        </tr>
+    }
+
+</table>
+@section scripts{
+    <script type="text/javascript">
+
+        const approvedReview = (id) => {
+            Swal.fire({
+                title: 'Bạn chắc chắn sẽ duyệt?',
+                text: "Nếu duyệt thông tin sẽ hiển thị lên trang chủ",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Đồng ý',
+                cancelButtonText: 'Đóng'
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        url: '@Url.Action("approvedReview","UserEvaluateWebsite")' + `?id=${id}`,
+                        type: 'POST',
+                        success: function (data) {
+                            if (data.Success) {
+                               Swal.fire(
+                                    'Thành công',
+                                    data.Message,
+                                    'success'
+                                )
+                                setTimeout(function () { location.reload(); }, 1000);
+
+                            }
+                            else {
+                              Swal.fire(
+                                    "Thất bại",
+                                    data.Message,
+                                    'error'
+                                )
+                            }
+                        },
+                         error: function (error) {
+                             alert('Lỗi ajax' + error)
+                        },
+                        cache: false,
+                        processData: false,
+                        contentType: false
+                    });
+                }
+            })
+        }
+        const unActiveReview = (id) => {
+            Swal.fire({
+                title: 'Bạn chắc chắn sẽ hủy duyệt?',
+                text: "Nếu duyệt thông tin sẽ ẩn khỏi trang chủ",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Đồng ý',
+                cancelButtonText: 'Đóng'
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        url: '@Url.Action("unActiveReview","UserEvaluateWebsite")' + `?id=${id}`,
+                        type: 'POST',
+                        success: function (data) {
+                            if (data.Success) {
+                               Swal.fire(
+                                    'Thành công',
+                                    data.Message,
+                                    'success'
+                                )
+                                setTimeout(function () { location.reload(); }, 1000);
+
+                            }
+                            else {
+                              Swal.fire(
+                                    "Thất bại",
+                                    data.Message,
+                                    'error'
+                                )
+                            }
+                        },
+                         error: function (error) {
+                             alert('Lỗi ajax' + error)
+                        },
+                        cache: false,
+                        processData: false,
+                        contentType: false
+                    });
+                }
+            })
+        }
+    </script>
+}

@@ -243,6 +243,7 @@
     <Property Name="USER_NAME_EVALUATE" Type="nvarchar" MaxLength="50" />
     <Property Name="USER_JOB" Type="nvarchar" MaxLength="50" />
     <Property Name="USER_CONTENT_EVALUATE" Type="nvarchar(max)" />
+    <Property Name="ACTIVE" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Users">
     <Key>

@@ -16,7 +16,7 @@ namespace English_Quiz.Controllers
         // GET: Take_Quiz
         public ActionResult Index()
         {
-            ViewData["UserEvaluate"] = db.User_Evaluate_Website.ToList();
+            ViewData["UserEvaluate"] = db.User_Evaluate_Website.Where(x=>x.ACTIVE == true).ToList();
             return View();
         }
         public ActionResult AboutUs()
@@ -473,6 +473,7 @@ namespace English_Quiz.Controllers
                 evaluate.USER_CONTENT_EVALUATE = Content;
                 evaluate.USER_JOB = Job;
                 evaluate.USER_NAME_EVALUATE = Name;
+                evaluate.ACTIVE = false;
                 db.User_Evaluate_Website.Add(evaluate);
                 db.SaveChanges();
                 return Json(new

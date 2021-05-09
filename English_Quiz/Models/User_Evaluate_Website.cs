@@ -18,5 +18,6 @@ namespace English_Quiz.Models
         public string USER_NAME_EVALUATE { get; set; }
         public string USER_JOB { get; set; }
         public string USER_CONTENT_EVALUATE { get; set; }
+        public bool ACTIVE { get; set; }
     }
 }
