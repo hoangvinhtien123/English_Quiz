@@ -1,5 +1,5 @@
-﻿@model IEnumerable<English_Quiz.Models.Quiz>
-
+﻿@model PagedList.IPagedList<English_Quiz.Models.Quiz>
+@using PagedList.Mvc;
 @{
     ViewBag.Title = "Thông tin đề";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
@@ -14,6 +14,15 @@
 <p style="margin-left:10px;">
     <a class="btn btn-primary" href='@Url.Action("CreateQuizz","Quizz")'> Thêm mới</a>
 </p>
+@using (Html.BeginForm("Quizz", "Quizz", FormMethod.Post, new { @id = "quizTypeSubmit" }))
+{
+    <div class="form-group row">
+        <label class="control-label col-md-2" style="font-size:16px;">Loại đề </label>
+        <div class="col-md-4">
+            @Html.DropDownList("ddlQuizType", (SelectList)ViewBag.ddlQuizType, "--- Chọn loại đề ---", new { @class = "form-control", @name = "ddlQuizType", @onchange = "submitQuizType()" })
+        </div>
+    </div>
+}
 <table class="table">
     <tr>
         <th>
@@ -27,6 +36,9 @@
         </th>
         <th>
             Mô tả
+        </th>
+        <th>
+            Loại đề
         </th>
         <th>
             Đề test
@@ -49,6 +61,9 @@
                 @Html.DisplayFor(modelItem => item.DESCRIPTION)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.Quiz_Type.QUIZ_TYPE_NAME)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.IS_TEST)
             </td>
             <td>
@@ -63,11 +78,17 @@
     }
 
 </table>
+<br />
+Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
 
+@Html.PagedListPager(Model, page => Url.Action("Quizz", "Quizz",
+    new { page = page, ddlQuizType = ViewBag.quizType }))
 @section scripts{
     <script type="text/javascript">
         var data = [];
-
+        function submitQuizType() {
+            $("#quizTypeSubmit").submit();
+        }
         const deleteQuiz = (id) => {
             Swal.fire({
                 title: 'Bạn chắc chắn sẽ xóa?',

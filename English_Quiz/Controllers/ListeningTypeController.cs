@@ -26,9 +26,18 @@ namespace English_Quiz.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Listening_Type.Add(listeningType);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    db.Listening_Type.Add(listeningType);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
+                    ViewBag.errorMsg = "Thêm mới loại bài nghe bị lỗi, lỗi là : " + e.Message;
+                    return View();
+                }
+                
             }
             return null;
         }
@@ -44,9 +53,18 @@ namespace English_Quiz.Controllers
             Listening_Type oldListeningType = db.Listening_Type.FirstOrDefault(x => x.LISTENING_TYPE_ID == id);
             if (ModelState.IsValid)
             {
-                db.Entry(oldListeningType).CurrentValues.SetValues(listeningType);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    db.Entry(oldListeningType).CurrentValues.SetValues(listeningType);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
+                    ViewBag.errorMsg = "Thêm mới loại bài nghe bị lỗi, lỗi là : " + e.Message;
+                    return View();
+                }
+               
             }
             return null;
         }

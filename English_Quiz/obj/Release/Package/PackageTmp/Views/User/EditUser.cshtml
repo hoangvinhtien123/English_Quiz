@@ -7,7 +7,7 @@
 
 <h2>Sửa người dùng</h2>
 
-@using (Html.BeginForm("EditUser", "User", new { UserId = Model.USER_ID  } ,FormMethod.Post, new { encType = "multipart/form-data" }))
+@using (Html.BeginForm("EditUser", "User", new { UserId = Model.USER_ID }, FormMethod.Post, new { encType = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
@@ -15,7 +15,10 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.USER_ID)
-
+        @if (ViewBag.errorMsg != null)
+        {
+            <div class="well well-sm well-danger"> @ViewBag.errorMsg </div>
+        }
         <div class="form-group">
             Tên đầy đủ
             <div class="col-md-10">

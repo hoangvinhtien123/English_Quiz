@@ -16,7 +16,10 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.LISTENING_TYPE_ID)
-
+        @if (ViewBag.errorMsg != null)
+        {
+            <div class="well well-sm well-danger"> @ViewBag.errorMsg </div>
+        }
         <div class="form-group">
             <label class="control-label col-md-2">Tên loại bài nghe (Tiếng việt)</label>
             <div class="col-md-10">

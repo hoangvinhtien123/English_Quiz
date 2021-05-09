@@ -235,6 +235,15 @@
     <Property Name="DESCRIPTION" Type="nvarchar" MaxLength="250" />
     <Property Name="ACTIVE" Type="bit" Nullable="false" />
   </EntityType>
+  <EntityType Name="User_Evaluate_Website">
+    <Key>
+      <PropertyRef Name="PR_KEY" />
+    </Key>
+    <Property Name="PR_KEY" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="USER_NAME_EVALUATE" Type="nvarchar" MaxLength="50" />
+    <Property Name="USER_JOB" Type="nvarchar" MaxLength="50" />
+    <Property Name="USER_CONTENT_EVALUATE" Type="nvarchar(max)" />
+  </EntityType>
   <EntityType Name="Users">
     <Key>
       <PropertyRef Name="USER_ID" />
@@ -465,6 +474,7 @@
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Tip" EntityType="Self.Tip" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Tip_Type" EntityType="Self.Tip_Type" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User_Evaluate_Website" EntityType="Self.User_Evaluate_Website" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_History_Quiz_Evaluate" Association="Self.FK_History_Quiz_Evaluate">
       <End Role="Evaluate" EntitySet="Evaluate" />

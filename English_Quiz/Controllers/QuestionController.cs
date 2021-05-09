@@ -63,9 +63,20 @@ namespace English_Quiz.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Questions.Add(question);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    db.Questions.Add(question);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
+                    ViewBag.errorMsg = "Thêm mới câu hỏi bị lỗi, lỗi là : " + e.Message;
+                    ViewBag.ListType = new SelectList(db.Question_Type.ToList(), "TYPE_ID", "TYPE_NAME");
+                    ViewBag.ListListening = new SelectList(db.Listenings.ToList(), "LISTENING_ID", "LISTENING_NAME_VN");
+                    return View();
+                }
+                
             }
             return null;
         }
@@ -83,9 +94,20 @@ namespace English_Quiz.Controllers
             Question oldQuestion = db.Questions.FirstOrDefault(x => x.QUESTION_ID == id);
             if (ModelState.IsValid)
             {
-                db.Entry(oldQuestion).CurrentValues.SetValues(question);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    db.Entry(oldQuestion).CurrentValues.SetValues(question);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
+                    ViewBag.errorMsg = "Cập nhật câu hỏi bị lỗi, lỗi là : " + e.Message;
+                    ViewBag.ListType = new SelectList(db.Question_Type.ToList(), "TYPE_ID", "TYPE_NAME");
+                    ViewBag.ListListening = new SelectList(db.Listenings.ToList(), "LISTENING_ID", "LISTENING_NAME_VN");
+                    return View();
+                }
+                
             }
             return null;
         }

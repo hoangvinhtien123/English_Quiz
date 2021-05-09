@@ -265,6 +265,9 @@
     <Compile Include="Models\User.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\User_Evaluate_Website.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -274,6 +277,7 @@
     <Content Include="Content\audio\04_Track 4.mp3" />
     <Content Include="Content\audio\06_Track 6.mp3" />
     <Content Include="Content\audio\ETS01-picture.mp3" />
+    <Content Include="Content\audio\ETS01-question-respone.mp3" />
     <Content Include="Content\audio\ETS02-picture.mp3" />
     <Content Include="Content\audio\TEST 01.mp3" />
     <Content Include="Content\bootstrap-theme.css" />

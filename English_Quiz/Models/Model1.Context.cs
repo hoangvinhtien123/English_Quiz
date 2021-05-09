@@ -49,5 +49,6 @@ namespace English_Quiz.Models
         public virtual DbSet<Evaluate> Evaluates { get; set; }
         public virtual DbSet<Tip> Tips { get; set; }
         public virtual DbSet<Tip_Type> Tip_Type { get; set; }
+        public virtual DbSet<User_Evaluate_Website> User_Evaluate_Website { get; set; }
     }
 }

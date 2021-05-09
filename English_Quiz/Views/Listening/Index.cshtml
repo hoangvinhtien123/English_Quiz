@@ -4,7 +4,19 @@
     ViewBag.Title = "Bài nghe";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
+<style>
+    
 
+    /* Important part */
+    .modal-dialog {
+        overflow-y: initial !important
+    }
+
+    .modal-body {
+        height: 80vh;
+        overflow-y: auto;
+    }
+</style>
 <h2>Danh sách bài nghe</h2>
 
 <p style="margin-left:10px;">
@@ -73,14 +85,13 @@ Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.Page
 @Html.PagedListPager(Model, page => Url.Action("Index",
     new { page = page, ddlListeningType = ViewBag.listeningType }))
 <div class="modal fade" id="modalListQuestion" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-
+    <div class="modal-dialog modal-xl" style="overflow-y: initial !important">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">Danh sách câu hỏi</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-            <div class="modal-body" id="contentListQuestion">
+            <div class="modal-body" style="height: 80vh;overflow-y: auto;" id="contentListQuestion">
 
             </div>
         </div>

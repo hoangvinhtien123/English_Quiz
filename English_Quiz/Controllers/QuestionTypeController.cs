@@ -26,9 +26,18 @@ namespace English_Quiz.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Question_Type.Add(questionType);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    db.Question_Type.Add(questionType);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
+                    ViewBag.errorMsg = "Thêm mới loại câu hỏi bị lỗi, lỗi là : " + e.Message;
+                    return View();
+                }
+
             }
             return null;
         }
@@ -44,9 +53,18 @@ namespace English_Quiz.Controllers
             Question_Type oldQuestionType = db.Question_Type.FirstOrDefault(x => x.TYPE_ID == id);
             if (ModelState.IsValid)
             {
-                db.Entry(oldQuestionType).CurrentValues.SetValues(questionType);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    db.Entry(oldQuestionType).CurrentValues.SetValues(questionType);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
+                    ViewBag.errorMsg = "Cập nhật loại câu hỏi bị lỗi, lỗi là : " + e.Message;
+                    return View();
+                }
+
             }
             return null;
         }

@@ -159,3 +159,7 @@ E:\Đồ án\English_Quiz\English_Quiz\obj\Release\English_Quiz.csprojAssemblyRe
 E:\Đồ án\English_Quiz\English_Quiz\obj\Release\English_Quiz.csproj.CopyComplete
 E:\Đồ án\English_Quiz\English_Quiz\obj\Release\English_Quiz.dll
 E:\Đồ án\English_Quiz\English_Quiz\obj\Release\English_Quiz.pdb
+E:\Đồ án\English_Quiz\English_Quiz\bin\PagedList.dll
+E:\Đồ án\English_Quiz\English_Quiz\bin\PagedList.Mvc.dll
+E:\Đồ án\English_Quiz\English_Quiz\bin\PagedList.xml
+E:\Đồ án\English_Quiz\English_Quiz\bin\PagedList.Mvc.xml

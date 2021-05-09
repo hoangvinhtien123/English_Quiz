@@ -58,9 +58,19 @@ namespace English_Quiz.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Quizs.Add(quiz);
-                db.SaveChanges();
-                return RedirectToAction("Quizz");
+                try
+                {
+                    db.Quizs.Add(quiz);
+                    db.SaveChanges();
+                    return RedirectToAction("Quizz");
+                }
+                catch(Exception e)
+                {
+                    ViewBag.errorMsg = "Thêm mới bộ đề bị lỗi, lỗi là : " + e.Message;
+                    ViewBag.listType = new SelectList(db.Quiz_Type.ToList(), "QUIZ_TYPE_ID", "QUIZ_TYPE_NAME");
+                    return View();
+                }
+                
             }
             return null;
         }
@@ -77,9 +87,18 @@ namespace English_Quiz.Controllers
             Quiz oldQuiz = db.Quizs.FirstOrDefault(x => x.QUIZ_ID == QuizId);
             if (ModelState.IsValid)
             {
-                db.Entry(oldQuiz).CurrentValues.SetValues(quiz);
-                db.SaveChanges();
-                return RedirectToAction("Quizz");
+                try
+                {
+                    db.Entry(oldQuiz).CurrentValues.SetValues(quiz);
+                    db.SaveChanges();
+                    return RedirectToAction("Quizz");
+                }
+                catch (Exception e)
+                {
+                    ViewBag.errorMsg = "Cập nhật bộ đề bị lỗi, lỗi là : " + e.Message;
+                    ViewBag.listType = new SelectList(db.Quiz_Type.ToList(), "QUIZ_TYPE_ID", "QUIZ_TYPE_NAME");
+                    return View();
+                }
             }
             return null;
         }

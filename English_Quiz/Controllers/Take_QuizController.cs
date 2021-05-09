@@ -16,6 +16,7 @@ namespace English_Quiz.Controllers
         // GET: Take_Quiz
         public ActionResult Index()
         {
+            ViewData["UserEvaluate"] = db.User_Evaluate_Website.ToList();
             return View();
         }
         public ActionResult AboutUs()
@@ -459,6 +460,36 @@ namespace English_Quiz.Controllers
             Tip_Type tipType = db.Tip_Type.FirstOrDefault(x => x.TIP_TYPE_ID == tipTypeId);
             ViewBag.TipTypeName = tipType.TIP_TYPE_NAME;
             return View(db.Tips.Where(x=>x.TIP_TYPE_ID == tipTypeId).ToList());
+        }
+        public JsonResult SubmitReview()
+        {
+            try
+            {
+                string Name = (Request["Name"] == null) ? string.Empty : Request["Name"].ToString();
+                string Job = (Request["Job"] == null) ? string.Empty : Request["Job"].ToString();
+                string Content = (Request["Content"] == null) ? string.Empty : Request["Content"].ToString();
+                User_Evaluate_Website evaluate = new User_Evaluate_Website();
+                evaluate.PR_KEY = Guid.NewGuid();
+                evaluate.USER_CONTENT_EVALUATE = Content;
+                evaluate.USER_JOB = Job;
+                evaluate.USER_NAME_EVALUATE = Name;
+                db.User_Evaluate_Website.Add(evaluate);
+                db.SaveChanges();
+                return Json(new
+                {
+                    Success = true,
+                    Message = "Gửi đánh giá thành công"
+                }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new
+                {
+                    Success = false,
+                    Message = "Gửi đánh giá lỗi, vui lòng thử lại"
+                }, JsonRequestBehavior.AllowGet);
+            }
+            
         }
     }
 }

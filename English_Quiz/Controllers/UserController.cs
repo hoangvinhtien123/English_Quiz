@@ -30,19 +30,29 @@ namespace English_Quiz.Controllers
         {
             if (ModelState.IsValid)
             {
-                if(fUpload != null)
+                try
                 {
-                    fUpload.SaveAs(Server.MapPath($"~/Content/img/User/{fUpload.FileName}"));
-                    user.PROFILE_IMAGE = fUpload.FileName;
+                    if (fUpload != null)
+                    {
+                        fUpload.SaveAs(Server.MapPath($"~/Content/img/User/{fUpload.FileName}"));
+                        user.PROFILE_IMAGE = fUpload.FileName;
+                    }
+                    else
+                    {
+                        user.PROFILE_IMAGE = "default_user_image.png";
+                    }
+                    user.PASSWORD = toMD5.MD5Hash(user.PASSWORD);
+                    db.Users.Add(user);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
                 }
-                else
+                catch (Exception e)
                 {
-                    user.PROFILE_IMAGE = "default_user_image.png";
+                    ViewBag.errorMsg = "Thêm mới người dùng bị lỗi, lỗi là : " + e.Message;
+                    ViewBag.ListRole = new SelectList(db.Roles.ToList(), "ROLE_ID", "ROLE_NAME");
+                    return View();
                 }
-                user.PASSWORD = toMD5.MD5Hash(user.PASSWORD);
-                db.Users.Add(user);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                
             }
             return null;
         }
@@ -60,19 +70,29 @@ namespace English_Quiz.Controllers
             User oldUser = db.Users.FirstOrDefault(x => x.USER_ID == UserId);
             if (ModelState.IsValid)
             {
-                if (fUpload != null)
+                try
                 {
-                    fUpload.SaveAs(Server.MapPath($"~/Content/img/User/{fUpload.FileName}"));
-                    user.PROFILE_IMAGE = fUpload.FileName;
+                    if (fUpload != null)
+                    {
+                        fUpload.SaveAs(Server.MapPath($"~/Content/img/User/{fUpload.FileName}"));
+                        user.PROFILE_IMAGE = fUpload.FileName;
+                    }
+                    else
+                    {
+                        user.PROFILE_IMAGE = oldUser.PROFILE_IMAGE;
+                    }
+                    user.PASSWORD = toMD5.MD5Hash(user.PASSWORD);
+                    db.Entry(oldUser).CurrentValues.SetValues(user);
+                    db.SaveChanges();
+                    return RedirectToAction("index");
                 }
-                else
+                catch (Exception e)
                 {
-                    user.PROFILE_IMAGE = oldUser.PROFILE_IMAGE;
+                    ViewBag.errorMsg = "Cập nhật người dùng bị lỗi, lỗi là : " + e.Message;
+                    ViewBag.ListRole = new SelectList(db.Roles.ToList(), "ROLE_ID", "ROLE_NAME");
+                    return View();
                 }
-                user.PASSWORD = toMD5.MD5Hash(user.PASSWORD);
-                db.Entry(oldUser).CurrentValues.SetValues(user);
-                db.SaveChanges();
-                return RedirectToAction("index");
+                
             }
             return null;
         }

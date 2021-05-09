@@ -49,18 +49,28 @@ namespace English_Quiz.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (fUpload != null)
+                try
                 {
-                    fUpload.SaveAs(Server.MapPath($"~/Content/audio/{fUpload.FileName}"));
-                    listening.LISTENING_FILE_NAME = fUpload.FileName;
+                    if (fUpload != null)
+                    {
+                        fUpload.SaveAs(Server.MapPath($"~/Content/audio/{fUpload.FileName}"));
+                        listening.LISTENING_FILE_NAME = fUpload.FileName;
+                    }
+                    else
+                    {
+                        listening.LISTENING_FILE_NAME = string.Empty;
+                    }
+                    db.Listenings.Add(listening);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
                 }
-                else
+                catch (Exception e)
                 {
-                    listening.LISTENING_FILE_NAME = string.Empty;
+                    ViewBag.errorMsg = "Thêm mới bài nghe bị lỗi, lỗi là : " + e.Message;
+                    ViewBag.listType = new SelectList(db.Listening_Type.ToList(), "LISTENING_TYPE_ID", "LISTENING_TYPE_NAME_VN");
+                    return View();
                 }
-                db.Listenings.Add(listening);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                
             }
             return null;
         }
@@ -77,18 +87,28 @@ namespace English_Quiz.Controllers
             Listening oldListening = db.Listenings.FirstOrDefault(x => x.LISTENING_ID == id);
             if (ModelState.IsValid)
             {
-                if (fUpload != null)
+                try
                 {
-                    fUpload.SaveAs(Server.MapPath($"~/Content/audio/{fUpload.FileName}"));
-                    listening.LISTENING_FILE_NAME = fUpload.FileName;
+                    if (fUpload != null)
+                    {
+                        fUpload.SaveAs(Server.MapPath($"~/Content/audio/{fUpload.FileName}"));
+                        listening.LISTENING_FILE_NAME = fUpload.FileName;
+                    }
+                    else
+                    {
+                        listening.LISTENING_FILE_NAME = oldListening.LISTENING_FILE_NAME;
+                    }
+                    db.Entry(oldListening).CurrentValues.SetValues(listening);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
                 }
-                else
+                catch (Exception e)
                 {
-                    listening.LISTENING_FILE_NAME = oldListening.LISTENING_FILE_NAME;
+                    ViewBag.errorMsg = "Cập nhật bài nghe bị lỗi, lỗi là : " + e.Message;
+                    ViewBag.listType = new SelectList(db.Listening_Type.ToList(), "LISTENING_TYPE_ID", "LISTENING_TYPE_NAME_VN");
+                    return View();
                 }
-                db.Entry(oldListening).CurrentValues.SetValues(listening);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                
             }
             return null;
         }

@@ -1,5 +1,5 @@
-﻿@model IEnumerable<English_Quiz.Models.Reading>
-
+﻿@model PagedList.IPagedList<English_Quiz.Models.Reading>
+@using PagedList.Mvc;
 @{
     ViewBag.Title = "Bài đọc";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
@@ -17,6 +17,15 @@
 <p style="margin-left:10px;">
     <a class="btn btn-primary" href='@Url.Action("CreateReading","Reading")'> Thêm mới</a>
 </p>
+@using (Html.BeginForm("Index", "Reading", FormMethod.Post, new { @id = "readingTypeSubmit" }))
+{
+    <div class="form-group row">
+        <label class="control-label col-md-2" style="font-size:16px;">Loại bài đọc </label>
+        <div class="col-md-4">
+            @Html.DropDownList("ddlReadingType", (SelectList)ViewBag.ddlReadingType, "--- Chọn loại bài đọc ---", new { @class = "form-control", @name = "ddlReadingType", @onchange = "submitReadingType()" })
+        </div>
+    </div>
+}
 <table class="table">
     <tr>
         <th>
@@ -59,16 +68,20 @@
     }
 
 </table>
+<br />
+Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
 
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page = page,ddlReadingType =ViewBag.readingType }))
 <div class="modal fade" id="modalListQuestion" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog modal-xl" style="overflow-y: initial !important">
 
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">Danh sách câu hỏi</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-            <div class="modal-body" id="contentListQuestion">
+            <div class="modal-body" style="height: 80vh;overflow-y: auto;" id="contentListQuestion">
 
             </div>
         </div>
@@ -121,6 +134,9 @@
 </div>
 @section scripts{
     <script type="text/javascript">
+        function submitReadingType() {
+        $("#readingTypeSubmit").submit();
+    }
         var is_new = false;
         var questionIdNow = "";
         const deleteQuizType = (id) => {

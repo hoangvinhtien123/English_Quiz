@@ -27,9 +27,18 @@ namespace English_Quiz.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Reading_Type.Add(reading_type);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    db.Reading_Type.Add(reading_type);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
+                    ViewBag.errorMsg = "Thêm mới loại bài đọc bị lỗi, lỗi là : " + e.Message;
+                    return View();
+                }
+                
             }
             return null;
         }
@@ -46,9 +55,18 @@ namespace English_Quiz.Controllers
             Reading_Type oldReadingType = db.Reading_Type.FirstOrDefault(x => x.READING_TYPE_ID == readingTypeId);
             if (ModelState.IsValid)
             {
-                db.Entry(oldReadingType).CurrentValues.SetValues(reading_type);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    db.Entry(oldReadingType).CurrentValues.SetValues(reading_type);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                } 
+                catch (Exception e)
+                {
+                    ViewBag.errorMsg = "Cập nhật loại bài đọc bị lỗi, lỗi là : " + e.Message;
+                    return View();
+                }
+                
             }
             return null;
         }

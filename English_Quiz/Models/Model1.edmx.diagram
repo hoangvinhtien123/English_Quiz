@@ -45,6 +45,7 @@
         <EntityTypeShape EntityType="English_QuizModel.Tip" Width="1.5" PointX="14.625" PointY="0.875" />
         <EntityTypeShape EntityType="English_QuizModel.Tip_Type" Width="1.5" PointX="12.375" PointY="1" />
         <AssociationConnector Association="English_QuizModel.FK_Tip_Tip_Type" />
+        <EntityTypeShape EntityType="English_QuizModel.User_Evaluate_Website" Width="1.5" PointX="12.375" PointY="4.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -47,15 +47,24 @@ namespace English_Quiz.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (fUpload != null)
+                try
                 {
-                    fUpload.SaveAs(Server.MapPath($"~/Content/img/Reading/{fUpload.FileName}"));
-                    reading.READING_IMAGE = fUpload.FileName;
+                    if (fUpload != null)
+                    {
+                        fUpload.SaveAs(Server.MapPath($"~/Content/img/Reading/{fUpload.FileName}"));
+                        reading.READING_IMAGE = fUpload.FileName;
+                    }
+
+                    db.Readings.Add(reading);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
                 }
-                
-                db.Readings.Add(reading);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                catch (Exception e)
+                {
+                    ViewBag.errorMsg = "Thêm mới bài đọc bị lỗi, lỗi là : " + e.Message;
+                    ViewBag.ListType = new SelectList(db.Reading_Type.ToList(), "READING_TYPE_ID", "READING_TYPE_NAME");
+                    return View();
+                }
             }
             return null;
         }
@@ -73,18 +82,28 @@ namespace English_Quiz.Controllers
             Reading oldReading = db.Readings.FirstOrDefault(x => x.READING_ID == id);
             if (ModelState.IsValid)
             {
-                if (fUpload != null)
+                try
                 {
-                    fUpload.SaveAs(Server.MapPath($"~/Content/img/Reading/{fUpload.FileName}"));
-                    reading.READING_IMAGE = fUpload.FileName;
+                    if (fUpload != null)
+                    {
+                        fUpload.SaveAs(Server.MapPath($"~/Content/img/Reading/{fUpload.FileName}"));
+                        reading.READING_IMAGE = fUpload.FileName;
+                    }
+                    else
+                    {
+                        reading.READING_IMAGE = oldReading.READING_IMAGE;
+                    }
+                    db.Entry(oldReading).CurrentValues.SetValues(reading);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
                 }
-                else
+                catch (Exception e)
                 {
-                    reading.READING_IMAGE = oldReading.READING_IMAGE;
+                    ViewBag.errorMsg = "Cập nhật bài đọc bị lỗi, lỗi là : "+ e.Message;
+                    ViewBag.ListType = new SelectList(db.Reading_Type.ToList(), "READING_TYPE_ID", "READING_TYPE_NAME");
+                    return View();
                 }
-                db.Entry(oldReading).CurrentValues.SetValues(reading);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                
             }
             return null;
         }

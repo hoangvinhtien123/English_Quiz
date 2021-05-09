@@ -14,6 +14,10 @@
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @if (ViewBag.errorMsg != null)
+        {
+            <div class="well well-sm well-danger"> @ViewBag.errorMsg </div>
+        }
         <div class="form-group">
             <label class="control-label col-md-2">  Mã đề</label>
             <div class="col-md-10">
@@ -222,7 +226,7 @@
                         }
                     },
                     { name: "PR_KEY", visible: false },
-                   
+
                     { name: "ACTIVE", type: "checkbox", width: 20, title: "Hoạt động", sorting: false },
                     { type: "control" }
                 ]
@@ -307,7 +311,7 @@
                         }
                     },
                     { name: "PR_KEY", visible: false },
-                     { name: "TOTAL_READING", type: "number", width: 20, title: "Số lượng câu hỏi", min:0 },
+                    { name: "TOTAL_READING", type: "number", width: 20, title: "Số lượng câu hỏi", min: 0 },
                     { name: "ACTIVE", type: "checkbox", width: 20, title: "Hoạt động", sorting: false },
                     { type: "control" }
                 ]

@@ -1,9 +1,95 @@
-﻿
+﻿@using English_Quiz.Models
 @{
     ViewBag.Title = "Trang chủ";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
+    User user = Session[ConstantData.USER_QUIZZ_SESSION] as User;
+    IList<User_Evaluate_Website> user_evaluate = ViewData["UserEvaluate"] as IList<English_Quiz.Models.User_Evaluate_Website>;
 }
+<style>
+    .slide-arrow {
+        bottom: 100%;
+        position: absolute;
+    }
 
+    .prev-arrow,
+    .next-arrow {
+        position: absolute;
+        top: 50%;
+        opacity: 0.4;
+    }
+
+    .prev-arrow {
+        right: 105%;
+    }
+
+    .next-arrow {
+        left: 105%;
+    }
+
+    .slick-dots {
+        position: absolute;
+        bottom: -60px;
+        display: block;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        text-align: center;
+        color: #282fde;
+        font-size: 16px;
+    }
+
+        .slick-dots li button {
+            color: #282fde;
+        }
+
+            .slick-dots li button:before {
+                font-family: slick;
+                font-size: 6px;
+                line-height: 20px;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 20px;
+                height: 20px;
+                content: '•';
+                text-align: center;
+                opacity: .25;
+                color: #282fde;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+            }
+
+        .slick-dots li.slick-active button:before {
+            opacity: .75;
+            color: #282fde;
+        }
+
+    .card {
+        width: 400px;
+        border: none;
+        border-radius: 15px;
+        padding-bottom: 130px
+    }
+
+    .adiv {
+        background: #f4623a;
+        border-radius: 15px;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+        font-size: 12px;
+        height: 46px
+    }
+
+    .fa-quote-left {
+        color: #F13355
+    }
+
+    .name {
+        color: #B0B0B0;
+        font-size: 12px
+    }
+</style>
 <header class="masthead">
     <div class="container h-100">
         <div class="row h-100 align-items-center justify-content-center text-center">
@@ -48,9 +134,109 @@
         </div>
     </div>
 </section>
+<section class="page-section bg-light">
+    <div class="container">
+        <h2 class="text-center mt-0">Đánh giá của người dùng</h2>
+        <h5 class="text-center mt-0">Mọi ý kiến đóng góp của bạn sẽ làm website được hoàn thiện hơn. </h5>
+        <hr class="divider my-4" />
+        <div class="row slick">
+            @foreach (var item in user_evaluate)
+            {
+                <div class="container d-flex justify-content-center">
+                    <div class="card mt-5">
+                        <div class="d-flex flex-row justify-content-between p-3 adiv text-white"> <span class="pb-3">Đánh giá</span></div>
+                        <div class="comment px-4">
+                            <div class="d-flex flex-row">
+                                <i class="fas fa-quote-left mr-2"></i>
+                                <h6>@item.USER_CONTENT_EVALUATE </h6>
+                            </div>
+                        </div>
+                        <div class="name px-5 pt-2"> <span>@item.USER_NAME_EVALUATE</span><br> <span>@item.USER_JOB</span> </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+<section class="page-section">
+    <div class="container">
+        <h2 class="text-center mt-0">Để lại nhận xét</h2>
+        <div>
+            @if (user == null)
+            {
+                <div class="form-group">
+                    <label for="formGroupExampleInput">Họ và tên</label>
+                    <input type="text" class="form-control" id="Name" placeholder="Ví dụ: Hoàng Vĩnh Tiến">
+                </div>
+            }
+            else
+            {
+                <div class="form-group">
+                    <label for="formGroupExampleInput">Họ và tên</label>
+                    <input type="text" value="@user.FULL_NAME" class="form-control" id="Name" placeholder="Ví dụ: Hoàng Vĩnh Tiến">
+                </div>
+            }
+
+            <div class="form-group">
+                <label for="formGroupExampleInput2">Ngành nghề</label>
+                <input type="text" class="form-control" id="Job" placeholder="Ví dụ: Giáo viên">
+            </div>
+            <div class="form-group">
+                <label for="formGroupExampleInput2">Nội dung nhận xét</label>
+                <input type="text" class="form-control" id="Content" placeholder="Ví dụ : Trang web này vô cùng thân thiện">
+            </div>
+            <button onclick="submitReview()" class="btn btn-primary">Gửi</button>
+        </div>
+    </div>
+</section>
 @section Scripts{
     <script>
-        
+        const submitReview = () => {
+            //Swal.fire(
+            //    'Đã gửi',
+            //    "Gửi đánh giá thành công",
+            //    'success'
+            //)
+            let Name = $("#Name").val();
+            let Job = $("#Job").val();
+            let Content = $("#Content").val();
+            var formData = new FormData();
+            formData.append("Name", Name);
+            formData.append("Job", Job);
+            formData.append("Content", Content);
+            $.ajax({
+                url: '/Take_Quiz/SubmitReview',
+                type: 'POST',
+                data: formData,
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    if (data.Success) {
+                        Swal.fire(
+                            'Đã gửi',
+                            data.Message,
+                            'success'
+                        )
+                        setTimeout(function () { location.reload(); }, 1155);
+
+                    }
+                    else {
+                        Swal.fire(
+                            "Lỗi",
+                            data.Message,
+                            'error'
+                        )
+                    }
+                },
+                error: function (error) {
+                    alert('Lỗi ajax' + error)
+                },
+                cache: false,
+                processData: false,
+                contentType: false
+            });
+        }
     </script>
 
 }

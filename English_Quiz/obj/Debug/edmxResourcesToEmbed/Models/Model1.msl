@@ -273,5 +273,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="User_Evaluate_Website">
+      <EntityTypeMapping TypeName="English_QuizModel.User_Evaluate_Website">
+        <MappingFragment StoreEntitySet="User_Evaluate_Website">
+          <ScalarProperty Name="USER_CONTENT_EVALUATE" ColumnName="USER_CONTENT_EVALUATE" />
+          <ScalarProperty Name="USER_JOB" ColumnName="USER_JOB" />
+          <ScalarProperty Name="USER_NAME_EVALUATE" ColumnName="USER_NAME_EVALUATE" />
+          <ScalarProperty Name="PR_KEY" ColumnName="PR_KEY" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

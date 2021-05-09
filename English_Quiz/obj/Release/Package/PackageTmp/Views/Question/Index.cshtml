@@ -1,5 +1,5 @@
-﻿@model IEnumerable<English_Quiz.Models.Question>
-
+﻿@model PagedList.IPagedList<English_Quiz.Models.Question>
+@using PagedList.Mvc;
 @{
     ViewBag.Title = "Câu hỏi";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
@@ -59,6 +59,11 @@
     }
 
 </table>
+<br />
+Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index","Question",
+    new { page = page, ddlQuestionType =ViewBag.questionType } ));
 @section scripts{
     <script type="text/javascript">
         function submitQuestionType() {
