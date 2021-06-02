@@ -75,6 +75,13 @@
                 @Html.ValidationMessageFor(model => model.SOURCE_LINK, "", new { @class = "text-danger" })
             </div>
         </div>
+        <div class="form-group">
+            <label class="control-label col-md-2"> Sắp xếp</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ORDER_NUMBER, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ORDER_NUMBER, "", new { @class = "text-danger" })
+            </div>
+        </div>
         <label class="control-label col-md-2">Danh sách nhóm câu hỏi</label>
         <div class="col-md-10" id="jsGridQuestion"></div>
         <label class="control-label col-md-2">Danh sách bài nghe</label>

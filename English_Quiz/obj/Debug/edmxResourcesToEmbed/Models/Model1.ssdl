@@ -138,6 +138,7 @@
     <Property Name="SOURCE_DESCRIPTION" Type="nvarchar" MaxLength="250" />
     <Property Name="SOURCE_LINK" Type="nvarchar" MaxLength="250" />
     <Property Name="IS_TEST" Type="bit" Nullable="false" />
+    <Property Name="ORDER_NUMBER" Type="int" />
   </EntityType>
   <EntityType Name="Quiz_Listening">
     <Key>

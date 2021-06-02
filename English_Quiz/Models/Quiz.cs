@@ -28,6 +28,7 @@ namespace English_Quiz.Models
         public string SOURCE_DESCRIPTION { get; set; }
         public string SOURCE_LINK { get; set; }
         public bool IS_TEST { get; set; }
+        public Nullable<int> ORDER_NUMBER { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Quiz_Questions> Quiz_Questions { get; set; }

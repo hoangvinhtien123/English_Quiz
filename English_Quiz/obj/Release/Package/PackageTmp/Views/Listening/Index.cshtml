@@ -258,6 +258,7 @@ Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.Page
             $("#LIST_ORDER").val("");
             is_new = true;
             $("#img").attr("src", "");
+            files = "";
             loadJsGrid();
         }
         const editListeningQuestion = (id , question_id,question_text,point,image,list_order) => {

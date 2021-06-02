@@ -3,7 +3,7 @@
     ViewBag.Title = "Bài kiểm tra";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
     Random r = new Random();
-    int count = 1, countR = r.Next(0, 1500), countTab = 1, questionPerTab = 10, totalNotListeningQuestion = 0, readingTab = 2;
+    int count = 1, countR = r.Next(0, 1500), countTab = 1, questionPerTab = 10, totalNotListeningQuestion = 0, readingTab = 3, totalTextArea = 1;
     #region Thông tin bộ đề
     IList<English_Quiz.Models.Answer> lstanswer = ViewData["Answer"] as IList<English_Quiz.Models.Answer>;
     IList<English_Quiz.Models.Listening_Type> lstListeningType = ViewData["ListeningType"] as IList<English_Quiz.Models.Listening_Type>;
@@ -17,12 +17,7 @@
     List<English_Quiz.Models.Question> lstQuestions = new List<English_Quiz.Models.Question>();
     List<English_Quiz.Models.Reading> lstExistReading = new List<English_Quiz.Models.Reading>();
 }
-@functions{
-    void initISTab()
-    {
-        if (Model != null && Model.Count > 0) { }
-    }
-}
+
 <section class="page-section bg-primary" style="font-size:15px;">
     <div id="test" class="container ">
 
@@ -402,10 +397,11 @@
                                                 @item.READING_TYPE_NAME_EN-@countReadingPerTab
                                             </p>
                                             <div style="margin-top:20px;background-color: #f0ffff; width: 75%;line-height:2; border-radius: 4px;">
-                                                <div class="form-control" style="width:100%;height:auto;" readonly>
-                                               @Html.Raw(listreading.READING_TEXT);
+                                                <textarea id="reading_@totalTextArea" class="form-control" style="width:100%;height:auto;">
+                                               @Html.Raw(listreading.READING_TEXT)
+                                            </textarea>
                                             </div>
-                                            </div>
+                                            totalTextArea++;
                                         }
                                         else
                                         {
@@ -447,7 +443,10 @@
 
                                                     </div>
                                                 </div> <!-- END BlockQ -->
-                                                count++;
+                                                if (count < Model.Count)
+                                                {
+                                                    count++;
+                                                }
                                                 countReading++;
 
                                                 lstQuestions.Add(question);
@@ -495,7 +494,20 @@
 @section Scripts {
 
     <script type="text/javascript">
-
+        var total_text_area = @totalTextArea;
+        for (var i = 1; i <= total_text_area-1; i++) {
+            ClassicEditor
+            .create(document.querySelector('#reading_'+i), {
+                toolbar: ['']
+            })
+            .then(editor => {
+                window.editor = editor;
+                editor.isReadOnly = true;
+            })
+            .catch(err => {
+                console.error(err.stack);
+            });
+        }
         function CountDown(p) {
         // p: là số phút
         window.SI = null;

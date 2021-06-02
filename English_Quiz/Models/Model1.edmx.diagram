@@ -4,31 +4,39 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="6b555e6b61f54d35be5e0c86b583cba3" Name="Diagram1" ZoomLevel="94">
-        <EntityTypeShape EntityType="English_QuizModel.Answer" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="English_QuizModel.Class" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="English_QuizModel.EmployeeMaster" Width="1.5" PointX="9.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="English_QuizModel.Function" Width="1.5" PointX="7.75" PointY="8.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="English_QuizModel.Listening" Width="1.5" PointX="3" PointY="9.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="English_QuizModel.Listening_Type" Width="1.5" PointX="0.75" PointY="9.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="English_QuizModel.Permission" Width="1.5" PointX="10" PointY="10" IsExpanded="true" />
-        <EntityTypeShape EntityType="English_QuizModel.Question_Type" Width="1.5" PointX="3" PointY="12.625" IsExpanded="true" />
+      <Diagram DiagramId="e45f88fa6cb5463f8185f0a4826e6f55" Name="Diagram1">
+        <EntityTypeShape EntityType="English_QuizModel.Answer" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="English_QuizModel.Class" Width="1.5" PointX="12.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="English_QuizModel.EmployeeMaster" Width="1.5" PointX="12.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="English_QuizModel.Evaluate" Width="1.5" PointX="9.75" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="English_QuizModel.Function" Width="1.5" PointX="7.75" PointY="13.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="English_QuizModel.History_Quiz" Width="1.5" PointX="12" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="English_QuizModel.Listening" Width="1.5" PointX="3" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="English_QuizModel.Listening_Type" Width="1.5" PointX="0.75" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="English_QuizModel.Permission" Width="1.5" PointX="10" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="English_QuizModel.Question_Type" Width="1.5" PointX="3" PointY="12.5" IsExpanded="true" />
         <EntityTypeShape EntityType="English_QuizModel.Question" Width="1.5" PointX="5.25" PointY="4.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="English_QuizModel.Quiz" Width="1.5" PointX="5.25" PointY="16.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="English_QuizModel.Quiz_Listening" Width="1.5" PointX="5.25" PointY="9.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="English_QuizModel.Quiz_Questions" Width="1.5" PointX="7.5" PointY="4.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="English_QuizModel.Quiz_Reading" Width="1.5" PointX="3" PointY="1.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="English_QuizModel.Quiz_Type" Width="1.5" PointX="3" PointY="17" IsExpanded="true" />
-        <EntityTypeShape EntityType="English_QuizModel.Reading" Width="1.5" PointX="3" PointY="4.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="English_QuizModel.Reading_Type" Width="1.5" PointX="0.75" PointY="3.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="English_QuizModel.Role" Width="1.5" PointX="7.75" PointY="11.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="English_QuizModel.sysdiagram" Width="1.5" PointX="9.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="English_QuizModel.User" Width="1.5" PointX="10" PointY="14.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="English_QuizModel.Questions_Auto_Generate" Width="1.5" PointX="5.25" PointY="12.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="English_QuizModel.Quiz" Width="1.5" PointX="5.25" PointY="16.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="English_QuizModel.Quiz_Listening" Width="1.5" PointX="5.25" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="English_QuizModel.Quiz_Questions" Width="1.5" PointX="7.5" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="English_QuizModel.Quiz_Reading" Width="1.5" PointX="3" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="English_QuizModel.Quiz_Type" Width="1.5" PointX="3" PointY="16.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="English_QuizModel.Reading" Width="1.5" PointX="3" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="English_QuizModel.Reading_Type" Width="1.5" PointX="0.75" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="English_QuizModel.Role" Width="1.5" PointX="7.75" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="English_QuizModel.sysdiagram" Width="1.5" PointX="12.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="English_QuizModel.Tip" Width="1.5" PointX="8" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="English_QuizModel.Tip_Type" Width="1.5" PointX="5.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="English_QuizModel.User_Evaluate_Website" Width="1.5" PointX="14.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="English_QuizModel.User" Width="1.5" PointX="10" PointY="13.375" IsExpanded="true" />
+        <AssociationConnector Association="English_QuizModel.FK_History_Quiz_Evaluate" ManuallyRouted="false" />
         <AssociationConnector Association="English_QuizModel.FK_Permission_Role" ManuallyRouted="false" />
         <AssociationConnector Association="English_QuizModel.FK_Listening_Listening_Type" ManuallyRouted="false" />
         <AssociationConnector Association="English_QuizModel.FK_Questions_Listening" ManuallyRouted="false" />
         <AssociationConnector Association="English_QuizModel.FK_Quiz_Listening_Listening" ManuallyRouted="false" />
         <AssociationConnector Association="English_QuizModel.FK_Permission_Role_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="English_QuizModel.FK_Questions_Auto_Generate_Type" ManuallyRouted="false" />
         <AssociationConnector Association="English_QuizModel.FK_Questions_Type" ManuallyRouted="false" />
         <AssociationConnector Association="English_QuizModel.FK_Questions_Reading" ManuallyRouted="false" />
         <AssociationConnector Association="English_QuizModel.FK_Quiz_Questions_Questions" ManuallyRouted="false" />
@@ -37,16 +45,8 @@
         <AssociationConnector Association="English_QuizModel.FK_Quiz_Reading_Reading_Type" ManuallyRouted="false" />
         <AssociationConnector Association="English_QuizModel.FK_Reading_Reading_Type" ManuallyRouted="false" />
         <AssociationConnector Association="English_QuizModel.FK_Users_Role" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="English_QuizModel.History_Quiz" Width="1.5" PointX="10.375" PointY="6.75" />
-        <EntityTypeShape EntityType="English_QuizModel.Questions_Auto_Generate" Width="1.5" PointX="5.25" PointY="12.625" />
-        <AssociationConnector Association="English_QuizModel.FK_Questions_Auto_Generate_Type" />
-        <EntityTypeShape EntityType="English_QuizModel.Evaluate" Width="1.5" PointX="8.125" PointY="19" />
-        <AssociationConnector Association="English_QuizModel.FK_History_Quiz_Evaluate" />
-        <EntityTypeShape EntityType="English_QuizModel.Tip" Width="1.5" PointX="14.625" PointY="0.875" />
-        <EntityTypeShape EntityType="English_QuizModel.Tip_Type" Width="1.5" PointX="12.375" PointY="1" />
-        <AssociationConnector Association="English_QuizModel.FK_Tip_Tip_Type" />
-        <EntityTypeShape EntityType="English_QuizModel.User_Evaluate_Website" Width="1.5" PointX="12.375" PointY="4.75" />
-        </Diagram>
+        <AssociationConnector Association="English_QuizModel.FK_Tip_Tip_Type" ManuallyRouted="false" />
+      </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

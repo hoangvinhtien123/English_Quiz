@@ -32,11 +32,11 @@ namespace English_Quiz.Controllers
         {
             if (QuizTypeId != null && QuizTypeId != string.Empty)
             {
-                return View(db.Quizs.Where(x => x.QUIZ_TYPE_ID == QuizTypeId && x.IS_TEST == false).ToList());
+                return View(db.Quizs.Where(x => x.QUIZ_TYPE_ID == QuizTypeId && x.IS_TEST == false).OrderBy(x => x.ORDER_NUMBER).ToList());
             }
             else
             {
-                return View(db.Quizs.Where(x => x.IS_TEST == false).ToList());
+                return View(db.Quizs.Where(x => x.IS_TEST == false).OrderBy(x => x.ORDER_NUMBER).ToList());
             }
         }
         #region Take quizz
@@ -107,11 +107,11 @@ namespace English_Quiz.Controllers
         {
             if (QuizTypeId != null && QuizTypeId != string.Empty)
             {
-                return View(db.Quizs.Where(x => x.QUIZ_TYPE_ID == QuizTypeId && x.IS_TEST == true).ToList());
+                return View(db.Quizs.Where(x => x.QUIZ_TYPE_ID == QuizTypeId && x.IS_TEST == true).OrderBy(x=>x.ORDER_NUMBER).ToList());
             }
             else
             {
-                return View(db.Quizs.Where(x => x.IS_TEST == true).ToList());
+                return View(db.Quizs.Where(x => x.IS_TEST == true).OrderBy(x => x.ORDER_NUMBER).ToList());
             }
             //if (Session[ConstantData.USER_QUIZZ_SESSION] == null)
             //{
@@ -387,10 +387,10 @@ namespace English_Quiz.Controllers
             float point = (Request["point"] == null) ? 0 : float.Parse(Request["point"].ToString());
             History_Quiz quiz_history = null;
             Evaluate evaluate = db.Evaluates.SqlQuery($"select * from Evaluate where FROM_POINT<={point} and TO_POINT >={point}").FirstOrDefault();
-            
+            quiz_history = new History_Quiz();
             if (user != null)
             {
-                quiz_history = new History_Quiz();
+                
                 quiz_history.Quiz_ID = quizzSelected.QUIZ_ID;
                 quiz_history.Quiz_Name = quizzSelected.QUIZ_NAME;
                 quiz_history.User_Name = user.USER_NAME;
@@ -404,6 +404,21 @@ namespace English_Quiz.Controllers
                 db.History_Quiz.Add(quiz_history);
                 db.SaveChanges();
 
+            }
+            else
+            {
+                quiz_history.Quiz_ID = quizzSelected.QUIZ_ID;
+                quiz_history.Quiz_Name = quizzSelected.QUIZ_NAME;
+                quiz_history.User_Name = "unknown";
+                quiz_history.Point = point;
+                quiz_history.Date_Take_Quiz = DateTime.Today;
+                quiz_history.PR_KEY = Guid.NewGuid();
+                if (evaluate != null)
+                {
+                    quiz_history.EVALUATE_ID = evaluate.EVALUATE_ID;
+                }
+                db.History_Quiz.Add(quiz_history);
+                db.SaveChanges();
             }
             if (evaluate != null)
             {

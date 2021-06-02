@@ -61,7 +61,7 @@
                             if (data.Success) {
                                Swal.fire(
                                     'Deleted!',
-                                    'Xóa người dùng thành công',
+                                      data.Message,
                                     'success'
                                 )
                                 setTimeout(function () { location.reload(); }, 1500);
@@ -70,8 +70,8 @@
                             else {
                               Swal.fire(
                                     'Deleted!',
-                                    'Xóa người dùng thành công',
-                                    'danger'
+                                      data.Message,
+                                    'error'
                                 )
                             }
                         },

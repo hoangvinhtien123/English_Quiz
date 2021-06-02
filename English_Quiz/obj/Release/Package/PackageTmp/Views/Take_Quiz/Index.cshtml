@@ -200,6 +200,23 @@
             let Name = $("#Name").val();
             let Job = $("#Job").val();
             let Content = $("#Content").val();
+            if (Content == "") {
+                Swal.fire(
+                    'Trống',
+                    "Cần nhập nhận xét trước khi gửi",
+                    'warning'
+                )
+                return;
+            }
+            else if (Name == "") {
+                Swal.fire(
+                    'Trống',
+                    "Cần nhập họ tên trước khi gửi",
+                    'warning'
+                )
+                return;
+            }
+            
             var formData = new FormData();
             formData.append("Name", Name);
             formData.append("Job", Job);

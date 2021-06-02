@@ -136,9 +136,10 @@ Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.Page
     <script type="text/javascript">
         function submitReadingType() {
         $("#readingTypeSubmit").submit();
-    }
+        }
         var is_new = false;
         var questionIdNow = "";
+        var questionNow = null;
         const deleteQuizType = (id) => {
             Swal.fire({
                 title: 'Bạn chắc chắn sẽ xóa?',
@@ -147,7 +148,8 @@ Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.Page
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Xóa!'
+                confirmButtonText: 'Xóa!',
+                cancelButtonText: 'Đóng'
             }).then((result) => {
                 if (result.value) {
                     $.ajax({
@@ -183,7 +185,8 @@ Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.Page
         }
 
         //Question theo reading
-        const initTableQuestions = (question ,id , newQuestionid) => {
+        const initTableQuestions = (question, id, newQuestionid) => {
+            questionNow = question;
             var listQuestion = `
                     <a class="btn btn-default" onclick="addReadingQuestion('`+ id + `' , '`+newQuestionid[0].QUESTION_ID+`')"> <i class="fas fa-plus"></i> Thêm mới </a>
                     <table class="table" style="margin-top:10px;">
@@ -213,7 +216,7 @@ Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.Page
                                 <td>` + question[i].LIST_ORDER +  `</td>
                                 <td>
 
-                                    <a class="btn btn-info" onclick="editReadingQuestion('`+ id + `', '` + question[i].QUESTION_ID + `', '` + question[i].QUESTION_TEXT + `','` + question[i].POINT +`','`+question[i].LIST_ORDER+`')"> <i class="fas fa-edit"> </i> </a>
+                                    <a class="btn btn-info" onclick="editReadingQuestion('`+ id + `', '` + question[i].QUESTION_ID + `','` + question[i].POINT +`','`+question[i].LIST_ORDER+`')"> <i class="fas fa-edit"> </i> </a>
                                     <a class="btn btn-danger" onclick="deleteReadingQuestion('`+question[i].QUESTION_ID+`', '`+id+`')"> <i class="fas fa-trash-alt"> </i></a>
                                 </td>
                                 </tr>`
@@ -241,7 +244,8 @@ Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.Page
             is_new = true;
             loadJsGrid();
         }
-        const editReadingQuestion = (id , question_id,question_text,point,list_order) => {
+        const editReadingQuestion = (id, question_id, point, list_order) => {
+            var question_text = questionNow.filter(x => x.QUESTION_ID == question_id)[0].QUESTION_TEXT;
             $('#modalQuestionDetail').modal('show');
             $("#READING_ID").val(id);
             $("#QUESTION_ID").val(question_id);

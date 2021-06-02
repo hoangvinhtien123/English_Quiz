@@ -10,7 +10,7 @@ namespace English_Quiz.Controllers
     public class RoleController : BaseController
     {
         English_QuizEntities db = new English_QuizEntities();
-        [CheckPermission(PermissionName = "QuanLyVaiTro",Action = ConstantCommon.Action.View)]
+        [CheckPermission(PermissionName = "QuanLyVaiTro", Action = ConstantCommon.Action.View)]
         public ActionResult Index()
         {
             List<Role> role = db.Roles.ToList();
@@ -41,7 +41,7 @@ namespace English_Quiz.Controllers
             return View(role);
         }
         [HttpPost]
-        public ActionResult EditRole(Role role , int id)
+        public ActionResult EditRole(Role role, int id)
         {
             Role oldRole = db.Roles.FirstOrDefault(x => x.ROLE_ID == id);
             if (ModelState.IsValid)
@@ -52,10 +52,13 @@ namespace English_Quiz.Controllers
             }
             return View();
         }
-        [CheckPermission(PermissionName = "QuanLyVaiTro", Action = ConstantCommon.Action.Delete)]
+        
         public JsonResult DeleteVaiTro(int id)
         {
-            if (ModelState.IsValid)
+            Function function = db.Functions.FirstOrDefault(x => string.Compare(x.Form_Name, "QuanLyVaiTro", true) == 0);
+            int role = int.Parse(Session["Role"].ToString());
+            Permission permission = db.Permissions.FirstOrDefault(x => x.Role_Id == role && x.Function_Id == function.Id);
+            if (permission.Is_Delete == true)
             {
                 try
                 {
@@ -85,7 +88,14 @@ namespace English_Quiz.Controllers
                     }, JsonRequestBehavior.AllowGet);
                 }
             }
-            return null;
+            else
+            {
+                return Json(new
+                {
+                    Success = false,
+                    Message = "Không có quyền xóa !"
+                }, JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

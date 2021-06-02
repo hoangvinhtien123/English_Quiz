@@ -28,12 +28,15 @@ namespace English_Quiz.Models
         public virtual DbSet<Answer> Answers { get; set; }
         public virtual DbSet<Class> Classes { get; set; }
         public virtual DbSet<EmployeeMaster> EmployeeMasters { get; set; }
+        public virtual DbSet<Evaluate> Evaluates { get; set; }
         public virtual DbSet<Function> Functions { get; set; }
+        public virtual DbSet<History_Quiz> History_Quiz { get; set; }
         public virtual DbSet<Listening> Listenings { get; set; }
         public virtual DbSet<Listening_Type> Listening_Type { get; set; }
         public virtual DbSet<Permission> Permissions { get; set; }
         public virtual DbSet<Question_Type> Question_Type { get; set; }
         public virtual DbSet<Question> Questions { get; set; }
+        public virtual DbSet<Questions_Auto_Generate> Questions_Auto_Generate { get; set; }
         public virtual DbSet<Quiz> Quizs { get; set; }
         public virtual DbSet<Quiz_Listening> Quiz_Listening { get; set; }
         public virtual DbSet<Quiz_Questions> Quiz_Questions { get; set; }
@@ -43,12 +46,9 @@ namespace English_Quiz.Models
         public virtual DbSet<Reading_Type> Reading_Type { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
-        public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<History_Quiz> History_Quiz { get; set; }
-        public virtual DbSet<Questions_Auto_Generate> Questions_Auto_Generate { get; set; }
-        public virtual DbSet<Evaluate> Evaluates { get; set; }
         public virtual DbSet<Tip> Tips { get; set; }
         public virtual DbSet<Tip_Type> Tip_Type { get; set; }
         public virtual DbSet<User_Evaluate_Website> User_Evaluate_Website { get; set; }
+        public virtual DbSet<User> Users { get; set; }
     }
 }
