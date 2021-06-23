@@ -155,7 +155,6 @@ E:\Đồ án\English_Quiz\English_Quiz\bin\System.Web.WebPages.Razor.xml
 E:\Đồ án\English_Quiz\English_Quiz\bin\Newtonsoft.Json.xml
 E:\Đồ án\English_Quiz\English_Quiz\bin\Antlr3.Runtime.pdb
 E:\Đồ án\English_Quiz\English_Quiz\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-E:\Đồ án\English_Quiz\English_Quiz\obj\Release\English_Quiz.csprojAssemblyReference.cache
 E:\Đồ án\English_Quiz\English_Quiz\obj\Release\English_Quiz.csproj.CopyComplete
 E:\Đồ án\English_Quiz\English_Quiz\obj\Release\English_Quiz.dll
 E:\Đồ án\English_Quiz\English_Quiz\obj\Release\English_Quiz.pdb
@@ -163,3 +162,5 @@ E:\Đồ án\English_Quiz\English_Quiz\bin\PagedList.dll
 E:\Đồ án\English_Quiz\English_Quiz\bin\PagedList.Mvc.dll
 E:\Đồ án\English_Quiz\English_Quiz\bin\PagedList.xml
 E:\Đồ án\English_Quiz\English_Quiz\bin\PagedList.Mvc.xml
+E:\Đồ án\English_Quiz\English_Quiz\obj\Release\English_Quiz.csproj.AssemblyReference.cache
+E:\Đồ án\English_Quiz\English_Quiz\obj\Release\English_Quiz.csproj.CoreCompileInputs.cache

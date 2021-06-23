@@ -208,7 +208,7 @@ namespace English_Quiz.Controllers
             string questionId = (Request["questionId"] == null) ? string.Empty : Request["questionId"].ToString();
             string questionText = (Request["questionText"] == null) ? string.Empty : Request["questionText"].ToString();
             bool isNew = (Request["isNew"] == null) ? false : bool.Parse(Request["isNew"].ToString());
-            int listOrder = (Request["listOrder"] == null) ? 0 : int.Parse(Request["listOrder"].ToString());
+            int listOrder = (Request["listOrder"] == string.Empty) ? 0 : int.Parse(Request["listOrder"].ToString());
             HttpPostedFileBase file = (Request.Files.Count == 0) ? null : Request.Files[0];
             string fileName = string.Empty;
             string filePath = string.Empty;

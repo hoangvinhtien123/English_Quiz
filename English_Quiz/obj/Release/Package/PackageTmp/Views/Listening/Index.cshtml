@@ -157,6 +157,7 @@ Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.Page
         var is_new = false;
         var questionIdNow = "";
         var files = "";
+        var questionNow = null;
         const deleteListening = (id) => {
             Swal.fire({
                 title: 'Bạn chắc chắn sẽ xóa?',
@@ -200,7 +201,8 @@ Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.Page
             })
         }
 
-        const initTableQuestions = (question ,id , newQuestionid) => {
+        const initTableQuestions = (question, id, newQuestionid) => {
+            questionNow = question;
             var listQuestion = `
                     <a class="btn btn-default" onclick="addListeningQuestion('`+ id + `' , '`+newQuestionid[0].QUESTION_ID+`')"> <i class="fas fa-plus"></i> Thêm mới </a>
                     <table class="table" style="margin-top:10px;">
@@ -230,7 +232,7 @@ Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.Page
                                 <td>` + question[i].LIST_ORDER +  `</td>
                                 <td>
 
-                                    <a class="btn btn-info" onclick="editListeningQuestion('`+ id + `', '` + question[i].QUESTION_ID + `', '` + question[i].QUESTION_TEXT + `','` + question[i].POINT +`','`+question[i].QUESTION_IMAGE+`','`+question[i].LIST_ORDER+`')"> <i class="fas fa-edit"> </i> </a>
+                                    <a class="btn btn-info" onclick="editListeningQuestion('`+ id + `', '` + question[i].QUESTION_ID + `','` + question[i].POINT +`','`+question[i].QUESTION_IMAGE+`','`+question[i].LIST_ORDER+`')"> <i class="fas fa-edit"> </i> </a>
                                     <a class="btn btn-danger" onclick="deleteListeningQuestion('`+question[i].QUESTION_ID+`', '`+id+`')"> <i class="fas fa-trash-alt"> </i></a>
                                 </td>
                                 </tr>`
@@ -261,7 +263,8 @@ Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.Page
             files = "";
             loadJsGrid();
         }
-        const editListeningQuestion = (id , question_id,question_text,point,image,list_order) => {
+        const editListeningQuestion = (id, question_id, point, image, list_order) => {
+            var question_text = questionNow.filter(x => x.QUESTION_ID == question_id)[0].QUESTION_TEXT;
             $('#modalQuestionDetail').modal('show');
             $("#LISTENING_ID").val(id);
             $("#QUESTION_ID").val(question_id);
