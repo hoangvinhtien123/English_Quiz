@@ -468,11 +468,11 @@ namespace English_Quiz.Controllers
 
         public ActionResult TipType()
         {
-            return View(db.Tip_Type.ToList());
+            return View(db.Tip_Type.Where(x=>x.ACTIVE == true).ToList());
         }
         public ActionResult ListTip(int tipTypeId)
         {
-            Tip_Type tipType = db.Tip_Type.FirstOrDefault(x => x.TIP_TYPE_ID == tipTypeId);
+            Tip_Type tipType = db.Tip_Type.FirstOrDefault(x => x.TIP_TYPE_ID == tipTypeId && x.ACTIVE == true);
             ViewBag.TipTypeName = tipType.TIP_TYPE_NAME;
             return View(db.Tips.Where(x=>x.TIP_TYPE_ID == tipTypeId).ToList());
         }

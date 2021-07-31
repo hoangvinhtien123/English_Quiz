@@ -18,10 +18,8 @@
         <h2 class="mb-4">@ViewBag.TipTypeName</h2>
         <hr class="divider light my-4" />
         <div class="row">
-            @if (Model != null)
+            @if (Model != null && Model.Count > 0)
             {
-                
-
                 <div class="nav flex-column nav-tabs" style="border-bottom:0px;width:25%" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                     @foreach (var tip in Model)
                     {
