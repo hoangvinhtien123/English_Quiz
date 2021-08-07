@@ -1,19 +1,19 @@
 ﻿@model IEnumerable<English_Quiz.Models.User_Evaluate_Website>
 
 @{
-    ViewBag.Title = "Danh sách thông tin đánh giá";
+    ViewBag.Title = "Danh sách thông tin nhận xét";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Danh sách thông tin đánh giá</h2>
+<h2>Danh sách thông tin nhận xét</h2>
 
 <table class="table">
     <tr>
         <th>
-            Tên người đánh giá
+            Tên người nhận xét
         </th>
         <th>
-            Ngành nghề người đánh giá
+            Ngành nghề người nhận xét
         </th>
         <th>
             Nội dung
@@ -97,7 +97,7 @@
         const unActiveReview = (id) => {
             Swal.fire({
                 title: 'Bạn chắc chắn sẽ hủy duyệt?',
-                text: "Nếu duyệt thông tin sẽ ẩn khỏi trang chủ",
+                text: "Nếu hủy duyệt thông tin sẽ ẩn khỏi trang chủ",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',

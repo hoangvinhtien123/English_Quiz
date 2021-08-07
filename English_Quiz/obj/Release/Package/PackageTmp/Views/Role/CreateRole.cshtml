@@ -1,7 +1,7 @@
 ﻿@model English_Quiz.Models.Role
 
 @{
-    ViewBag.Title = "CreateRole";
+    ViewBag.Title = "Thêm mới vai trò";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -12,7 +12,7 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Role</h4>
+        <h4>Vai trò</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">

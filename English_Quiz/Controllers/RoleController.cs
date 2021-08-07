@@ -48,7 +48,7 @@ namespace English_Quiz.Controllers
             {
                 db.Entry(oldRole).CurrentValues.SetValues(role);
                 db.SaveChanges();
-                return View("Index");
+                return RedirectToAction("Index");
             }
             return View();
         }

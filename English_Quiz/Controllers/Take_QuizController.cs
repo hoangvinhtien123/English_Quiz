@@ -76,12 +76,14 @@ namespace English_Quiz.Controllers
             if (user.FULL_NAME == null || user.USER_NAME == null || user.PASSWORD == null)
             {
                 ViewBag.msg = "Cần nhập đầy đủ thông tin trước khi đăng ký";
+                ViewBag.type = "false";
                 return View();
             }
             User existUser = db.Users.FirstOrDefault(x => x.USER_NAME == user.USER_NAME);
             if (existUser != null)
             {
                 ViewBag.msg = "Tên đăng nhập đã tồn tại";
+                ViewBag.type = "false";
                 return View();
             }
             user.PASSWORD = toMD5.MD5Hash(user.PASSWORD);
@@ -89,6 +91,7 @@ namespace English_Quiz.Controllers
             db.Users.Add(user);
             db.SaveChanges();
             ViewBag.msg = "Đăng ký tài khoản thành công";
+            ViewBag.type = "success";
             User newUser = new User();
             return View(newUser);
         }
