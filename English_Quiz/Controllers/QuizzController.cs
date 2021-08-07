@@ -314,7 +314,7 @@ namespace English_Quiz.Controllers
             DataTable quizReadingTbl = new DataTable();
             quizReadingTbl.Columns.Add("PR_KEY", typeof(Guid));
             quizReadingTbl.Columns.Add("QUIZ_ID", typeof(string));
-            quizReadingTbl.Columns.Add("READING_TYPE_ID", typeof(string));
+            quizReadingTbl.Columns.Add("READING_TYPE_ID", typeof(int));
             quizReadingTbl.Columns.Add("TOTAL_READING", typeof(int));
             quizReadingTbl.Columns.Add("ACTIVE", typeof(bool));
             quizReadingTbl.TableName = "QuizReading";

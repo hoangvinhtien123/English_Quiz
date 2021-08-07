@@ -22,7 +22,8 @@
                 </div>
                 @if (ViewBag.Msg != null)
                 {
-                    <div class="well well-sm well-danger"> @ViewBag.Msg </div>
+                    @*<div class="well well-sm well-danger"> @ViewBag.Msg </div>*@
+                    <a style="display:none" onclick="message()" id="messageClick"></a>
                 }
 
             </div>
@@ -32,8 +33,38 @@
 </section>
 
 @section Scripts{
-    <script>
-        
+    <script type="text/javascript">
+
+        const message = () => {
+            if (type == "success") {
+                var hostname = window.location.origin;
+                var login = "Take_Quiz/UserLogin";
+            Swal.fire(
+                'Thành công',
+                '@ViewBag.msg',
+                'success'
+            )
+                setTimeout(function () { window.location.href = hostname + "/" + login; }, 1500);
+        }
+        else if (type == "false") {
+            Swal.fire(
+                'Thất bại',
+                '@ViewBag.msg',
+                'error'
+            )
+        }
+        else {
+            Swal.fire(
+                'Thất bại',
+                'Có lỗi trong việc tạo tài khoản, vui lòng thử lại !',
+                'error'
+            )
+        }
+        }
+        var type = "@ViewBag.type"
+        if (type != null) {
+            $("#messageClick").click();
+        }
     </script>
 
 }
