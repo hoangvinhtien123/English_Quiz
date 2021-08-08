@@ -34,7 +34,7 @@ namespace English_Quiz.Controllers
                 }
                 catch (Exception e)
                 {
-                    ViewBag.errorMsg = "Thêm mới loại câu hỏi bị lỗi, lỗi là : " + e.Message;
+                    ViewBag.errorMsg = "Thêm mới loại câu hỏi bị lỗi";
                     return View();
                 }
 
@@ -61,7 +61,7 @@ namespace English_Quiz.Controllers
                 }
                 catch (Exception e)
                 {
-                    ViewBag.errorMsg = "Cập nhật loại câu hỏi bị lỗi, lỗi là : " + e.Message;
+                    ViewBag.errorMsg = "Cập nhật loại câu hỏi bị lỗi";
                     return View();
                 }
 
@@ -100,7 +100,7 @@ namespace English_Quiz.Controllers
                     return Json(new
                     {
                         Success = false,
-                        Message = "Không thể xóa đối tượng này. Vì sẽ ảnh hưởng đến dữ liệu khác." + e.Message
+                        Message = "Không thể xóa đối tượng này. Vì sẽ ảnh hưởng đến dữ liệu khác."
                     }, JsonRequestBehavior.AllowGet);
                 }
             }

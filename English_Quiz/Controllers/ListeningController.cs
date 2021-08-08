@@ -122,7 +122,8 @@ namespace English_Quiz.Controllers
                 try
                 {
                     var data = db.Listenings.FirstOrDefault(x => x.LISTENING_ID == id);
-
+                    List<Question> questionByListeningId = null;
+                    List<Answer> answerByQuestionId = null;
                     if (data == null)
                     {
                         return Json(new
@@ -130,6 +131,24 @@ namespace English_Quiz.Controllers
                             Success = false,
                             Message = "Không tìm thấy đối tượng cần xóa."
                         }, JsonRequestBehavior.AllowGet);
+                    }
+                    questionByListeningId = db.Questions.Where(x => x.LISTENING_ID == id).ToList();
+                    if (questionByListeningId != null)
+                    {
+                        var questionId = string.Empty;
+                        for (int i = 0; i < questionByListeningId.Count; i++)
+                        {
+                            questionId = questionByListeningId[i].QUESTION_ID;
+                            answerByQuestionId = db.Answers.Where(x => x.QUESTION_ID == questionId).ToList();
+                            if (answerByQuestionId != null)
+                            {
+                                for (int j = 0; j < answerByQuestionId.Count; j++)
+                                {
+                                    db.Answers.Remove(answerByQuestionId[j]);
+                                }
+                            }
+                            db.Questions.Remove(questionByListeningId[i]);
+                        }
                     }
                     db.Listenings.Remove(data);
                     db.SaveChanges();
@@ -144,7 +163,7 @@ namespace English_Quiz.Controllers
                     return Json(new
                     {
                         Success = false,
-                        Message = "Không thể xóa đối tượng này. Vì sẽ ảnh hưởng đến dữ liệu khác." + e.Message
+                        Message = "Không thể xóa đối tượng này. Vì sẽ ảnh hưởng đến dữ liệu khác."
                     }, JsonRequestBehavior.AllowGet);
                 }
             }

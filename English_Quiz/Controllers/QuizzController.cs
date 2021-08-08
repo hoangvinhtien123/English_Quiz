@@ -29,7 +29,7 @@ namespace English_Quiz.Controllers
             if (page == null) page = 1;
             int pageSize = 5;
             int pageNumber = (page ?? 1);
-            if ( ddlQuizType == string.Empty)
+            if ( ddlQuizType == null || ddlQuizType == string.Empty)
             {
                 var listQuiz = db.Quizs.ToList().OrderBy(x => x.QUIZ_ID);
                 return View(listQuiz.ToPagedList(pageNumber, pageSize));

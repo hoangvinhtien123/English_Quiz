@@ -48,7 +48,7 @@ namespace English_Quiz.Controllers
                 }
                 catch (Exception e)
                 {
-                    ViewBag.errorMsg = "Thêm mới người dùng bị lỗi, lỗi là : " + e.Message;
+                    ViewBag.errorMsg = "Thêm mới người dùng bị lỗi";
                     ViewBag.ListRole = new SelectList(db.Roles.ToList(), "ROLE_ID", "ROLE_NAME");
                     return View();
                 }
@@ -88,7 +88,7 @@ namespace English_Quiz.Controllers
                 }
                 catch (Exception e)
                 {
-                    ViewBag.errorMsg = "Cập nhật người dùng bị lỗi, lỗi là : " + e.Message;
+                    ViewBag.errorMsg = "Cập nhật người dùng bị lỗi";
                     ViewBag.ListRole = new SelectList(db.Roles.ToList(), "ROLE_ID", "ROLE_NAME");
                     return View();
                 }
@@ -128,7 +128,7 @@ namespace English_Quiz.Controllers
                     return Json(new
                     {
                         Success = false,
-                        Message = "Không thể xóa đối tượng này. Vì sẽ ảnh hưởng đến dữ liệu khác." + e.Message
+                        Message = "Không thể xóa đối tượng này. Vì sẽ ảnh hưởng đến dữ liệu khác."
                     }, JsonRequestBehavior.AllowGet);
                 }
             }
