@@ -55,12 +55,15 @@ namespace English_Quiz.Controllers
                 User user = db.Users.Where(x => x.USER_NAME.Equals(name) && x.PASSWORD == pass).First();
                 if (user != null)
                 {
+                    ViewBag.type = "success";
+                    ViewBag.msg = "Đăng nhập thành công";
                     Session[ConstantData.USER_QUIZZ_SESSION] = user;
-                    return RedirectToAction("Index");
+                    return View();
                 }
             }
             catch (Exception e)
             {
+                ViewBag.type = "false";
                 ViewBag.msg = "Mật khẩu hoặc tài khoản bạn nhập sai";
                 return View();
             }

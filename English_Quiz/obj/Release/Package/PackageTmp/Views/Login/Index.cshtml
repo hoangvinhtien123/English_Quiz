@@ -28,6 +28,7 @@
     <link href="~/Content/dist/css/adminlte.min.css" rel="stylesheet" />
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <link href="~/Content/plugins/sweetalert2/sweetalert2.css" rel="stylesheet" />
 </head>
 <body class="hold-transition login-page">
     <div class="login-box">
@@ -57,13 +58,13 @@
                 </div>
                 <div class="row">
                     @*<div class="col-7">
-                        <div class="icheck-primary">
-                            <input type="checkbox" id="remember">
-                            <label for="remember">
-                                Ghi nhớ
-                            </label>
-                        </div>
-                    </div>*@
+                            <div class="icheck-primary">
+                                <input type="checkbox" id="remember">
+                                <label for="remember">
+                                    Ghi nhớ
+                                </label>
+                            </div>
+                        </div>*@
                     <!-- /.col -->
                     <div class="col-5">
                         <button onclick="DangNhap()" class="btn btn-primary btn-block">Đăng nhập</button>
@@ -81,10 +82,9 @@
                         </a>
                     </div>*@
                 <!-- /.social-auth-links -->
-
                 @*<p class="mb-1">
-                    <a href='@Url.Action("FogetPassword","Login")'>Quên mật khẩu</a>
-                </p>*@
+                        <a href='@Url.Action("FogetPassword","Login")'>Quên mật khẩu</a>
+                    </p>*@
             </div>
             <!-- /.login-card-body -->
         </div>
@@ -96,6 +96,7 @@
     <script src="~/Content/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="~/Content/dist/js/adminlte.min.js"></script>
+    <script src="~/Content/plugins/sweetalert2/sweetalert2.min.js"></script>
     <script>
         $('#txtPwd').keyup(function (e) {
             if (e.key == "Enter") {
@@ -136,11 +137,21 @@
                 type: 'POST',
                 success: function (data) {
                     if (data.error) {
-                        alert('Lỗi '+data.message)
+                        Swal.fire(
+                            'Thất bại',
+                            data.message,
+                            'error'
+                        )
                     }
                     else {
                         //loadingStop();
-                        window.location.href = '@Url.Action("Index", "Dashboard")'
+                        Swal.fire(
+                            'Thành công',
+                            'Đăng nhập thành công',
+                            'success'
+                        )
+                        setTimeout(function () { window.location.href = '@Url.Action("Index", "Dashboard")'; }, 1500);
+
                     }
 
                 },

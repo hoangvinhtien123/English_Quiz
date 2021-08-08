@@ -241,5 +241,5 @@ E:\Đồ án\English_Quiz\English_Quiz\bin\PagedList.dll
 E:\Đồ án\English_Quiz\English_Quiz\bin\PagedList.Mvc.dll
 E:\Đồ án\English_Quiz\English_Quiz\bin\PagedList.xml
 E:\Đồ án\English_Quiz\English_Quiz\bin\PagedList.Mvc.xml
-E:\Đồ án\English_Quiz\English_Quiz\obj\Debug\English_Quiz.csproj.AssemblyReference.cache
 E:\Đồ án\English_Quiz\English_Quiz\obj\Debug\English_Quiz.csproj.CoreCompileInputs.cache
+E:\Đồ án\English_Quiz\English_Quiz\obj\Debug\English_Quiz.csproj.AssemblyReference.cache
