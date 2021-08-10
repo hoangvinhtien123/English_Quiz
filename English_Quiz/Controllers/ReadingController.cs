@@ -175,39 +175,58 @@ namespace English_Quiz.Controllers
 
         public string getQuestionByReadingId()
         {
-            int readingId = (Request["readingId"] == null) ? 0 : int.Parse(Request["readingId"].ToString());
-            List<Question> lstQuestion = db.Questions.Where(x => x.READING_ID == readingId && x.LISTENING_ID == null).ToList();
             DataSet ds = new DataSet();
-            DataTable questionTbl = new DataTable();
-            questionTbl.Columns.Add("QUESTION_ID", typeof(string));
-            questionTbl.Columns.Add("QUESTION_TEXT", typeof(string));
-            questionTbl.Columns.Add("POINT", typeof(int));
-            questionTbl.Columns.Add("READING_ID", typeof(int));
-            questionTbl.Columns.Add("LIST_ORDER", typeof(int));
-            questionTbl.TableName = "Question";
-            foreach (var item in lstQuestion)
+            Function function = db.Functions.FirstOrDefault(x => string.Compare(x.Form_Name, "QuanLyCauHoi", true) == 0);
+            int role = int.Parse(Session["Role"].ToString());
+            Permission permission = db.Permissions.FirstOrDefault(x => x.Role_Id == role && x.Function_Id == function.Id);
+            if (permission.Is_Add == true || permission.Is_Edit == true || permission.Is_Delete == true)
             {
-                questionTbl.Rows.Add(item.QUESTION_ID, item.QUESTION_TEXT, item.POINT, item.READING_ID , item.LIST_ORDER);
-            }
-            ds.Tables.Add(questionTbl);
-            int totalQuestion = db.Questions.ToList().Count+1;
-            string questionId = "TOEIC" + totalQuestion;
-            DataTable countQuestion = new DataTable();
-            countQuestion.Columns.Add("QUESTION_ID", typeof(string));
-            countQuestion.Rows.Add(questionId);
-            countQuestion.TableName = "NewQuestionId";
-            ds.Tables.Add(countQuestion);
-
-            List<Answer> ans = db.Answers.Where(x => x.QUESTION_ID == questionId).ToList();
-            if (ans != null && ans.Count > 0)
-            {
-                for (int i = 0; i < ans.Count; i++)
+                int readingId = (Request["readingId"] == null) ? 0 : int.Parse(Request["readingId"].ToString());
+                List<Question> lstQuestion = db.Questions.Where(x => x.READING_ID == readingId && x.LISTENING_ID == null).ToList();
+                DataTable questionTbl = new DataTable();
+                questionTbl.Columns.Add("QUESTION_ID", typeof(string));
+                questionTbl.Columns.Add("QUESTION_TEXT", typeof(string));
+                questionTbl.Columns.Add("POINT", typeof(int));
+                questionTbl.Columns.Add("READING_ID", typeof(int));
+                questionTbl.Columns.Add("LIST_ORDER", typeof(int));
+                questionTbl.TableName = "Question";
+                foreach (var item in lstQuestion)
                 {
-                    db.Answers.Remove(ans[i]);
+                    questionTbl.Rows.Add(item.QUESTION_ID, item.QUESTION_TEXT, item.POINT, item.READING_ID, item.LIST_ORDER);
                 }
-                db.SaveChanges();
+                ds.Tables.Add(questionTbl);
+                int totalQuestion = db.Questions.ToList().Count + 1;
+                string questionId = "TOEIC" + totalQuestion;
+                DataTable countQuestion = new DataTable();
+                countQuestion.Columns.Add("QUESTION_ID", typeof(string));
+                countQuestion.Rows.Add(questionId);
+                countQuestion.TableName = "NewQuestionId";
+                ds.Tables.Add(countQuestion);
+
+                List<Answer> ans = db.Answers.Where(x => x.QUESTION_ID == questionId).ToList();
+                if (ans != null && ans.Count > 0)
+                {
+                    for (int i = 0; i < ans.Count; i++)
+                    {
+                        db.Answers.Remove(ans[i]);
+                    }
+                    db.SaveChanges();
+                }
+                return JsonConvert.SerializeObject(new { 
+                    data = ds,
+                    Is_Add = permission.Is_Add,
+                    Is_Edit = permission.Is_Edit,
+                    Is_Delete = permission.Is_Delete
+                });
             }
-            return JsonConvert.SerializeObject(ds); 
+            else
+            {
+                return JsonConvert.SerializeObject(new
+                {
+                    False = true,
+                    Message = "Không có quyền cập nhật !"
+                });
+            }
         }
 
         public string saveReadingQuestion()
@@ -246,8 +265,9 @@ namespace English_Quiz.Controllers
 
         public JsonResult deleteReadingQuestion(string id)
         {
+            Function function = db.Functions.FirstOrDefault(x => string.Compare(x.Form_Name, "QuanLyCauHoi", true) == 0);
             int role = int.Parse(Session["Role"].ToString());
-            Permission permission = db.Permissions.FirstOrDefault(x => x.Role_Id == role);
+            Permission permission = db.Permissions.FirstOrDefault(x => x.Role_Id == role && x.Function_Id == function.Id);
             if (permission.Is_Delete == true)
             {
                 try

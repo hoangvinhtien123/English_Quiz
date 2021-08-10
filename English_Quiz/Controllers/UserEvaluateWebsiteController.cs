@@ -17,6 +17,17 @@ namespace English_Quiz.Controllers
         }
         public JsonResult approvedReview(string id)
         {
+            Function function = db.Functions.FirstOrDefault(x => string.Compare(x.Form_Name, "QuanLyCauHoi", true) == 0);
+            int role = int.Parse(Session["Role"].ToString());
+            Permission permission = db.Permissions.FirstOrDefault(x => x.Role_Id == role && x.Function_Id == function.Id);
+            if (permission.Is_Edit== false)
+            {
+                return Json(new
+                {
+                    Success = false,
+                    Message = "Không có quyền cập nhật"
+                }, JsonRequestBehavior.AllowGet);
+            }
             Guid prKey = Guid.Parse(id);
             try
             {
@@ -55,6 +66,17 @@ namespace English_Quiz.Controllers
         }
         public JsonResult unActiveReview(string id)
         {
+            Function function = db.Functions.FirstOrDefault(x => string.Compare(x.Form_Name, "QuanLyCauHoi", true) == 0);
+            int role = int.Parse(Session["Role"].ToString());
+            Permission permission = db.Permissions.FirstOrDefault(x => x.Role_Id == role && x.Function_Id == function.Id);
+            if (permission.Is_Edit == false)
+            {
+                return Json(new
+                {
+                    Success = false,
+                    Message = "Không có quyền cập nhật"
+                }, JsonRequestBehavior.AllowGet);
+            }
             Guid prKey = Guid.Parse(id);
             try
             {

@@ -140,6 +140,9 @@ Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.Page
         var is_new = false;
         var questionIdNow = "";
         var questionNow = null;
+        var is_add    = false;
+        var is_edit   = false;
+        var is_delete = false;
         const deleteQuizType = (id) => {
             Swal.fire({
                 title: 'Bạn chắc chắn sẽ xóa?',
@@ -229,31 +232,63 @@ Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.Page
             $.post("/Reading/getQuestionByReadingId", {
                 readingId : id
             }, function (e) {
-                    var lstQuestion = initTableQuestions(e.Question,id,e.NewQuestionId)
+                if (e.False != null && e.False != undefined) {
+                    Swal.fire(
+                        "Can't update!",
+                        e.Message,
+                        'error'
+                    )
+                }
+                else {
+                    var lstQuestion = initTableQuestions(e.data.Question, id, e.data.NewQuestionId)
+                    is_add = e.Is_Add
+                    is_edit = e.Is_Edit
+                    is_delete = e.Is_Delete
                     $("#contentListQuestion").html(lstQuestion);
                     $('#modalListQuestion').modal('show');
+                }
+                    
             }, "json")
         }
-        const addReadingQuestion = (id,newQuestionId) => {
-            $('#modalQuestionDetail').modal('show');
-            $("#READING_ID").val(id);
-            $("#QUESTION_ID").val(newQuestionId);
-            $("#QUESTION_TEXT").val("");
-            $("#POINT").val("");
-            $("#LIST_ORDER").val("");
-            is_new = true;
-            loadJsGrid();
+        const addReadingQuestion = (id, newQuestionId) => {
+            if (is_add) {
+                $('#modalQuestionDetail').modal('show');
+                $("#READING_ID").val(id);
+                $("#QUESTION_ID").val(newQuestionId);
+                $("#QUESTION_TEXT").val("");
+                $("#POINT").val("");
+                $("#LIST_ORDER").val("");
+                is_new = true;
+                loadJsGrid();
+            }
+            else {
+                Swal.fire(
+                    "Can't add!",
+                    "Không có quyền thêm mới!",
+                    'error'
+                )
+            }
+            
         }
         const editReadingQuestion = (id, question_id, point, list_order) => {
-            var question_text = questionNow.filter(x => x.QUESTION_ID == question_id)[0].QUESTION_TEXT;
-            $('#modalQuestionDetail').modal('show');
-            $("#READING_ID").val(id);
-            $("#QUESTION_ID").val(question_id);
-            $("#QUESTION_TEXT").val(question_text);
-            $("#POINT").val(point);
-            $("#LIST_ORDER").val(list_order);
-            is_new = false;
-            loadJsGrid();
+            if (is_edit) {
+                var question_text = questionNow.filter(x => x.QUESTION_ID == question_id)[0].QUESTION_TEXT;
+                $('#modalQuestionDetail').modal('show');
+                $("#READING_ID").val(id);
+                $("#QUESTION_ID").val(question_id);
+                $("#QUESTION_TEXT").val(question_text);
+                $("#POINT").val(point);
+                $("#LIST_ORDER").val(list_order);
+                is_new = false;
+                loadJsGrid();
+            }
+            else {
+                Swal.fire(
+                    "Can't edit!",
+                    "Không có quyền sửa đổi!",
+                    'error'
+                )
+            }
         }
         const saveReadingQuestion = () => {
             let reading_id = $("#READING_ID").val();

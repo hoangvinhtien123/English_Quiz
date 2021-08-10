@@ -38,9 +38,9 @@
             </div><!-- /.col -->
             <div class="col-sm-6">
                 @*<ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Phân quyền </li>
-                </ol>*@
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Phân quyền </li>
+                    </ol>*@
             </div><!-- /.col -->
         </div><!-- /.row -->
     </div><!-- /.container-fluid -->
@@ -144,7 +144,7 @@
                                                                 Thêm
                                                             </label>
                                                         </div>
-                                                        
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -166,7 +166,7 @@
                                                     {
                                                         if (item.CapChucNang)
                                                         {
-                                                            <tr >
+                                                            <tr>
                                                                 <td class="text-md-center"><input type="checkbox" name="dacapquyen" class="myCheckboxdacap" value="@item.Id" /></td>
                                                                 <td>@item.TenChucNang</td>
                                                                 <td class="text-md-center"><a href="#" onclick="Edit(@item.Id,'@item.TenChucNang')"><i class="fas fa-edit"></i></a></td>
@@ -233,7 +233,7 @@
                                 <input type="checkbox" id="chucnangxoa" value="">Xóa
                             </label>
 
-                            
+
                         </div>
                     </div>
 
@@ -249,8 +249,18 @@
 </div>
 @section scripts{
     <script>
-        
-    function Edit(id,tenchucnang) {
+    var is_add = false;
+    var is_edit = false;
+    var is_delete = false;
+        function Edit(id, tenchucnang) {
+        if (is_edit == false) {
+            Swal.fire(
+                "Can't edit!",
+                "Không có quyền sửa!",
+                'error'
+            )
+        }
+        else {
         let vaitroId = $('#ddlVaiTro').val()
         $('#_cnid').val(id)
         let formData = new FormData();
@@ -284,7 +294,7 @@
                     } else {
                         $("#chucnangxem").prop('checked', false);
                     }
-                   
+
                     //hiện modal
                     $("#ModalPhanQuyen").modal({ backdrop: "static" })
                 }
@@ -301,13 +311,21 @@
             processData: false,
             contentType: false
         });
+        }
+
 
     }
     function submitvaitro() {
         $("#vaitrosubmit").submit();
     }
     $(document).ready(function () {
-
+        $.post("/Permission/GetPermission", {}, function (e) {
+            if (e) {
+                is_add = e.Is_Add;
+                is_edit = e.Is_Edit;
+                is_delete = e.Is_Delete;
+            }
+        })
         $('#checkAllDaCap').change(function () {
             if ($('#checkAllDaCap').is(':checked')) {
                 $(".myCheckboxdacap").prop('checked', true);
@@ -352,7 +370,7 @@
             formData.append('them', 'false')
         }
 
-        
+
         $.ajax({
             url: '@Url.Action("SaveQuyen","Permission")',
             data: formData,
@@ -374,170 +392,208 @@
         });
     }
     function Delete() {
-        let formData = new FormData()
-        formData.append('id', $('#ddlVaiTro').val())
-        var itemId = '';
-        var arr = []
-        $.each($("input[name='dacapquyen']:checked"), function () {
-            arr.push($(this).val());
-        });
-        itemId = arr.join('-');
-        if (itemId == '') {
-            return
-        }
-        formData.append('itemId', itemId)
+        if (is_delete) {
+            let formData = new FormData()
+            formData.append('id', $('#ddlVaiTro').val())
+            var itemId = '';
+            var arr = []
+            $.each($("input[name='dacapquyen']:checked"), function () {
+                arr.push($(this).val());
+            });
+            itemId = arr.join('-');
+            if (itemId == '') {
+                return
+            }
+            formData.append('itemId', itemId)
 
-        $.ajax({
-            url: '@Url.Action("Delete","Permission")',
-            data: formData,
-            type: 'POST',
-            success: function (data) {
-                if (data.isSuccess) {
-                    window.location.reload();
-                }
-                else {
+            $.ajax({
+                url: '@Url.Action("Delete","Permission")',
+                data: formData,
+                type: 'POST',
+                success: function (data) {
+                    if (data.isSuccess) {
+                        window.location.reload();
+                    }
+                    else {
+                        alert('Có lỗi xảy ra trong quá trình thực hiện')
+                    }
+                },
+                error: function (error) {
                     alert('Có lỗi xảy ra trong quá trình thực hiện')
-                }
-            },
-            error: function (error) {
-                alert('Có lỗi xảy ra trong quá trình thực hiện')
-            },
-            cache: false,
-            processData: false,
-            contentType: false
-        });
+                },
+                cache: false,
+                processData: false,
+                contentType: false
+            });
+        }
+        else {
+            Swal.fire(
+                "Can't delete!",
+                "Không có quyền xóa!",
+                'error'
+            )
+        }
+
     }
     function AddAll() {
-        let formData = new FormData()
-        formData.append('id', $('#ddlVaiTro').val())
-        if ($('#xem').prop('checked') == true) {
-            formData.append('xem', 'true')
-        } else {
-            formData.append('xem', 'false')
-        }
-        if ($('#xoa').prop('checked') == true) {
-            formData.append('xoa', 'true')
-        } else {
-            formData.append('xoa', 'false')
-        }
+        if (is_add) {
+            let formData = new FormData()
+            formData.append('id', $('#ddlVaiTro').val())
+            if ($('#xem').prop('checked') == true) {
+                formData.append('xem', 'true')
+            } else {
+                formData.append('xem', 'false')
+            }
+            if ($('#xoa').prop('checked') == true) {
+                formData.append('xoa', 'true')
+            } else {
+                formData.append('xoa', 'false')
+            }
 
-        if ($('#sua').prop('checked') == true) {
-            formData.append('sua', 'true')
-        } else {
-            formData.append('sua', 'false')
-        }
+            if ($('#sua').prop('checked') == true) {
+                formData.append('sua', 'true')
+            } else {
+                formData.append('sua', 'false')
+            }
 
-        if ($('#them').prop('checked') == true) {
-            formData.append('them', 'true')
-        } else {
-            formData.append('them', 'false')
-        }
+            if ($('#them').prop('checked') == true) {
+                formData.append('them', 'true')
+            } else {
+                formData.append('them', 'false')
+            }
 
-        
-        $.ajax({
-            url: '@Url.Action("AddAll","Permission")',
-            data: formData,
-            type: 'POST',
-            success: function (data) {
-                if (data.isSuccess) {
-                    window.location.reload();
-                }
-                else {
+
+            $.ajax({
+                url: '@Url.Action("AddAll","Permission")',
+                data: formData,
+                type: 'POST',
+                success: function (data) {
+                    if (data.isSuccess) {
+                        window.location.reload();
+                    }
+                    else {
+                        alert('Có lỗi xảy ra trong quá trình thực hiện')
+                    }
+                },
+                error: function (error) {
                     alert('Có lỗi xảy ra trong quá trình thực hiện')
-                }
-            },
-            error: function (error) {
-                alert('Có lỗi xảy ra trong quá trình thực hiện')
-            },
-            cache: false,
-            processData: false,
-            contentType: false
-        });
+                },
+                cache: false,
+                processData: false,
+                contentType: false
+            });
+        }
+        else {
+            Swal.fire(
+                "Can't add!",
+                "Không có quyền thêm mới!",
+                'error'
+            )
+        }
     }
 
     function Add() {
-        let formData = new FormData()
-        formData.append('id', $('#ddlVaiTro').val())
-        var itemId = '';
-        var arr = []
-        $.each($("input[name='chuacapquyen']:checked"), function () {
-            arr.push($(this).val());
-        });
-        itemId = arr.join('-');
-        if (itemId == '') {
-            return
-        }
-        formData.append('itemId', itemId)
-        //Xử lý hành động
-        if ($('#xem').prop('checked') == true) {
-            formData.append('xem', 'true')
-        } else {
-            formData.append('xem', 'false')
-        }
+        if (is_add) {
+            let formData = new FormData()
+            formData.append('id', $('#ddlVaiTro').val())
+            var itemId = '';
+            var arr = []
+            $.each($("input[name='chuacapquyen']:checked"), function () {
+                arr.push($(this).val());
+            });
+            itemId = arr.join('-');
+            if (itemId == '') {
+                return
+            }
+            formData.append('itemId', itemId)
+            //Xử lý hành động
+            if ($('#xem').prop('checked') == true) {
+                formData.append('xem', 'true')
+            } else {
+                formData.append('xem', 'false')
+            }
 
-        if ($('#xoa').prop('checked') == true) {
-            formData.append('xoa', 'true')
-        } else {
-            formData.append('xoa', 'false')
-        }
+            if ($('#xoa').prop('checked') == true) {
+                formData.append('xoa', 'true')
+            } else {
+                formData.append('xoa', 'false')
+            }
 
-        if ($('#sua').prop('checked') == true) {
-            formData.append('sua', 'true')
-        } else {
-            formData.append('sua', 'false')
-        }
+            if ($('#sua').prop('checked') == true) {
+                formData.append('sua', 'true')
+            } else {
+                formData.append('sua', 'false')
+            }
 
-        if ($('#them').prop('checked') == true) {
-            formData.append('them', 'true')
-        } else {
-            formData.append('them', 'false')
-        }
+            if ($('#them').prop('checked') == true) {
+                formData.append('them', 'true')
+            } else {
+                formData.append('them', 'false')
+            }
 
-        
 
-        $.ajax({
-            url: '@Url.Action("Add","Permission")',
-            data: formData,
-            type: 'POST',
-            success: function (data) {
-                if (data.isSuccess) {
-                    window.location.reload();
-                }
-                else {
+
+            $.ajax({
+                url: '@Url.Action("Add","Permission")',
+                data: formData,
+                type: 'POST',
+                success: function (data) {
+                    if (data.isSuccess) {
+                        window.location.reload();
+                    }
+                    else {
+                        alert('Có lỗi xảy ra trong quá trình thực hiện')
+                    }
+                },
+                error: function (error) {
                     alert('Có lỗi xảy ra trong quá trình thực hiện')
-                }
-            },
-            error: function (error) {
-                alert('Có lỗi xảy ra trong quá trình thực hiện')
-            },
-            cache: false,
-            processData: false,
-            contentType: false
-        });
+                },
+                cache: false,
+                processData: false,
+                contentType: false
+            });
+        }
+        else {
+            Swal.fire(
+                "Can't add!",
+                "Không có quyền thêm mới!",
+                'error'
+            )
+        }
+
     }
     function DeleteAll() {
-        let formData = new FormData()
-        formData.append('id', $('#ddlVaiTro').val())
+        if (is_delete) {
+            let formData = new FormData()
+            formData.append('id', $('#ddlVaiTro').val())
 
-        $.ajax({
-            url: '@Url.Action("DeleteAll","Permission")',
-            data: formData,
-            type: 'POST',
-            success: function (data) {
-                if (data.isSuccess) {
-                    window.location.reload();
-                }
-                else {
+            $.ajax({
+                url: '@Url.Action("DeleteAll","Permission")',
+                data: formData,
+                type: 'POST',
+                success: function (data) {
+                    if (data.isSuccess) {
+                        window.location.reload();
+                    }
+                    else {
+                        alert('Có lỗi xảy ra trong quá trình thực hiện')
+                    }
+                },
+                error: function (error) {
                     alert('Có lỗi xảy ra trong quá trình thực hiện')
-                }
-            },
-            error: function (error) {
-                alert('Có lỗi xảy ra trong quá trình thực hiện')
-            },
-            cache: false,
-            processData: false,
-            contentType: false
-        });
+                },
+                cache: false,
+                processData: false,
+                contentType: false
+            });
+        }
+        else {
+            Swal.fire(
+                "Can't delete!",
+                "Không có quyền xóa!",
+                'error'
+            )
+        }
     }
     </script>
 }

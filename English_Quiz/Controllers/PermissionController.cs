@@ -328,5 +328,17 @@ namespace English_Quiz.Controllers
 
             ViewBag.ddlchucnang = sbd.ToString();
         }
+        public JsonResult GetPermission()
+        {
+            Function function = _context.Functions.FirstOrDefault(x => string.Compare(x.Form_Name, "QuanLyCauHoi", true) == 0);
+            int role = int.Parse(Session["Role"].ToString());
+            Permission permission = _context.Permissions.FirstOrDefault(x => x.Role_Id == role && x.Function_Id == function.Id);
+            return Json(new
+            {
+                Is_Add = permission.Is_Add,
+                Is_Edit = permission.Is_Edit,
+                Is_Delete = permission.Is_Delete
+            }, JsonRequestBehavior.AllowGet);
+        }
     }
 }

@@ -71,7 +71,7 @@ namespace English_Quiz.Controllers
                 }
                 catch (Exception e)
                 {
-                    ViewBag.errorMsg = "Thêm mới câu hỏi bị lỗi, lỗi là : " + e.Message;
+                    ViewBag.errorMsg = "Thêm mới câu hỏi bị lỗi" ;
                     ViewBag.ListType = new SelectList(db.Question_Type.ToList(), "TYPE_ID", "TYPE_NAME");
                     ViewBag.ListListening = new SelectList(db.Listenings.ToList(), "LISTENING_ID", "LISTENING_NAME_VN");
                     return View();
@@ -80,6 +80,7 @@ namespace English_Quiz.Controllers
             }
             return null;
         }
+        [CheckPermission(PermissionName = "QuanLyCauHoi", Action = ConstantCommon.Action.Edit)]
         public ActionResult EditQuestion(string id)
         {
            
@@ -102,7 +103,7 @@ namespace English_Quiz.Controllers
                 }
                 catch (Exception e)
                 {
-                    ViewBag.errorMsg = "Cập nhật câu hỏi bị lỗi, lỗi là : " + e.Message;
+                    ViewBag.errorMsg = "Cập nhật câu hỏi bị lỗi";
                     ViewBag.ListType = new SelectList(db.Question_Type.ToList(), "TYPE_ID", "TYPE_NAME");
                     ViewBag.ListListening = new SelectList(db.Listenings.ToList(), "LISTENING_ID", "LISTENING_NAME_VN");
                     return View();
