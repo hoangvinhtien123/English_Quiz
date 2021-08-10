@@ -102,7 +102,7 @@ Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.Page
             }).then((result) => {
                 if (result.value) {
                     $.ajax({
-                        url: '@Url.Action("delete","Quizz")' + `?id=${id}`,
+                        url: `/Quizz/delete?id=${id}`,
                         type: 'POST',
                         success: function (data) {
                             if (data.Success) {

@@ -102,7 +102,6 @@ namespace English_Quiz.Controllers
             }
             return null;
         }
-        [CheckPermission(PermissionName = "QuanLyCauHoi", Action = ConstantCommon.Action.Delete)]
         public JsonResult delete(string id)
         {
             Function function = db.Functions.FirstOrDefault(x => string.Compare(x.Form_Name, "QuanLyCauHoi", true) == 0);
@@ -136,8 +135,8 @@ namespace English_Quiz.Controllers
                     return Json(new
                     {
                         Success = false,
-                        Message = "Không thể xóa đối tượng này. Vì sẽ ảnh hưởng đến dữ liệu khác." + e.Message
-                    }, JsonRequestBehavior.AllowGet);
+                        Message = "Không thể xóa đối tượng này. Vì sẽ ảnh hưởng đến dữ liệu khác."
+                    }, JsonRequestBehavior.AllowGet) ;
                 }
             }
             else
