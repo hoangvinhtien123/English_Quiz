@@ -93,6 +93,7 @@ namespace English_Quiz.Controllers
             user.PASSWORD = toMD5.MD5Hash(user.PASSWORD);
             user.IS_MANAGE = false;
             user.USER_NAME = user_name;
+            user.PROFILE_IMAGE = "default_user_image.png";
             db.Users.Add(user);
             db.SaveChanges();
             ViewBag.msg = "Đăng ký tài khoản thành công";
@@ -481,7 +482,7 @@ namespace English_Quiz.Controllers
         {
             Tip_Type tipType = db.Tip_Type.FirstOrDefault(x => x.TIP_TYPE_ID == tipTypeId && x.ACTIVE == true);
             ViewBag.TipTypeName = tipType.TIP_TYPE_NAME;
-            return View(db.Tips.Where(x=>x.TIP_TYPE_ID == tipTypeId).ToList());
+            return View(db.Tips.Where(x=>x.TIP_TYPE_ID == tipTypeId && x.ACTIVE == true).ToList());
         }
         public JsonResult SubmitReview()
         {

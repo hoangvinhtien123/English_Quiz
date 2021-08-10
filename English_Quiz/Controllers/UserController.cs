@@ -81,7 +81,10 @@ namespace English_Quiz.Controllers
                     {
                         user.PROFILE_IMAGE = oldUser.PROFILE_IMAGE;
                     }
-                    user.PASSWORD = toMD5.MD5Hash(user.PASSWORD);
+                    if (user.PASSWORD !=oldUser.PASSWORD)
+                    {
+                        user.PASSWORD = toMD5.MD5Hash(user.PASSWORD);
+                    }
                     db.Entry(oldUser).CurrentValues.SetValues(user);
                     db.SaveChanges();
                     return RedirectToAction("index");

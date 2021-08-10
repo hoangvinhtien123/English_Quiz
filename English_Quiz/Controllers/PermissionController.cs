@@ -33,7 +33,7 @@ namespace English_Quiz.Controllers
             if (vaitroId > 0)
             {
                 //Lấy tất cả chức năng
-                var lstChucNang = _context.Functions.ToList();
+                var lstChucNang = _context.Functions.ToList().OrderBy(x=>x.OrderNumber);
 
                 foreach (var item in lstChucNang)
                 {
@@ -73,7 +73,7 @@ namespace English_Quiz.Controllers
                         //Tạo đối tượng trả về
                         Permission objReturn = new Permission();
                         string tenvaitro = obj.Role.ROLE_NAME;
-                        return Json(new { tenvaitro = obj.Function.Function_Name, chucnangthem = obj.Is_Add, chucnangsua = obj.Is_Edit, chucnangxoa = obj.Is_Delete,  chucnangxem = obj.Is_View }, JsonRequestBehavior.AllowGet);
+                        return Json(new { tenvaitro = obj.Function.Function_Name, chucnangthem = obj.Is_Add, chucnangsua = obj.Is_Edit, chucnangxoa = obj.Is_Delete,  chucnangxem = obj.Is_View , motavaitro = obj.Function.Description }, JsonRequestBehavior.AllowGet);
                     }
                 }
                 return Json(new Role(), JsonRequestBehavior.AllowGet);
